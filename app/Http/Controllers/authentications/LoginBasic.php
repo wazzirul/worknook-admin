@@ -15,4 +15,9 @@ class LoginBasic extends Controller
       return view('content.authentications.auth-login-basic');
     }
   }
+  public function logout(Request $request)
+  {
+    $request->session()->flush();
+    return redirect('/');
+  }
 }
