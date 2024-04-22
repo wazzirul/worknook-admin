@@ -7,8 +7,12 @@ use Illuminate\Http\Request;
 
 class LoginBasic extends Controller
 {
-  public function index()
+  public function index(Request $request)
   {
-    return view('content.authentications.auth-login-basic');
+    if ($request->session()->has('authenticated')) {
+      return redirect('/dashboard');
+    } else {
+      return view('content.authentications.auth-login-basic');
+    }
   }
 }
