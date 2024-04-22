@@ -122,7 +122,7 @@ $rgba-to-hex-bg-inverted: #000 !default; // (C)
 // *******************************************************************************
 
 $body-bg: #f5f5f9 !default;
-$body-color: rgba-to-hex($gray-800, $rgba-to-hex-bg) !default;
+$body-color: #25324b !default;
 
 // * Links
 // *******************************************************************************
@@ -249,7 +249,7 @@ $h6-font-size: $font-size-base !default;
 $headings-margin-bottom: $spacer !default;
 $headings-font-weight: $font-weight-medium !default;
 $headings-line-height: 1.1 !default;
-$headings-color: rgba-to-hex($gray-900, $rgba-to-hex-bg) !default;
+$headings-color: #25324b !default;
 // scss-docs-end headings-variables
 
 // scss-docs-start display-headings
@@ -278,8 +278,8 @@ $big-font-size: 112% !default; // (C)
 $large-font-size: 150% !default; // (C)
 $xlarge-font-size: 170% !default; // (C)
 
-$text-muted: rgba-to-hex($gray-500, $rgba-to-hex-bg) !default;
-$text-muted-hover: rgba-to-hex($gray-600, $rgba-to-hex-bg) !default; // (C)
+$text-muted: #6b6969 !default;
+$text-muted-hover: #535257 !default; // (C)
 
 $text-light: rgba-to-hex($gray-400, $rgba-to-hex-bg) !default; // (C)
 $text-lighter: rgba-to-hex($gray-300, $rgba-to-hex-bg) !default; // (C)
