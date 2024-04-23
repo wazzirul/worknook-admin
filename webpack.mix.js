@@ -105,6 +105,7 @@ mixAssetsDir('vendor/js/**/*.js', (src, dest) => mix.js(src, dest));
 
 // Libs
 mixAssetsDir('vendor/libs/**/*.js', (src, dest) => mix.js(src, dest));
+mixAssetsDir('vendor/libs/**/*.css', (src, dest) => mix.css(src, dest));
 mixAssetsDir('vendor/libs/**/!(_)*.scss', (src, dest) =>
   mix.sass(src, dest.replace(/\.scss$/, '.css'), { sassOptions })
 );
@@ -124,6 +125,7 @@ mixAssetsDir('vendor/fonts/!(_)*.scss', (src, dest) =>
 
 mixAssetsDir('js/**/*.js', (src, dest) => mix.scripts(src, dest));
 mixAssetsDir('css/**/*.css', (src, dest) => mix.copy(src, dest));
+mixAssetsDir('json/**/*.json', (src, dest) => mix.copy(src, dest));
 
 mix.copy('node_modules/boxicons/fonts/*', 'public/assets/vendor/fonts/boxicons');
 

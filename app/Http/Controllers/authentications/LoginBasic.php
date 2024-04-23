@@ -10,14 +10,14 @@ class LoginBasic extends Controller
   public function index(Request $request)
   {
     if ($request->session()->has('authenticated')) {
-      return redirect('/dashboard');
+      return redirect('/');
     } else {
-      return view('content.authentications.auth-login-basic');
+      return view('content.authentications.auth-login');
     }
   }
   public function logout(Request $request)
   {
     $request->session()->flush();
-    return redirect('/');
+    return redirect('/login');
   }
 }

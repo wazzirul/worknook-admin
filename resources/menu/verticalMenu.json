@@ -7,6 +7,12 @@
       "slug": "dashboard-analytics"
     },
     {
+      "url": "/user-management",
+      "name": "User Management",
+      "icon": "menu-icon tf-icons bx bx-group",
+      "slug": "user-management"
+    },
+    {
       "name": "Layouts",
       "icon": "menu-icon tf-icons bx bx-layout",
       "slug": "layouts",
@@ -70,7 +76,7 @@
       "slug": "auth",
       "submenu": [
         {
-          "url": "auth/login-basic",
+          "url": "auth/login",
           "name": "Login",
           "slug": "auth-login-basic",
           "target": "_blank"
