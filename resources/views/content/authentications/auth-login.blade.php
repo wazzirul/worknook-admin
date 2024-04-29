@@ -38,11 +38,12 @@
             </button>
           </div>
           @endif
-          <form id="formAuthentication" class="mb-3" action="{{url('/')}}" method="GET">
+          <form id="formAuthentication" class="mb-3" action="{{url('/auth/authenticate')}}" method="POST">
+            @csrf
             <div class="mb-3">
               <label for="email" class="form-label">Email or Username</label>
-              <input type="text" class="form-control" id="email" name="email-username"
-                placeholder="Enter your email or username" autofocus>
+              <input type="text" class="form-control" id="email" name="email"
+                placeholder="Enter your email" autofocus>
             </div>
             <div class="mb-3 form-password-toggle">
               <div class="d-flex justify-content-between">
@@ -60,7 +61,7 @@
             </div>
             <div class="mb-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="remember-me">
+                <input class="form-check-input" name="remember" type="checkbox" id="remember-me">
                 <label class="form-check-label" for="remember-me">
                   Remember Me
                 </label>

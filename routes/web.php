@@ -46,11 +46,26 @@ use App\Http\Controllers\form_layouts\VerticalForm;
 use App\Http\Controllers\form_layouts\HorizontalForm;
 use App\Http\Controllers\tables\Basic as TablesBasic;
 
-// Main Page Route
-Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
+// authentication
+Route::get('/auth/login', [LoginBasic::class, 'index'])->name('auth-login');
+Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-register-basic');
+Route::get('/auth/forgot-password', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
+Route::get('/auth/new-password', [NewPassword::class, 'index'])->name('auth-new-password');
+Route::post('/auth/authenticate', [LoginBasic::class, 'authenticate'])->name('auth-authenticate');
+Route::get('/auth/logout', [LoginBasic::class, 'logout'])->name('auth-logout');
 
-// User Management Route
-Route::get('/user-management', [UserManagement::class, 'index'])->name('user-management');
+
+Route::group(['middleware' => 'authsession'], function () {
+    // Routes accessible for both Superadmin and Admin
+    // Main Page Route
+    Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
+
+    // User Management Route
+    // Routes accessible only to superadmins
+    Route::group(['middleware' => 'superadmin'], function () {
+        Route::get('/user-management', [UserManagement::class, 'index'])->name('user-management');
+    });
+});
 
 // layout
 Route::get('/layouts/without-menu', [WithoutMenu::class, 'index'])->name('layouts-without-menu');
@@ -65,12 +80,6 @@ Route::get('/pages/account-settings-notifications', [AccountSettingsNotification
 Route::get('/pages/account-settings-connections', [AccountSettingsConnections::class, 'index'])->name('pages-account-settings-connections');
 Route::get('/pages/misc-error', [MiscError::class, 'index'])->name('pages-misc-error');
 Route::get('/pages/misc-under-maintenance', [MiscUnderMaintenance::class, 'index'])->name('pages-misc-under-maintenance');
-
-// authentication
-Route::get('/auth/login', [LoginBasic::class, 'index'])->name('auth-login');
-Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-register-basic');
-Route::get('/auth/forgot-password', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
-Route::get('/auth/new-password', [NewPassword::class, 'index'])->name('auth-new-password');
 
 // cards
 Route::get('/cards/basic', [CardBasic::class, 'index'])->name('cards-basic');
