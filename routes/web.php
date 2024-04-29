@@ -51,6 +51,8 @@ Route::get('/auth/login', [LoginBasic::class, 'index'])->name('auth-login');
 Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-register-basic');
 Route::get('/auth/forgot-password', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
 Route::get('/auth/new-password', [NewPassword::class, 'index'])->name('auth-new-password');
+Route::post('/auth/reset-password-request', [ForgotPasswordBasic::class, 'passwordRequest'])->name('auth-reset-password-request');
+Route::post('/auth/reset-password-submit', [ForgotPasswordBasic::class, 'passwordSubmit'])->name('auth-reset-password-submit');
 Route::post('/auth/authenticate', [LoginBasic::class, 'authenticate'])->name('auth-authenticate');
 Route::get('/auth/logout', [LoginBasic::class, 'logout'])->name('auth-logout');
 

@@ -17,7 +17,7 @@ class EnsureIsSuperadmin
     {
         $role = session()->get('role');
 
-        if ($role !== '1') {
+        if ($role !== 1) {
             return redirect('/')->with("error", "Unauthorized");
         }
 

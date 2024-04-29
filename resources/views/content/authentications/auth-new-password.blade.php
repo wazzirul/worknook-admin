@@ -38,10 +38,12 @@
   </div>
   @endif
   
-          <form id="formAuthentication" class="mb-3" action="{{url('/')}}" method="GET">
+          <form id="formAuthentication" class="mb-3" action="{{url('/auth/reset-password-submit')}}" method="POST">
+            @csrf
+            <input type="hidden" id="email" name="email" value="{{ Session::get('email') }}" readonly>
             <div class="mb-3">
               <label for="otc" class="form-label">Reset Code</label>
-              <input type="text" class="form-control" id="otc" name="one-time-code" placeholder="Enter one time code you received" autofocus required>
+              <input type="text" class="form-control" id="otc" name="otc" placeholder="Enter one time code you received" autofocus required>
             </div>
             <div class="mb-3 form-password-toggle">
               <div class="d-flex justify-content-between">
@@ -62,7 +64,7 @@
               </div>
             </div>
             <div class="mb-3">
-              <button class="btn btn-primary d-grid w-100" type="submit" disabled>Submit new password</button>
+              <button type="submit" class="btn btn-primary d-grid w-100" type="submit" disabled>Submit new password</button>
             </div>
             <div class="text-center">
               <a href="{{url('auth/login')}}" class="d-flex align-items-center justify-content-center">

@@ -39,12 +39,13 @@
             </button>
           </div>
           @endif
-          <form id="formAuthentication" class="mb-3" action="{{url('/')}}" method="GET">
+          <form id="formAuthentication" class="mb-3" action="{{url('/auth/reset-password-request')}}" method="POST">
+            @csrf
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
               <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus>
             </div>
-            <button class="btn btn-primary d-grid w-100">Send Reset Code</button>
+            <button type="submit" class="btn btn-primary d-grid w-100">Send Reset Code</button>
           </form>
           <div class="text-center">
             <a href="{{url('auth/login')}}" class="d-flex align-items-center justify-content-center">
