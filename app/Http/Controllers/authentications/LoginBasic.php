@@ -24,6 +24,7 @@ class LoginBasic extends Controller
 
     $payload['email'] = $email;
     $payload['password'] = $password;
+
     $data = RequestURI('POST', env('API_URL') . '/admins/login', $payload);
 
     // dd($data);
@@ -34,6 +35,7 @@ class LoginBasic extends Controller
       $request->session()->put('email', $data->data->email);
       $request->session()->put('profile_photo', $data->data->profile_photo);
       $request->session()->put('role', $data->data->role);
+      $request->session()->put('token', $data->data->token);
 
       // Check if "Remember Me" is checked
       if ($remember) {

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\QueryController;
 use App\Http\Controllers\dashboard\Analytics;
 use App\Http\Controllers\user_management\UserManagement;
 use App\Http\Controllers\layouts\WithoutMenu;
@@ -56,6 +57,9 @@ Route::post('/auth/reset-password-submit', [ForgotPasswordBasic::class, 'passwor
 Route::post('/auth/authenticate', [LoginBasic::class, 'authenticate'])->name('auth-authenticate');
 Route::get('/auth/logout', [LoginBasic::class, 'logout'])->name('auth-logout');
 
+//Query
+Route::post('/query', [QueryController::class, 'query'])->name('query-controller-query');
+Route::post('/query-with-attachment', [QueryController::class, 'queryWithAttachment'])->name('query-controller-query-with-attachment');
 
 Route::group(['middleware' => 'authsession'], function () {
     // Routes accessible for both Superadmin and Admin
@@ -63,9 +67,10 @@ Route::group(['middleware' => 'authsession'], function () {
     Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
 
     // User Management Route
+    Route::get('/user-management', [UserManagement::class, 'index'])->name('user-management');
+
     // Routes accessible only to superadmins
     Route::group(['middleware' => 'superadmin'], function () {
-        Route::get('/user-management', [UserManagement::class, 'index'])->name('user-management');
     });
 });
 

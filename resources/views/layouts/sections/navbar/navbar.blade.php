@@ -50,8 +50,8 @@ $navbarDetached = ($navbarDetached ?? '');
                       </div>
                     </div>
                     <div class="flex-grow-1">
-                      <span class="fw-medium d-block">John Doe</span>
-                      <small class="text-muted">Admin</small>
+                      <span class="fw-medium d-block">{{ Session::get('fullname') }}</span>
+                      <small class="text-muted">{{ Session::get('role') === 1 ? 'Superadmin' : 'Admin Staff' }}</small>
                     </div>
                   </div>
                 </a>
