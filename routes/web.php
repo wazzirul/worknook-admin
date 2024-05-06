@@ -71,6 +71,7 @@ Route::group(['middleware' => 'authsession'], function () {
 
     // Routes accessible only to superadmins
     Route::group(['middleware' => 'superadmin'], function () {
+        Route::post('/user-management/create', [UserManagement::class, 'store'])->name('user-management--create');
     });
 });
 
