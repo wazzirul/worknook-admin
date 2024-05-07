@@ -45,14 +45,15 @@
     </div>
   </div>
   <!-- Modal to add new user -->
-  <div class="offcanvas offcanvas-end" id="add-new-record">
+  <div class="offcanvas offcanvas-end" id="modal-offcanvas">
     <div class="offcanvas-header border-bottom">
-      <h5 class="offcanvas-title" id="exampleModalLabel">New User</h5>
+      <h5 class="offcanvas-title" id="modalLabel"></h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body flex-grow-1">
-      <form class="add-new-record pt-0 row g-2" id="form-add-new-record" action="/user-management/create" method="POST">
+      <form class="add-new-record pt-0 row g-2" id="modal-form" action="#" method="POST">
         @csrf
+        <input type="hidden" class="dt-id" name="id">
         <div class="col-sm-12">
           <label class="form-label" for="basicFullname">Full Name</label>
           <div class="input-group input-group-merge">
@@ -80,7 +81,7 @@
             You can use letters, numbers & periods
           </div>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12 col-pass">
           <label class="form-label" for="password">Password</label>
           <div class="input-group input-group-merge">
             <input type="password" id="password" class="form-control" name="password"
@@ -122,15 +123,72 @@
 <script>
   // Open create user modal
   $(document).on('click', '.create-new', function() {
-    const addNewRecordModal = $('#add-new-record');
+    const modal = $('#modal-offcanvas');
+    const url = '/user-management/create';
 
-    // Check if addNewRecordModal exists
-    if (addNewRecordModal.length) {
+    // Check if modal exists
+    if (modal.length) {
         // Clear input fields
-        addNewRecordModal.find('.dt-full-name, .dt-profile-img, .dt-profile-encode, .dt-email, .dt-password, .dt-role').val('');
+        modal.find('.dt-full-name, .dt-profile-img, .dt-profile-encode, .dt-email, .dt-password, .dt-role').val('');
+
+        // Set the form action to the desired API endpoint
+        modal.find('form').attr('action', url);
+
+        modal.find('#modalLabel').text('New User');
+
+        // Set the 'required' attribute on .dt-profile-img input
+        modal.find('.dt-profile-img').prop('required', true);
+        modal.find('.dt-profile-encode').prop('required', true);
+
+        // Hide password input
+        modal.find('.col-pass').show();
 
         // Show the Offcanvas modal
-        new bootstrap.Offcanvas(addNewRecordModal.get(0)).show();
+        new bootstrap.Offcanvas(modal.get(0)).show();
+    }
+  });
+</script>
+<script>
+  // Open edit user modal
+  $(document).on('click', '.item-edit', function() {
+    const modal = $('#modal-offcanvas');
+    const url = '/user-management/update';
+
+    if (modal.length) {
+        const data = $(this).data();
+
+        // Populate specific input fields based on unique identifiers or attributes
+        if (data.hasOwnProperty('l')) {
+            modal.find('.dt-id').val(data.l); // Assuming dt-id is the unique identifier for this input
+        }
+        if (data.hasOwnProperty('r')) {
+            modal.find('.dt-full-name').val(data.r); // Assuming dt-full-name is the unique identifier for this input
+        }
+        if (data.hasOwnProperty('k')) {
+            modal.find('.dt-email').val(data.k); // Assuming dt-email is the unique identifier for this input
+        }
+        if (data.hasOwnProperty('j')) {
+            modal.find('.dt-role').val(data.j); // Assuming dt-role is the unique identifier for this input
+        }
+        if (data.hasOwnProperty('n')) {
+            modal.find('.dt-profile-encode').val(data.n); // Assuming dt-profile-encode is the unique identifier for this input
+        }
+
+        // Set the form action to the desired API endpoint
+        modal.find('form').attr('action', url);
+
+        // Set the 'required' attribute on .dt-profile-img input
+        modal.find('.dt-profile-img').prop('required', false);
+        modal.find('.dt-profile-encode').prop('required', false);
+
+        // Hide password input
+        modal.find('.col-pass').hide();
+
+        // Update modal title
+        modal.find('#modalLabel').text('Edit User');
+
+        // Show the Offcanvas modal
+        new bootstrap.Offcanvas(modal.get(0)).show();
     }
   });
 </script>
@@ -156,6 +214,7 @@
   });
 </script>
 <script>
+  // Delete Function
   $(document).on('click', '.delete-record', async function() {
     const adminId = $(this).data('id');
     const url = "/admins/store";
@@ -165,9 +224,6 @@
         admin_id: adminId,
         soft_delete: 1
     };
-
-    // console.log(payload);
-    // return;
 
     await $.ajax({
         method: 'POST',
@@ -179,9 +235,6 @@
           payload: payload
         },
         success: function(response) {
-            // $('.alert-success').html(response.message).show(); // Display success message
-
-            // Reload the page after a short delay (e.g., 1 second)
             setTimeout(function() {
                 location.reload();
             }, 500); // Adjust delay as needed

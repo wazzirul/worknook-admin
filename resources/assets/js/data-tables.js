@@ -33,10 +33,6 @@
       t = $('.datatables-basic');
     t.length &&
       ((e = t.DataTable({
-        // ajax: {
-        //   url: assetsPath + 'json/table-datatable.json',
-        //   dataSrc: 'data'
-        // },
         data: data_user,
         columns: [
           {
@@ -148,11 +144,25 @@
             orderable: !1,
             searchable: !1,
             render: function (e, t, a, s) {
-              var l = a.admin_id;
+              var n = a.profile_photo,
+                r = a.fullname,
+                k = a.email,
+                j = a.role,
+                l = a.admin_id;
               return userRole === '1'
-                ? '<div class="d-inline-block"><a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a><ul class="dropdown-menu dropdown-menu-end m-0"><li><a href="javascript:;" class="dropdown-item">Details</a></li><div class="dropdown-divider"></div><li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id=' +
+                ? '<div class="d-inline-block"><a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a><ul class="dropdown-menu dropdown-menu-end m-0"><li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id=' +
                     l +
-                    '>Delete</a></li></ul></div><a href="javascript:;" class="btn btn-sm btn-icon item-edit"><i class="bx bxs-edit"></i></a>'
+                    '>Delete</a></li></ul></div><a href="javascript:;" class="btn btn-sm btn-icon item-edit" data-l=' +
+                    l +
+                    ' data-r=' +
+                    r +
+                    ' data-k=' +
+                    k +
+                    ' data-j=' +
+                    j +
+                    ' data-n=' +
+                    n +
+                    '><i class="bx bxs-edit"></i></a>'
                 : '<small>Unathorized</small>';
             }
           }
@@ -306,10 +316,6 @@
               }
             ]
           }
-          // {
-          //   text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add New Record</span>',
-          //   className: 'create-new btn btn-primary'
-          // }
         ],
         // Add the "create-new" button conditionally
         initComplete: function (settings, json) {
