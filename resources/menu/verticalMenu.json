@@ -11,6 +11,12 @@
       "name": "User Management",
       "icon": "menu-icon tf-icons bx bx-group",
       "slug": "user-management"
+    },
+    {
+      "url": "/company-management",
+      "name": "Company Management",
+      "icon": "menu-icon tf-icons bx bx-buildings",
+      "slug": "company-management"
     }
   ]
 }

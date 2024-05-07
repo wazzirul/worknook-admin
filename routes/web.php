@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QueryController;
 use App\Http\Controllers\dashboard\Analytics;
 use App\Http\Controllers\user_management\UserManagement;
+use App\Http\Controllers\company_management\CompanyManagement;
 use App\Http\Controllers\layouts\WithoutMenu;
 use App\Http\Controllers\layouts\WithoutNavbar;
 use App\Http\Controllers\layouts\Fluid;
@@ -69,8 +70,12 @@ Route::group(['middleware' => 'authsession'], function () {
     // User Management Route
     Route::get('/user-management', [UserManagement::class, 'index'])->name('user-management');
 
+    // Company Management Route
+    Route::get('/company-management', [CompanyManagement::class, 'index'])->name('company-management');
+
     // Routes accessible only to superadmins
     Route::group(['middleware' => 'superadmin'], function () {
+        // User Management Route
         Route::post('/user-management/create', [UserManagement::class, 'store'])->name('user-management--create');
         Route::post('/user-management/update', [UserManagement::class, 'update'])->name('user-management--update');
     });
