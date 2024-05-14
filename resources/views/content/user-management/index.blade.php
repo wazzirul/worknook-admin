@@ -29,12 +29,9 @@
 <!-- DataTable with Buttons -->
 <div class="card">
     <div class="card-datatable table-responsive">
-      <table class="datatables-basic table border-top">
+      <table class="datatables-basic table border-top table-hover">
         <thead>
           <tr>
-            <th></th>
-            <th></th>
-            <th>id</th>
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>

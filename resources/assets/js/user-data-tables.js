@@ -35,15 +35,12 @@
       ((e = t.DataTable({
         data: data_user,
         columns: [
-          {
-            data: ''
-          },
-          {
-            data: 'admin_id'
-          },
-          {
-            data: 'admin_id'
-          },
+          // {
+          //   data: 'admin_id'
+          // },
+          // {
+          //   data: 'admin_id'
+          // },
           {
             data: 'fullname'
           },
@@ -59,35 +56,7 @@
         ],
         columnDefs: [
           {
-            className: 'control',
-            orderable: !1,
-            searchable: !1,
-            responsivePriority: 2,
             targets: 0,
-            render: function (e, t, a, s) {
-              return '';
-            }
-          },
-          {
-            targets: 1,
-            orderable: !1,
-            searchable: !1,
-            responsivePriority: 3,
-            checkboxes: !0,
-            render: function () {
-              return userRole === '1' ? '<input type="checkbox" class="dt-checkboxes form-check-input">' : '';
-            },
-            checkboxes: {
-              selectAllRender: '<input type="checkbox" class="form-check-input">'
-            }
-          },
-          {
-            targets: 2,
-            searchable: !1,
-            visible: !1
-          },
-          {
-            targets: 3,
             responsivePriority: 4,
             render: function (e, t, a, s) {
               var n = a.profile_photo,
@@ -116,10 +85,6 @@
                 '</small></div></div>'
               );
             }
-          },
-          {
-            responsivePriority: 1,
-            targets: 4
           },
           {
             targets: -2,
@@ -330,7 +295,7 @@
           details: {
             display: $.fn.dataTable.Responsive.display.modal({
               header: function (e) {
-                return 'Details of ' + e.data().full_name;
+                return 'Details of ' + e.data().fullname;
               }
             }),
             type: 'column',

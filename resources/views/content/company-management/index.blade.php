@@ -29,15 +29,17 @@
 <!-- DataTable with Buttons -->
 <div class="card">
     <div class="card-datatable table-responsive">
-      <table class="datatables-basic table border-top">
+      <table class="datatables-basic table border-top table-hover">
         <thead>
-          <tr>
-            <th></th>
-            <th></th>
-            <th>id</th>
-            <th>Name</th>
+          <tr>>
+            <th>Company Name</th>
+            <th>Founder</th>
             <th>Email</th>
-            <th>Role</th>
+            <!-- <th>Industry</th>
+            <th>Location</th> -->
+            <th>Employees</th>
+            <th>Created at</th>
+            <th>Description</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -45,7 +47,7 @@
     </div>
   </div>
   <!-- Modal to add new user -->
-  <div class="offcanvas offcanvas-end" id="modal-offcanvas">
+  <!-- <div class="offcanvas offcanvas-end" id="modal-offcanvas">
     <div class="offcanvas-header border-bottom">
       <h5 class="offcanvas-title" id="modalLabel"></h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -106,7 +108,7 @@
         </div>
       </form>
     </div>
-  </div>
+  </div> -->
   <!--/ DataTable with Buttons -->
 @endsection
 
@@ -120,7 +122,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
 <script src="{{asset('assets/js/company-data-tables.js')}}"></script>
-<script>
+<!-- <script>
   // Open create user modal
   $(document).on('click', '.create-new', function() {
     const modal = $('#modal-offcanvas');
@@ -244,5 +246,5 @@
         }
     });
   });
-</script>
+</script> -->
 @endsection
