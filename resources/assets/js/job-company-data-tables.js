@@ -2,28 +2,28 @@
 
 // Request User Data
 (async function () {
-  let urlUser = '/company/show';
-  let methodUser = 'POST';
-  let payloadUser = {};
+  // let urlUser = '/company/show';
+  // let methodUser = 'POST';
+  // let payloadUser = {};
 
-  let data_user = [];
+  // let data_user = [];
 
-  await $.ajax({
-    method: 'POST',
-    url: '/query',
-    data: {
-      _token: $('meta[name="csrf-token"]').attr('content'),
-      url: urlUser,
-      method: methodUser,
-      payload: payloadUser
-    },
-    success: res => {
-      data_user = res.data;
-    },
-    error: err => {
-      console.log('error', err);
-    }
-  });
+  // await $.ajax({
+  //   method: 'POST',
+  //   url: '/query',
+  //   data: {
+  //     _token: $('meta[name="csrf-token"]').attr('content'),
+  //     url: urlUser,
+  //     method: methodUser,
+  //     payload: payloadUser
+  //   },
+  //   success: res => {
+  //     data_user = res.data;
+  //   },
+  //   error: err => {
+  //     console.log('error', err);
+  //   }
+  // });
 
   $(function () {
     var e,
