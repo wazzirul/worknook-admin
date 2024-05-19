@@ -27,7 +27,6 @@
     }
   });
 
-  var assetsPath = document.documentElement.getAttribute('data-assets-path');
   $(function () {
     var e,
       t = $('.datatables-basic');

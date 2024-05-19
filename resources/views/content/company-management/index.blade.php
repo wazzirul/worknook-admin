@@ -29,9 +29,9 @@
 <!-- DataTable with Buttons -->
 <div class="card">
     <div class="card-datatable table-responsive">
-      <table class="datatables-basic table border-top table-hover">
+      <table class="datatables-basic table border-top table-hover" style="width:100%">
         <thead>
-          <tr>>
+          <tr>
             <th>Company Name</th>
             <th>Founder</th>
             <th>Email</th>
@@ -39,6 +39,7 @@
             <th>Location</th> -->
             <th>Employees</th>
             <th>Created at</th>
+            <th>Status</th>
             <th>Description</th>
             <th>Action</th>
           </tr>
@@ -46,6 +47,14 @@
       </table>
     </div>
   </div>
+  <!-- <style>
+    tbody > tr:nth-child(1),
+tbody > tr:nth-child(3),
+tbody > tr:nth-child(5),
+tbody > tr:nth-child(6) {
+  max-width: 25% !important;
+}
+  </style> -->
   <!-- Modal to add new user -->
   <!-- <div class="offcanvas offcanvas-end" id="modal-offcanvas">
     <div class="offcanvas-header border-bottom">
@@ -121,6 +130,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="{{asset('assets/js/company-data-tables.js')}}"></script>
 <!-- <script>
   // Open create user modal
@@ -214,16 +224,16 @@
         reader.readAsDataURL(file);
     });
   });
-</script>
+</script> -->
 <script>
   // Delete Function
   $(document).on('click', '.delete-record', async function() {
-    const adminId = $(this).data('id');
-    const url = "/admins/store";
+    const userId = $(this).data('id');
+    const url = "/company/store";
     const method = "POST";
     // Prepare payload data
     const payload = {
-        admin_id: adminId,
+        user_id: userId,
         soft_delete: 1
     };
 
@@ -246,5 +256,5 @@
         }
     });
   });
-</script> -->
+</script> 
 @endsection
