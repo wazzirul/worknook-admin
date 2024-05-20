@@ -19,6 +19,8 @@
     },
     success: res => {
       data_user = res.data;
+      console.log(data_user);
+      return;
     },
     error: err => {
       console.log('error', err);
@@ -130,13 +132,13 @@
             targets: 5,
             responsivePriority: 0,
             render: function (e, t, a, s) {
-              var n = a.status,
+              var n = a.soft_delete,
                 r = {
-                  1: {
+                  0: {
                     title: 'Permitted',
                     class: 'bg-label-primary'
                   },
-                  0: {
+                  1: {
                     title: 'Banned',
                     class: ' bg-label-danger'
                   }
@@ -162,12 +164,15 @@
             searchable: !1,
             render: function (e, t, a, s) {
               var l = a.user_id;
+              var s = a.soft_delete;
               return userRole === '1'
-                ? '<div class="d-inline-block"><a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a><ul class="dropdown-menu dropdown-menu-end m-0"><li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id=' +
+                ? '<div class="d-inline-block"><a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a><ul class="dropdown-menu dropdown-menu-end m-0"><li><a href="company-details/' +
                     l +
-                    '>Delete</a></li></ul></div><a href="company-details/' +
+                    '" class="dropdown-item">Company Details</a></li><li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id=' +
                     l +
-                    '" class="btn btn-sm btn-icon item-detail"><i class="bx bxs-detail"></i></a>'
+                    ' data-banned=' +
+                    s +
+                    '>Ban Company</a></li></ul></div>'
                 : '<small>Unathorized</small>';
             }
           }
@@ -322,15 +327,6 @@
             ]
           }
         ],
-        // Add the "create-new" button conditionally
-        // initComplete: function (settings, json) {
-        //   if (userRole === '1') {
-        //     // Append the button to the appropriate DOM element (adjust as needed)
-        //     $('.dt-action-buttons').append(
-        //       '<button type="button" class="create-new btn btn-primary"><i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add New Record</span></button>'
-        //     );
-        //   }
-        // },
         responsive: {
           details: {
             display: DataTable.Responsive.display.modal({
@@ -358,7 +354,7 @@
           }
         }
       })),
-      $('div.head-label').html('<h1 class="card-title mb-3">Jobs List of Company</h1>'));
+      $('div.head-label').html('<h1 class="card-title mb-3">Company Management</h1>'));
     setTimeout(() => {
       $('.dataTables_filter .form-control').removeClass('form-control-sm'),
         $('.dataTables_length .form-select').removeClass('form-select-sm');
