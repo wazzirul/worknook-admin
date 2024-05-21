@@ -1,4 +1,4 @@
-@extends('layouts/contentLayout')
+@extends('layouts/contentNavbarLayout')
 
 @section('title', 'Company Management - Index')
 
@@ -26,6 +26,9 @@
   </button>
 </div>
 @endif
+<h4 class="py-3 mb-4">
+  <span class="text-muted fw-light">Company /</span> Job List
+</h4>
 <div class="card mb-4">
   <div class="d-flex align-items-end row">
     <div class="col-sm-2 text-center text-sm-left">
