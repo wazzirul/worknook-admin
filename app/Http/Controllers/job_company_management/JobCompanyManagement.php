@@ -9,18 +9,18 @@ class JobCompanyManagement extends Controller
 {
     public function index($slug)
     {
-        $payload['company_id'] = $slug;
+        $payloadJob['company_id'] = $slug;
+        $payloadComp['user_id'] = $slug;
 
-        // dd($payload);
+        $dataJob = RequestURI('POST', env('API_URL') . '/company-jobs/job-list', $payloadJob);
+        $dataComp = RequestURI('POST', env('API_URL') . '/company/show', $payloadComp);
 
-        $data = RequestURI('POST', env('API_URL') . '/company-jobs/job-list', $payload);
+        // dd($dataComp);
 
-        // dd($data);
-
-        if ($data->success) {
-            return view('content.job-company-management.index');
+        if ($dataJob->success && $dataComp->success) {
+            return view('content.job-company-management.index', compact('dataComp')); //also send dataComp response to blade file
         } else {
-            return redirect('/company-management')->with("error", $data->errors);
+            return redirect('/company-management')->with("error", $dataJob->errors);
         }
     }
 }

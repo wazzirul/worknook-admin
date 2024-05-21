@@ -30,23 +30,22 @@
   <span class="text-muted fw-light">Company /</span> Job List
 </h4>
 <div class="card mb-4">
-  <div class="d-flex align-items-end row">
+  <div class="d-flex align-items-start row">
     <div class="col-sm-2 text-center text-sm-left">
-      <div class="card-body p-0">
-        <img src="../assets/img/illustrations/man-with-laptop-light.png" height="140" alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png" data-app-light-img="illustrations/man-with-laptop-light.png">
+      <div class="card-body p-4">
+        <img src='{{ $dataComp->data->company_profile->company_icon }}' height="140" alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png" data-app-light-img="illustrations/man-with-laptop-light.png">
       </div>
     </div>
     <div class="col-sm-7">
       <div class="card-body">
-        <h5 class="card-title text-primary">Name of Company</h5>
+        <h5 class="card-title text-primary">{{ $dataComp->data->company_profile->company_name }}</h5>
         <small>
-          <a href="javascript:;" class="text-primary">Website</a>
+          <a href="javascript:;" class="text-primary">{{ $dataComp->data->company_profile->website }}</a>
         </small>
-        <p class="mb-4">Company Desc</p>
+        <p class="mb-4">{{ $dataComp->data->company_profile->description }}</p>
 
         <div class="d-flex column gap-2">
-          <small class="text-muted">Founder</small>
-          <small class="text-muted">Created at</small>
+          <small class="text-muted">Founded by : {{ $dataComp->data->fullname }}</small>
         </div>
       </div>
     </div>
@@ -66,6 +65,7 @@
             <th>Status</th>
             <th>Description</th>
             <th>Capacity</th>
+            <th>Created At</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -77,6 +77,18 @@
 @section('page-script')
 <script>
   var userRole = "{{ session('role') }}";
+  var uuid;
+
+  $(function() {
+  var match = window.location.href.match(/\/company-details\/([0-9a-fA-F-]{36})/);
+  if (match && match[1]) {
+    uuid = match[1];
+    console.log('Extracted Company ID:', uuid);
+  } else {
+    alert('Company ID not found in the URL');
+  }
+});
+
 </script>
 <script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/datatables.min.js"></script>
 <script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>

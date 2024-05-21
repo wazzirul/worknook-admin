@@ -2,64 +2,66 @@
 
 // Request User Data
 (async function () {
-  // let urlUser = '/company/show';
-  // let methodUser = 'POST';
-  // let payloadUser = {};
+  let urlAPI = '/company/jobs';
+  let methodAPI = 'POST';
+  let payloadAPI = {
+    company_id: uuid
+  };
 
-  // let data_user = [];
+  let data_api = [];
 
-  // await $.ajax({
-  //   method: 'POST',
-  //   url: '/query',
-  //   data: {
-  //     _token: $('meta[name="csrf-token"]').attr('content'),
-  //     url: urlUser,
-  //     method: methodUser,
-  //     payload: payloadUser
-  //   },
-  //   success: res => {
-  //     data_user = res.data;
-  //   },
-  //   error: err => {
-  //     console.log('error', err);
-  //   }
-  // });
+  await $.ajax({
+    method: 'POST',
+    url: '/query',
+    data: {
+      _token: $('meta[name="csrf-token"]').attr('content'),
+      url: urlAPI,
+      method: methodAPI,
+      payload: payloadAPI
+    },
+    success: res => {
+      data_api = res.data;
+    },
+    error: err => {
+      console.log('error', err);
+    }
+  });
 
   $(function () {
     var e,
       t = $('.datatables-basic');
     t.length &&
       ((e = t.DataTable({
-        data: data_user,
+        data: data_api,
         responsive: true,
         autoWidth: false,
         columns: [
           {
-            data: 'company_profile.company_name'
+            data: 'job_title'
           },
           {
-            data: 'founder'
+            data: 'location'
           },
           {
             data: 'company_profile.email'
           },
-          // {
-          //   data: 'industry'
-          // },
-          // {
-          //   data: 'location'
-          // },
           {
-            data: 'company_profile.employees'
+            data: 'job_level_id'
           },
           {
-            data: 'created_at'
+            data: 'responsibilities'
           },
           {
             data: 'status'
           },
           {
-            data: 'description'
+            data: 'job_description'
+          },
+          {
+            data: 'capacity'
+          },
+          {
+            data: 'created_at'
           },
           {
             data: ''
@@ -69,61 +71,13 @@
           {
             targets: 0,
             responsivePriority: 0,
-            render: function (e, t, a, s) {
-              var n = a.company_profile.company_icon,
-                r = a.company_profile.company_name,
-                l = a.company_profile.website;
-
-              if (n) {
-                var o = '<img src="' + n + '" alt="Avatar" class="rounded-circle">';
-              } else {
-                var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
-                  Math.floor(6 * Math.random())
-                ];
-                var i = (r = a.fullname).match(/\b\w/g) || [];
-                o =
-                  '<span class="avatar-initial rounded-circle bg-label-' +
-                  d +
-                  '">' +
-                  ((i.shift() || '') + (i.pop() || '')).toUpperCase() +
-                  '</span>';
-              }
-
-              var output = '<div class="d-flex justify-content-start align-items-center user-name">';
-              output += '<div class="avatar-wrapper"><div class="avatar me-2">' + o + '</div></div>';
-              output += '<div class="d-flex flex-column"><span class="emp_name text-truncate">' + r + '</span>';
-
-              // Conditionally add website link if `l` is not null
-              if (l !== null && l !== undefined) {
-                output +=
-                  '<a target="_blank" href="http://' +
-                  l +
-                  '"><small class="emp_post text-truncate text-muted">' +
-                  l +
-                  '</small></a>';
-              }
-
-              output += '</div></div>';
-
-              return output;
-            }
-          },
-          {
-            targets: 2
+            render: function (e, t, a, s) {}
           },
           {
             responsivePriority: 0,
-            targets: 4,
+            targets: 8,
             render: function (data, type, row) {
               return moment(data).format('YYYY-MM-DD'); // Adjust format as needed
-            }
-          },
-          {
-            responsivePriority: 0,
-            targets: 1,
-            render: function (e, t, a, s) {
-              var p = a.fullname;
-              return p;
             }
           },
           {
@@ -133,27 +87,16 @@
               var n = a.status,
                 r = {
                   1: {
-                    title: 'Permitted',
+                    title: 'Open',
                     class: 'bg-label-primary'
                   },
                   0: {
-                    title: 'Banned',
+                    title: 'Closed',
                     class: ' bg-label-danger'
                   }
                 };
               return void 0 === r[n] ? e : '<span class="badge ' + r[n].class + '">' + r[n].title + '</span>';
             }
-          },
-          {
-            targets: 6,
-            render: function (e, t, a, s) {
-              var g = a.company_profile.description;
-              return g;
-            }
-          },
-          {
-            targets: -2,
-            render: function (e, t, a, s) {}
           },
           {
             targets: -1,
