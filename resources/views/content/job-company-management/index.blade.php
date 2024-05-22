@@ -79,7 +79,7 @@
   var userRole = "{{ session('role') }}";
   var uuid;
 
-  $(function() {
+  (function() {
   var match = window.location.href.match(/\/company-details\/([0-9a-fA-F-]{36})/);
   if (match && match[1]) {
     uuid = match[1];
@@ -87,8 +87,7 @@
   } else {
     alert('Company ID not found in the URL');
   }
-});
-
+})();
 </script>
 <script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/datatables.min.js"></script>
 <script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
@@ -100,13 +99,14 @@
 <script>
   // Delete Function
   $(document).on('click', '.delete-record', async function() {
-    const userId = $(this).data('id');
-    const url = "/company/store";
+    const status = $(this).data('banned');
+    const dataId = $(this).data('id');
+    const url = "/jobs/store";
     const method = "POST";
     // Prepare payload data
     const payload = {
-        user_id: userId,
-        soft_delete: 1
+      job_id: dataId,
+      soft_delete: status === 1 ? 0 : 1
     };
 
     await $.ajax({

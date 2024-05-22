@@ -146,7 +146,7 @@
                 text: '<i class="bx bx-printer me-1" ></i>Print',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -183,7 +183,7 @@
                 text: '<i class="bx bx-file me-1" ></i>Csv',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -208,7 +208,7 @@
                 text: '<i class="bx bxs-file-export me-1"></i>Excel',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -233,7 +233,7 @@
                 text: '<i class="bx bxs-file-pdf me-1"></i>Pdf',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -258,7 +258,7 @@
                 text: '<i class="bx bx-copy me-1" ></i>Copy',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;

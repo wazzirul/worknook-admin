@@ -4,7 +4,9 @@
 (async function () {
   let urlUser = '/company/show';
   let methodUser = 'POST';
-  let payloadUser = {};
+  let payloadUser = {
+    status: '2'
+  };
 
   let data_user = [];
 
@@ -19,8 +21,6 @@
     },
     success: res => {
       data_user = res.data;
-      console.log(data_user);
-      return;
     },
     error: err => {
       console.log('error', err);
@@ -91,7 +91,7 @@
                   '</span>';
               }
 
-              var output = '<div class="d-flex justify-content-start align-items-center user-name">';
+              var output = '<div class="d-flex justify-content-start align-items-center company-name">';
               output += '<div class="avatar-wrapper"><div class="avatar me-2">' + o + '</div></div>';
               output += '<div class="d-flex flex-column"><span class="emp_name text-truncate">' + r + '</span>';
 
@@ -165,6 +165,7 @@
             render: function (e, t, a, s) {
               var l = a.user_id;
               var s = a.soft_delete;
+              var x = s === 1 ? 'Remove Ban' : 'Ban Company';
               return userRole === '1'
                 ? '<div class="d-inline-block"><a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a><ul class="dropdown-menu dropdown-menu-end m-0"><li><a href="company-details/' +
                     l +
@@ -172,7 +173,9 @@
                     l +
                     ' data-banned=' +
                     s +
-                    '>Ban Company</a></li></ul></div>'
+                    '>' +
+                    x +
+                    '</a></li></ul></div>'
                 : '<small>Unathorized</small>';
             }
           }
@@ -192,7 +195,7 @@
                 text: '<i class="bx bx-printer me-1" ></i>Print',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2, 3, 4, 5, 6],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -200,7 +203,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
+                          void 0 !== t.classList && t.classList.contains('company-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -229,7 +232,7 @@
                 text: '<i class="bx bx-file me-1" ></i>Csv',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2, 3, 4, 5, 6],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -237,7 +240,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
+                          void 0 !== t.classList && t.classList.contains('company-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -254,7 +257,7 @@
                 text: '<i class="bx bxs-file-export me-1"></i>Excel',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2, 3, 4, 5, 6],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -262,7 +265,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
+                          void 0 !== t.classList && t.classList.contains('company-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -279,7 +282,7 @@
                 text: '<i class="bx bxs-file-pdf me-1"></i>Pdf',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2, 3, 4, 5, 6],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -287,7 +290,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
+                          void 0 !== t.classList && t.classList.contains('company-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -304,7 +307,7 @@
                 text: '<i class="bx bx-copy me-1" ></i>Copy',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2, 3, 4, 5, 6],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -312,7 +315,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
+                          void 0 !== t.classList && t.classList.contains('company-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)

@@ -2,7 +2,7 @@
 
 // Request User Data
 (async function () {
-  let urlAPI = '/company/jobs';
+  let urlAPI = '/company-jobs/job-list';
   let methodAPI = 'POST';
   let payloadAPI = {
     company_id: uuid
@@ -20,7 +20,8 @@
       payload: payloadAPI
     },
     success: res => {
-      data_api = res.data;
+      data_api = res.data.data;
+      console.log(data_api);
     },
     error: err => {
       console.log('error', err);
@@ -43,7 +44,7 @@
             data: 'location'
           },
           {
-            data: 'company_profile.email'
+            data: 'top_range'
           },
           {
             data: 'job_level_id'
@@ -71,7 +72,20 @@
           {
             targets: 0,
             responsivePriority: 0,
-            render: function (e, t, a, s) {}
+            class: 'job-name'
+          },
+          {
+            targets: 2,
+            responsivePriority: 2,
+            render: function (e, t, a, s) {
+              var g = a.start_salary;
+              var j = a.top_salary;
+              return '<p>' + g + ' - ' + j + '</p>';
+            }
+          },
+          {
+            targets: 3,
+            responsivePriority: 3
           },
           {
             responsivePriority: 0,
@@ -84,13 +98,13 @@
             targets: 5,
             responsivePriority: 0,
             render: function (e, t, a, s) {
-              var n = a.status,
+              var n = a.soft_delete,
                 r = {
-                  1: {
+                  0: {
                     title: 'Open',
                     class: 'bg-label-primary'
                   },
-                  0: {
+                  1: {
                     title: 'Closed',
                     class: ' bg-label-danger'
                   }
@@ -104,13 +118,18 @@
             orderable: !1,
             searchable: !1,
             render: function (e, t, a, s) {
-              var l = a.user_id;
+              var l = a.job_id;
+              var p = a.soft_delete;
+              var r = p === 0 ? 'Deactivate' : 'Activate';
+
               return userRole === '1'
                 ? '<div class="d-inline-block"><a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a><ul class="dropdown-menu dropdown-menu-end m-0"><li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id=' +
                     l +
-                    '>Delete</a></li></ul></div><a href="company-details/' +
-                    l +
-                    '" class="btn btn-sm btn-icon item-detail"><i class="bx bxs-detail"></i></a>'
+                    ' data-banned=' +
+                    p +
+                    '>' +
+                    r +
+                    '</a></li></ul></div>'
                 : '<small>Unathorized</small>';
             }
           }
@@ -130,7 +149,7 @@
                 text: '<i class="bx bx-printer me-1" ></i>Print',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -138,7 +157,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
+                          void 0 !== t.classList && t.classList.contains('job-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -167,7 +186,7 @@
                 text: '<i class="bx bx-file me-1" ></i>Csv',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -175,7 +194,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
+                          void 0 !== t.classList && t.classList.contains('job-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -192,7 +211,7 @@
                 text: '<i class="bx bxs-file-export me-1"></i>Excel',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -200,7 +219,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
+                          void 0 !== t.classList && t.classList.contains('job-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -217,7 +236,7 @@
                 text: '<i class="bx bxs-file-pdf me-1"></i>Pdf',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -225,7 +244,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
+                          void 0 !== t.classList && t.classList.contains('job-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -242,7 +261,7 @@
                 text: '<i class="bx bx-copy me-1" ></i>Copy',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [3, 4, 5, 6, 7],
+                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -250,7 +269,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
+                          void 0 !== t.classList && t.classList.contains('job-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -265,20 +284,11 @@
             ]
           }
         ],
-        // Add the "create-new" button conditionally
-        // initComplete: function (settings, json) {
-        //   if (userRole === '1') {
-        //     // Append the button to the appropriate DOM element (adjust as needed)
-        //     $('.dt-action-buttons').append(
-        //       '<button type="button" class="create-new btn btn-primary"><i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add New Record</span></button>'
-        //     );
-        //   }
-        // },
         responsive: {
           details: {
             display: DataTable.Responsive.display.modal({
               header: function (e) {
-                return 'Details of ' + e.data().company_profile.company_name;
+                return 'Details of ' + e.data().job_title;
               }
             }),
             type: 'column',
