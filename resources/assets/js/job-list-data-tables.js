@@ -2,11 +2,9 @@
 
 // Request User Data
 (async function () {
-  let urlAPI = '/company-jobs/job-list';
-  let methodAPI = 'POST';
-  let payloadAPI = {
-    company_id: uuid
-  };
+  let urlAPI = '/jobs/show-all';
+  let methodAPI = 'GET';
+  // let payloadAPI = {};
 
   let data_api = [];
 
@@ -16,12 +14,11 @@
     data: {
       _token: $('meta[name="csrf-token"]').attr('content'),
       url: urlAPI,
-      method: methodAPI,
-      payload: payloadAPI
+      method: methodAPI
+      // payload: payloadAPI
     },
     success: res => {
-      data_api = res.data.data;
-      console.log(data_api);
+      data_api = res.data;
     },
     error: err => {
       console.log('error', err);
@@ -41,25 +38,31 @@
             data: 'job_title'
           },
           {
-            data: 'location'
+            data: 'job_level.level_name'
           },
           {
-            data: 'top_range'
+            data: 'job_type_employment[0].type_name'
           },
           {
-            data: 'job_level_id'
-          },
-          {
-            data: 'responsibilities'
-          },
-          {
-            data: 'status'
+            data: 'job_category'
           },
           {
             data: 'job_description'
           },
           {
-            data: 'capacity'
+            data: 'location'
+          },
+          {
+            data: 'salary'
+          },
+          {
+            data: 'responsibilities'
+          },
+          {
+            data: 'skills'
+          },
+          {
+            data: 'current_applicant'
           },
           {
             data: 'created_at'
@@ -71,45 +74,63 @@
         columnDefs: [
           {
             targets: 0,
-            responsivePriority: 0,
-            class: 'job-name'
+            class: 'job-name',
+            render: function (e, t, a, s) {
+              var j = a.job_title;
+              var l = a.company.company_profile.company_name;
+              return j + ' at ' + l + ' Company';
+            }
+          },
+          {
+            targets: '_all',
+            responsivePriority: 0
           },
           {
             targets: 2,
-            responsivePriority: 2,
             render: function (e, t, a, s) {
-              var g = a.start_salary;
-              var j = a.top_salary;
-              return '<p>' + g + ' - ' + j + '</p>';
+              var d = a.job_type_employment.map(type => type.type_name).join(', ');
+              return d;
             }
           },
           {
             targets: 3,
-            responsivePriority: 3
+            render: function (e, t, a, s) {
+              var c = a.job_category.map(category => category.category_name).join(', ');
+              return c;
+            }
           },
+          // {
+          //   targets: [1, 3, 6, 7, 8, -1],
+          //   visible: !1
+          //   // responsivePriority: 5
+          // },
           {
-            responsivePriority: 0,
-            targets: 8,
-            render: function (data, type, row) {
-              return moment(data).format('YYYY-MM-DD'); // Adjust format as needed
+            targets: 6,
+            render: function (e, t, a, s) {
+              var g = a.start_salary;
+              var j = a.top_salary;
+              return g + ' - ' + j;
             }
           },
           {
-            targets: 5,
-            responsivePriority: 0,
+            targets: 8,
             render: function (e, t, a, s) {
-              var n = a.soft_delete,
-                r = {
-                  0: {
-                    title: 'Open',
-                    class: 'bg-label-primary'
-                  },
-                  1: {
-                    title: 'Closed',
-                    class: ' bg-label-danger'
-                  }
-                };
-              return void 0 === r[n] ? e : '<span class="badge ' + r[n].class + '">' + r[n].title + '</span>';
+              var b = a.job_required_skill.map(skill => skill.skill_name).join(', ');
+              return b;
+            }
+          },
+          {
+            targets: 9,
+            render: function (e, t, a, s) {
+              var v = a.applied;
+              var w = a.capacity;
+              return v + ' people of ' + w + ' slots available';
+            }
+          },
+          {
+            targets: 10,
+            render: function (data, type, row) {
+              return moment(data).format('YYYY-MM-DD'); // Adjust format as needed
             }
           },
           {
@@ -119,18 +140,11 @@
             searchable: !1,
             render: function (e, t, a, s) {
               var l = a.job_id;
-              var p = a.soft_delete;
-              var r = p === 0 ? 'Deactivate' : 'Activate';
+              var r = 'Delete Job';
 
               return userRole === '1'
-                ? '<div class="d-inline-block"><a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a><ul class="dropdown-menu dropdown-menu-end m-0"><li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id=' +
-                    l +
-                    ' data-banned=' +
-                    p +
-                    '>' +
-                    r +
-                    '</a></li></ul></div>'
-                : '<small>Unathorized</small>';
+                ? '<a class="btn btn-danger delete-record" href="javascript:;" data-id=' + l + '>' + r + '</a>'
+                : '<small>No action available</small>';
             }
           }
         ],
@@ -149,7 +163,7 @@
                 text: '<i class="bx bx-printer me-1" ></i>Print',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -292,6 +306,7 @@
               }
             }),
             type: 'column',
+            target: 'td',
             renderer: function (e, t, a) {
               var s = $.map(a, function (e, t) {
                 return '' !== e.title

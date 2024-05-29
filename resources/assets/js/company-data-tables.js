@@ -33,7 +33,7 @@
     t.length &&
       ((e = t.DataTable({
         data: data_user,
-        responsive: true,
+        // responsive: true,
         autoWidth: false,
         columns: [
           {
@@ -110,9 +110,18 @@
               return output;
             }
           },
-          {
-            targets: 2
-          },
+          // {
+          //   targets: 3,
+          //   visible: !1
+          // },
+          // {
+          //   targets: 6,
+          //   visible: !1
+          // },
+          // {
+          //   targets: 7,
+          //   visible: !1
+          // },
           {
             responsivePriority: 0,
             targets: 4,
@@ -167,15 +176,15 @@
               var s = a.soft_delete;
               var x = s === 1 ? 'Remove Ban' : 'Ban Company';
               return userRole === '1'
-                ? '<div class="d-inline-block"><a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a><ul class="dropdown-menu dropdown-menu-end m-0"><li><a href="company-details/' +
+                ? '<div class="d-flex gap-1"><a class="btn btn-outline-primary" href="company-details/' +
                     l +
-                    '" class="dropdown-item">See Company Job List</a></li><li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id=' +
+                    '">See Jobs</a><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
                     l +
                     ' data-banned=' +
                     s +
                     '>' +
                     x +
-                    '</a></li></ul></div>'
+                    '</a></div>'
                 : '<small>Unathorized</small>';
             }
           }
@@ -338,6 +347,7 @@
               }
             }),
             type: 'column',
+            target: 'td',
             renderer: function (e, t, a) {
               var s = $.map(a, function (e, t) {
                 return '' !== e.title

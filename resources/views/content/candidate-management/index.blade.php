@@ -33,15 +33,13 @@
         <thead>
           <tr>
             <th>Job Title</th>
-            <th>Job Level</th>
-            <th>Job Type</th>
-            <th>Job Category</th>
-            <th>Description</th>
             <th>Location</th>
             <th>Salary Range</th>
+            <th>Job Level</th>
             <th>Responsibilities</th>
-            <th>Skill Requirements</th>
-            <th>Current Applicant</th>
+            <th>Status</th>
+            <th>Description</th>
+            <th>Capacity</th>
             <th>Created At</th>
             <th>Action</th>
           </tr>
@@ -49,7 +47,6 @@
       </table>
     </div>
   </div>
-
   <!-- Modal to add new job -->
   <div class="offcanvas offcanvas-end" id="modal-offcanvas">
     <div class="offcanvas-header border-bottom">
@@ -114,8 +111,13 @@
     </div>
   </div>
 
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCenter">
+    Delete Modal
+  </button>
+
   <!-- Modal Delete Confirmation -->
-  <div class="modal fade" id="modalConfirmation" tabindex="-1" aria-hidden="true" style="z-index: 1091">
+  <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -123,11 +125,11 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>Are you sure to delete job?</p>
+          <p>Are you sure to delete {Job Name}?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger" id="confirmationBtn">Delete</button>
+          <button type="button" class="btn btn-danger">Delete</button>
         </div>
       </div>
     </div>
@@ -148,43 +150,35 @@
 <script src="{{asset('assets/js/job-list-data-tables.js')}}"></script>
 <script>
   // Delete Function
-  async function deleteJob(jobId) {
-    $('.modal').modal('hide');
-    await $('#modalConfirmation').modal('show');
-    $(document).on('click', '#confirmationBtn', async function() {
-      const url = "/jobs/store";
-      const method = "POST";
-      // Prepare payload data
-      const payload = {
-        job_id: jobId,
-        soft_delete: 1
-      };
-  
-      await $.ajax({
-          method: 'POST',
-          url: '/query',
-          data: {
-            _token: $('meta[name="csrf-token"]').attr('content'),
-            url: url,
-            method: method,
-            payload: payload
-          },
-          success: function(response) {
-              setTimeout(function() {
-                  location.reload();
-              }, 500); // Adjust delay as needed
-          },
-          error: function(xhr, status, error) {
-              $('.alert-danger').html(xhr.responseText).show(); // Display error message
-          }
-      });
-    })
-  };
-
   $(document).on('click', '.delete-record', async function() {
-    const jobId = $(this).data('id');
+    const status = $(this).data('banned');
+    const userId = $(this).data('id');
+    const url = "/company/store";
+    const method = "POST";
+    // Prepare payload data
+    const payload = {
+      user_id: userId,
+      soft_delete: status === 1 ? 0 : 1
+    };
 
-    deleteJob(jobId);
+    await $.ajax({
+        method: 'POST',
+        url: '/query',
+        data: {
+          _token: $('meta[name="csrf-token"]').attr('content'),
+          url: url,
+          method: method,
+          payload: payload
+        },
+        success: function(response) {
+            setTimeout(function() {
+                location.reload();
+            }, 500); // Adjust delay as needed
+        },
+        error: function(xhr, status, error) {
+            $('.alert-danger').html(xhr.responseText).show(); // Display error message
+        }
+    });
   });
 </script> 
 @endsection

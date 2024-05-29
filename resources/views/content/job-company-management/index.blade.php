@@ -58,13 +58,15 @@
         <thead>
           <tr>
             <th>Job Title</th>
+            <th>Job Level</th>
+            <th>Job Type</th>
+            <th>Description</th>
             <th>Location</th>
             <th>Salary Range</th>
-            <th>Job Level</th>
             <th>Responsibilities</th>
+            <th>Requirements</th>
+            <th>Current Applicant</th>
             <th>Status</th>
-            <th>Description</th>
-            <th>Capacity</th>
             <th>Created At</th>
             <th>Action</th>
           </tr>
