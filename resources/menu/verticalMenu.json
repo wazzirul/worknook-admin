@@ -22,7 +22,7 @@
       "url": "/job-list",
       "name": "Job List",
       "icon": "menu-icon tf-icons bx bx-briefcase",
-      "slug": "job- list"
+      "slug": "job-list"
     }
   ]
 }

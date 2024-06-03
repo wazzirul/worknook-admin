@@ -4,11 +4,32 @@
 
 @section('vendor-style')
 <link href="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css')) }}">
+<style>
+  /* Hide selected columns on initial */
+  .datatables-basic thead tr th:nth-child(2), 
+  .datatables-basic thead tr th:nth-child(5),
+  .datatables-basic thead tr th:nth-child(7),
+  .datatables-basic thead tr th:nth-child(8),
+  .datatables-basic thead tr th:nth-child(9),
+  .datatables-basic thead tr th:nth-child(10),
+  .datatables-basic thead tr th:nth-child(12),
+  .datatables-basic tbody tr *:nth-child(2),
+  .datatables-basic tbody tr *:nth-child(5),
+  .datatables-basic tbody tr *:nth-child(7),
+  .datatables-basic tbody tr *:nth-child(8),
+  .datatables-basic tbody tr *:nth-child(9),
+  .datatables-basic tbody tr *:nth-child(10),
+  .datatables-basic tbody tr *:nth-child(12)
+   {
+    display: none;
+  }
+</style>
 @endsection
 
 @section('content')
@@ -50,58 +71,111 @@
     </div>
   </div>
 
-  <!-- Modal to add new job -->
+  <!-- Modal Details -->
+<div class="modal fade dtr-bs-modal" id="modalDetails" role="dialog" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCenterTitle">Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <tbody class="data-modal">
+          </tbody>
+        </table>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+  <!-- Modal to edit job -->
   <div class="offcanvas offcanvas-end" id="modal-offcanvas">
     <div class="offcanvas-header border-bottom">
-      <h5 class="offcanvas-title" id="modalLabel"></h5>
+      <h5 class="offcanvas-title" id="modalLabel">Edit Job</h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body flex-grow-1">
       <form class="add-new-record pt-0 row g-2" id="modal-form" action="#" method="POST">
         @csrf
-        <input type="hidden" class="dt-id" name="id">
+        <!-- Job ID -->
+        <input type="hidden" class="dt-job-id" name="jobID">
+        <!-- Job Title -->
         <div class="col-sm-12">
-          <label class="form-label" for="basicFullname">Full Name</label>
+          <label class="form-label" for="jobTitle">Job Title</label>
           <div class="input-group input-group-merge">
-            <span id="basicFullname2" class="input-group-text"><i class="bx bx-user"></i></span>
-            <input type="text" id="basicFullname" class="form-control dt-full-name" name="basicFullname" placeholder="John Doe" aria-label="John Doe" aria-describedby="basicFullname2" required />
+            <input type="text" id="jobTitle" class="form-control dt-job-title" name="jobTitle" placeholder="Job Title Here" aria-label="Job Title Here" required />
           </div>
         </div>
+        <!-- Job Level -->
         <div class="col-sm-12">
-          <label class="form-label" for="profilePicture">Profile Picture</label>
+          <label class="form-label" for="jobLevel">Job Level</label>
           <div class="input-group input-group-merge">
-            <input type="file" id="profilePicture" class="form-control dt-profile-img" name="profilePicture" aria-label="Profile Picture" aria-describedby="profilePicture2" accept="image/png" required/>
-            <input type="hidden" class="dt-profile-encode" id="profileEncode" name="profileEncode" required>
-          </div>
-          <div class="form-text">
-            Max file size is 4 MB
+            <select id="jobLevel" name="jobLevel" class="form-select dt-job-level" required>
+              <option value="1">Entry Level</option>
+              <option value="2">Admin Staff</option>
+            </select>
           </div>
         </div>
+        <!-- Job Type (Select 2.js)-->
         <div class="col-sm-12">
-          <label class="form-label" for="basicEmail">Email</label>
+          <label class="form-label" for="jobType">Job Type</label>
           <div class="input-group input-group-merge">
-            <span class="input-group-text"><i class="bx bx-envelope"></i></span>
-            <input type="email" id="basicEmail" name="basicEmail" class="form-control dt-email" placeholder="john.doe@example.com" aria-label="john.doe@example.com" required/>
-          </div>
-          <div class="form-text">
-            You can use letters, numbers & periods
+            <select id="jobType" name="jobType" class="form-select dt-job-level" multiple="multiple" required>
+              <option value="1">Full Time</option>
+              <option value="2">Admin Staff</option>
+            </select>
           </div>
         </div>
-        <div class="col-sm-12 col-pass">
-          <label class="form-label" for="password">Password</label>
+        <!-- Job Category (Select 2.js)-->
+        <div class="col-sm-12">
+          <label class="form-label" for="jobCategory">Job Category</label>
           <div class="input-group input-group-merge">
-            <input type="password" id="password" class="form-control" name="password"
-              placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-              aria-describedby="password" />
-            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+            <select id="jobCategory" name="jobCategory" class="form-select dt-job-category" required>
+              <option value="1">Sales</option>
+              <option value="2">Admin Staff</option>
+            </select>
           </div>
         </div>
+        <!-- Description -->
         <div class="col-sm-12">
-          <label class="form-label" for="role">Role</label>
+          <label class="form-label" for="description">Description</label>
           <div class="input-group input-group-merge">
-            <span id="basicSalary2" class="input-group-text"><i class='bx bx-cog'></i></span>
-            <select id="role" name="role" class="form-select dt-role" required>
-              <option value="1">Superadmin</option>
+            <input type="text" id="description" class="form-control dt-description" name="description" placeholder="Job Description" aria-label="Job Description" required />
+          </div>
+        </div>
+        <!-- Location -->
+        <div class="col-sm-12">
+          <label class="form-label" for="location">Location</label>
+          <div class="input-group input-group-merge">
+            <input type="text" id="location" class="form-control dt-location" name="location" placeholder="Job Location" aria-label="Job Location" required />
+          </div>
+        </div>
+        <!-- Salary Range -->
+        <div class="col-sm-12">
+          <label class="form-label" for="Salary">Salary Range</label>
+          <div class="input-group">
+            <input type="text dt-start-salary" name="startSalary" id="startSalary" placeholder="Start Salary" class="form-control">
+            <input type="text dt-top-salary" name="topSalary" id="topSalary" placeholder="Top Salary" class="form-control">
+          </div>
+        </div>
+        <!-- Responsibilities -->
+        <div class="col-sm-12">
+          <label class="form-label" for="responsibilities">Responsibilities</label>
+          <div class="input-group input-group-merge">
+            <input type="text" id="responsibilities" class="form-control dt-responsibilities" name="responsibilities" placeholder="Job Responsibilities" aria-label="Job Responsibilities" required />
+          </div>
+        </div>
+        <!-- Skill (Select 2.js)-->
+        <div class="col-sm-12">
+          <label class="form-label" for="jobSkill">Skill Requirements</label>
+          <div class="input-group input-group-merge">
+            <select id="jobSkill" name="jobSkill" class="form-select dt-job-skill" required>
+              <option value="1">Sales</option>
               <option value="2">Admin Staff</option>
             </select>
           </div>
@@ -145,6 +219,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{{asset('assets/js/job-list-data-tables.js')}}"></script>
 <script>
   // Delete Function
@@ -187,4 +262,20 @@
     deleteJob(jobId);
   });
 </script> 
+<!-- <script>
+  $(document).ready(function() {
+  }); -->
+<!-- </script> -->
+<script>
+  // Open edit user modal
+  $(document).on('click', '.edit-record', function() {
+    const modal = $('#modal-offcanvas');
+    $('#jobType').select2({
+      tags: true,
+      tokenSeparators: true
+    });
+    // Show the Offcanvas modal
+    new bootstrap.Offcanvas(modal.get(0)).show();
+  });
+</script>
 @endsection

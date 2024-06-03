@@ -34,12 +34,6 @@
       ((e = t.DataTable({
         data: data_user,
         columns: [
-          // {
-          //   data: 'admin_id'
-          // },
-          // {
-          //   data: 'admin_id'
-          // },
           {
             data: 'fullname'
           },

@@ -9,6 +9,17 @@
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css')) }}">
+<style>
+  /* Hide selected columns on initial */
+  .datatables-basic thead tr th:nth-child(4), 
+  .datatables-basic thead tr th:nth-child(7),
+  .datatables-basic thead tr th:nth-child(8),
+  .datatables-basic tbody tr *:nth-child(4),
+  .datatables-basic tbody tr *:nth-child(7),
+  .datatables-basic tbody tr *:nth-child(8) {
+    display: none;
+  }
+</style>
 @endsection
 
 @section('content')
@@ -26,7 +37,6 @@
   </button>
 </div>
 @endif
-<!-- DataTable with Buttons -->
 <div class="card">
   <div class="card-datatable table-responsive">
     <table class="datatables-basic table border-top table-hover" style="width:100%">
@@ -49,15 +59,18 @@
 </div>
 
 <!-- Modal Details -->
-<div class="modal fade" id="modalDetails" tabindex="-1" aria-hidden="true">
+<div class="modal fade dtr-bs-modal" id="modalDetails" role="dialog" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalCenterTitle">Modal title</h5>
+        <h5 class="modal-title" id="modalDetailsTitle">Details</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="data-modal"></div>
+        <table class="table">
+          <tbody class="data-modal">
+          </tbody>
+        </table>
       </div>
       <!-- <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
@@ -111,15 +124,5 @@
         }
     });
   });
-</script> 
-<!-- <script>
-   $('.datatables-basic tbody').on('click', 'button', function() {
-    var data = table.row($(this).parents('tr')).data(); // getting target row data
-    $('.data-modal').html(
-			// Adding and structuring the full data
-      '<table class="table dtr-details" width="100%"><tbody><tr><td>Company Name<td><td>' + data[0] + '</td></tr><tr><td>Position<td><td>' + data[1] + '</td></tr><tr><td>Office<td><td>' + data[2] + '</td></tr><tr><td>Age<td><td>' + data[3] + '</td></tr><tr><td>Start date<td><td>' + data[4] + '</td></tr><tr><td>Salary<td><td>' + data[5] + '</td></tr></tbody></table>'
-    );
-    $('#modalDetails').modal('show'); // calling the bootstrap modal
-  });
-</script> -->
+</script>
 @endsection

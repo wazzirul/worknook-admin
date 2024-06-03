@@ -9,6 +9,24 @@
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css')) }}">
+<style>
+  /* Hide selected columns on initial */
+  .datatables-basic thead tr th:nth-child(2), 
+  .datatables-basic thead tr th:nth-child(4),
+  .datatables-basic thead tr th:nth-child(7),
+  .datatables-basic thead tr th:nth-child(8),
+  .datatables-basic thead tr th:nth-child(9),
+  .datatables-basic thead tr th:nth-child(12),
+  .datatables-basic tbody tr *:nth-child(2),
+  .datatables-basic tbody tr *:nth-child(4),
+  .datatables-basic tbody tr *:nth-child(7),
+  .datatables-basic tbody tr *:nth-child(8),
+  .datatables-basic tbody tr *:nth-child(9),
+  .datatables-basic tbody tr *:nth-child(12)
+   {
+    display: none;
+  }
+</style>
 @endsection
 
 @section('content')
@@ -53,27 +71,49 @@
 </div>
 <!-- DataTable with Buttons -->
 <div class="card">
-    <div class="card-datatable table-responsive">
-      <table class="datatables-basic table border-top table-hover" style="width:100%">
-        <thead>
-          <tr>
-            <th>Job Title</th>
-            <th>Job Level</th>
-            <th>Job Type</th>
-            <th>Description</th>
-            <th>Location</th>
-            <th>Salary Range</th>
-            <th>Responsibilities</th>
-            <th>Requirements</th>
-            <th>Current Applicant</th>
-            <th>Status</th>
-            <th>Created At</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-      </table>
+  <div class="card-datatable table-responsive">
+    <table class="datatables-basic table border-top table-hover" style="width:100%">
+      <thead>
+        <tr>
+          <th>Job Title</th>
+          <th>Job Level</th>
+          <th>Job Type</th>
+          <th>Description</th>
+          <th>Location</th>
+          <th>Salary Range</th>
+          <th>Responsibilities</th>
+          <th>Requirements</th>
+          <th>Current Applicant</th>
+          <th>Status</th>
+          <th>Created At</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</div>
+
+<!-- Modal Details -->
+<div class="modal fade dtr-bs-modal" id="modalDetails" role="dialog" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCenterTitle">Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <tbody class="data-modal">
+          </tbody>
+        </table>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
     </div>
   </div>
+</div>
 @endsection
 
 @section('page-script')

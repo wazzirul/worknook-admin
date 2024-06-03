@@ -19,6 +19,8 @@
     },
     success: res => {
       data_api = res.data;
+      // console.log(data_api);
+      // return;
     },
     error: err => {
       console.log('error', err);
@@ -31,7 +33,6 @@
     t.length &&
       ((e = t.DataTable({
         data: data_api,
-        responsive: true,
         autoWidth: false,
         columns: [
           {
@@ -99,11 +100,6 @@
               return c;
             }
           },
-          // {
-          //   targets: [1, 3, 6, 7, 8, -1],
-          //   visible: !1
-          //   // responsivePriority: 5
-          // },
           {
             targets: 6,
             render: function (e, t, a, s) {
@@ -143,7 +139,11 @@
               var r = 'Delete Job';
 
               return userRole === '1'
-                ? '<a class="btn btn-danger delete-record" href="javascript:;" data-id=' + l + '>' + r + '</a>'
+                ? '<div class="d-flex gap-1"><a class="btn btn-outline-primary edit-record" href="javascript:;">Edit</a><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
+                    l +
+                    '>' +
+                    r +
+                    '</a></div>'
                 : '<small>No action available</small>';
             }
           }
@@ -297,39 +297,38 @@
               }
             ]
           }
-        ],
-        responsive: {
-          details: {
-            display: DataTable.Responsive.display.modal({
-              header: function (e) {
-                return 'Details of ' + e.data().job_title;
-              }
-            }),
-            type: 'column',
-            target: 'td',
-            renderer: function (e, t, a) {
-              var s = $.map(a, function (e, t) {
-                return '' !== e.title
-                  ? '<tr data-dt-row="' +
-                      e.rowIndex +
-                      '" data-dt-column="' +
-                      e.columnIndex +
-                      '"><td>' +
-                      e.title +
-                      ':</td> <td>' +
-                      e.data +
-                      '</td></tr>'
-                  : '';
-              }).join('');
-              return !!s && $('<table class="table"/><tbody />').append(s);
-            }
-          }
-        }
+        ]
       })),
-      $('div.head-label').html('<h1 class="card-title mb-3">Jobs List of Company</h1>'));
+      $('div.head-label').html('<h1 class="card-title mb-3">Jobs List</h1>'));
     setTimeout(() => {
       $('.dataTables_filter .form-control').removeClass('form-control-sm'),
         $('.dataTables_length .form-select').removeClass('form-select-sm');
     }, 300);
+    // Code for modal
+    $('.datatables-basic tbody').on('click', 'tr', function () {
+      let c = $(this).find('td');
+      const d = $('.dt-column-title');
+      // Select the modal data element where you want to display the values
+      let modalData = $('.data-modal'); // Change this selector to your actual modal data element's ID or class
+
+      // Clear any existing content in the modal data element
+      modalData.empty();
+
+      // Iterate over the td elements
+      c.each(function (index) {
+        // Check if the element inside c is an HTML element or text
+        let tdContent;
+        if ($(this).children().length > 0) {
+          tdContent = $(this).html();
+        } else {
+          tdContent = $(this).text();
+        }
+
+        let dtColumnTitleText = d.eq(index).text();
+
+        modalData.append('<tr><td>' + dtColumnTitleText + '</td><td>' + tdContent + '<td/></tr>');
+      });
+      $('#modalDetails').modal('show');
+    });
   });
 })();
