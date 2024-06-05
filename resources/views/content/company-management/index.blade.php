@@ -39,7 +39,7 @@
 @endif
 <div class="card">
   <div class="card-datatable table-responsive">
-    <table class="datatables-basic table border-top table-hover" style="width:100%">
+    <table class="datatables-basic table border-top table-hover table-striped" style="width:100%">
       <thead>
         <tr>
           <th>Company Name</th>
@@ -48,7 +48,7 @@
           <!-- <th>Industry</th>
           <th>Location</th> -->
           <th>Employees</th>
-          <th>Created at</th>
+          <th>Registered Date</th>
           <th>Status</th>
           <th>Description</th>
           <th>Action</th>

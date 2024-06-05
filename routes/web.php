@@ -7,6 +7,7 @@ use App\Http\Controllers\user_management\UserManagement;
 use App\Http\Controllers\company_management\CompanyManagement;
 use App\Http\Controllers\job_company_management\JobCompanyManagement;
 use App\Http\Controllers\job_list\JobList;
+use App\Http\Controllers\candidate\Candidate;
 use App\Http\Controllers\layouts\WithoutMenu;
 use App\Http\Controllers\layouts\WithoutNavbar;
 use App\Http\Controllers\layouts\Fluid;
@@ -78,9 +79,12 @@ Route::group(['middleware' => 'authsession'], function () {
     // Job Company Management Route
     Route::get('/company-details/{slug}', [JobCompanyManagement::class, 'index'])->name('job-company-management');
 
-
     // Job List Route
     Route::get('/job-list', [JobList::class, 'index'])->name('job-list');
+
+    // Candidate Management Route
+    Route::get('/candidate', [Candidate::class, 'index'])->name('candidate');
+    Route::get('/candidate-details/{slug}', [Candidate::class, 'details'])->name('candidate-details');
 
     // Routes accessible only to superadmins
     Route::group(['middleware' => 'superadmin'], function () {

@@ -63,7 +63,7 @@
             <th>Responsibilities</th>
             <th>Skill Requirements</th>
             <th>Current Applicant</th>
-            <th>Created At</th>
+            <th>Posted Date</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -262,10 +262,6 @@
     deleteJob(jobId);
   });
 </script> 
-<!-- <script>
-  $(document).ready(function() {
-  }); -->
-<!-- </script> -->
 <script>
   // Open edit user modal
   $(document).on('click', '.edit-record', function() {

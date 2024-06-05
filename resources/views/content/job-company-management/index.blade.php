@@ -72,7 +72,7 @@
 <!-- DataTable with Buttons -->
 <div class="card">
   <div class="card-datatable table-responsive">
-    <table class="datatables-basic table border-top table-hover" style="width:100%">
+    <table class="datatables-basic table border-top table-hover table-striped" style="width:100%">
       <thead>
         <tr>
           <th>Job Title</th>
@@ -85,7 +85,7 @@
           <th>Requirements</th>
           <th>Current Applicant</th>
           <th>Status</th>
-          <th>Created At</th>
+          <th>Posted Date</th>
           <th>Action</th>
         </tr>
       </thead>

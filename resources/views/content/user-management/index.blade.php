@@ -29,7 +29,7 @@
 <!-- DataTable with Buttons -->
 <div class="card">
     <div class="card-datatable table-responsive">
-      <table class="datatables-basic table border-top table-hover">
+      <table class="datatables-basic table border-top table-hover table-striped">
         <thead>
           <tr>
             <th>Name</th>

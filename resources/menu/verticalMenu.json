@@ -23,6 +23,18 @@
       "name": "Job List",
       "icon": "menu-icon tf-icons bx bx-briefcase",
       "slug": "job-list"
+    },
+    {
+      "url": "/candidate",
+      "name": "Candidate Management",
+      "icon": "menu-icon tf-icons bx bxs-user-account",
+      "slug": "candidate"
+    },
+    {
+      "url": "/activity-history",
+      "name": "Activity History",
+      "icon": "menu-icon tf-icons bx bx-history",
+      "slug": "activity-history"
     }
   ]
 }
