@@ -35,6 +35,12 @@
       "name": "Activity History",
       "icon": "menu-icon tf-icons bx bx-history",
       "slug": "activity-history"
+    },
+    {
+      "url": "/messages",
+      "name": "Messages",
+      "icon": "menu-icon tf-icons bx bx-envelope",
+      "slug": "messages"
     }
   ]
 }
