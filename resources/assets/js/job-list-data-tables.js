@@ -101,6 +101,16 @@
             }
           },
           {
+            targets: 4,
+            render: function (e, t, a, s) {
+              var l = a.job_description;
+              if (l.length > 10) {
+                return l.substr(0, 10) + '...';
+              }
+              return l;
+            }
+          },
+          {
             targets: 6,
             render: function (e, t, a, s) {
               var g = a.start_salary;

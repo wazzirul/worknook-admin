@@ -2,32 +2,30 @@
 
 // Request User Data
 (async function () {
-  // let urlAPI = '/admin-user/data';
-  // let methodAPI = 'POST';
-  // let payloadAPI = {
-  //   paginate: 100
-  // };
+  let urlAPI = '/contact/show';
+  let methodAPI = 'POST';
+  let payloadAPI = {};
 
-  // let data_api = [];
+  let data_api = [];
 
-  // await $.ajax({
-  //   method: 'POST',
-  //   url: '/query',
-  //   data: {
-  //     _token: $('meta[name="csrf-token"]').attr('content'),
-  //     url: urlAPI,
-  //     method: methodAPI,
-  //     payload: payloadAPI
-  //   },
-  //   success: res => {
-  //     data_api = res.data.data;
-  //     console.log(data_api);
-  //     // return;
-  //   },
-  //   error: err => {
-  //     console.log('error', err);
-  //   }
-  // });
+  await $.ajax({
+    method: 'POST',
+    url: '/query',
+    data: {
+      _token: $('meta[name="csrf-token"]').attr('content'),
+      url: urlAPI,
+      method: methodAPI,
+      payload: payloadAPI
+    },
+    success: res => {
+      data_api = res.data;
+      console.log(data_api);
+      // return;
+    },
+    error: err => {
+      console.log('error', err);
+    }
+  });
 
   $(function () {
     var e,
@@ -38,94 +36,31 @@
         autoWidth: false,
         columns: [
           {
-            data: 'fullname'
+            data: 'last_name'
           },
           {
             data: 'email'
           },
           {
-            data: 'status'
+            data: 'phone_number'
           },
           {
-            data: 'applicant_profile.current_working'
-          },
-          {
-            data: 'applicant_profile.position'
-          },
-          {
-            data: 'applicant_profile.company'
+            data: 'business'
           },
           {
             data: 'created_at'
-          },
-          {
-            data: ''
           }
         ],
         columnDefs: [
           {
             targets: 0,
             render: function (e, t, a, s) {
-              var n = a.applicant_profile?.profile_photo,
-                r = a.fullname;
-              if (n) var o = '<img src="' + n + '" alt="Avatar" class="rounded-circle">';
-              else {
-                var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
-                    Math.floor(6 * Math.random())
-                  ],
-                  i = (r = a.fullname).match(/\b\w/g) || [];
-                o =
-                  '<span class="avatar-initial rounded-circle bg-label-' +
-                  d +
-                  '">' +
-                  (i = ((i.shift() || '') + (i.pop() || '')).toUpperCase()) +
-                  '</span>';
-              }
-              return (
-                '<div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar me-2">' +
-                o +
-                '</div></div><div class="d-flex flex-column"><span class="emp_name text-truncate">' +
-                r +
-                '</span></div></div>'
-              );
-            }
-          },
-          {
-            targets: 2,
-            render: function (e, t, a, s) {
-              var n = a.status,
-                r = {
-                  1: {
-                    title: 'Active',
-                    class: 'bg-label-primary'
-                  },
-                  0: {
-                    title: 'Inactive',
-                    class: ' bg-label-danger'
-                  }
-                };
-              return void 0 === r[n] ? e : '<span class="badge ' + r[n].class + '">' + r[n].title + '</span>';
-            }
-          },
-          {
-            targets: 3,
-            render: function (e, t, a, s) {
-              var n = a.applicant_profile?.current_working,
-                r = {
-                  1: {
-                    title: 'Yes',
-                    class: 'bg-label-primary'
-                  },
-                  0: {
-                    title: 'No',
-                    class: 'bg-label-danger'
-                  },
-                  undefined: {
-                    title: 'No Data',
-                    class: 'bg-label-secondary'
-                  }
-                };
-              return void 0 === r[n] ? e : '<span class="badge ' + r[n].class + '">' + r[n].title + '</span>';
+              var j = a.first_name,
+                l = a.last_name;
+              return j + l;
+            },
+            createdCell: function (e, t, a) {
+              $(e).attr('data-id', a.contact_email_id);
             }
           },
           {
@@ -133,37 +68,9 @@
             responsivePriority: 0
           },
           {
-            targets: 6,
+            targets: 4,
             render: function (data, type, row) {
               return moment(data).format('YYYY-MM-DD'); // Adjust format as needed
-            }
-          },
-          {
-            targets: -1,
-            title: 'Actions',
-            orderable: !1,
-            searchable: !1,
-            render: function (e, t, a, s) {
-              var l = a.user_id;
-              var j = a.status;
-              var k = j === 1 ? 'Deactivate' : 'Activate';
-              var r = 'Delete';
-
-              return userRole === '1'
-                ? '<div class="d-flex gap-1 flex-wrap"><a class="btn btn-outline-primary" href="candidate-details/' +
-                    l +
-                    '">See Details</a><a class="btn btn-warning ban-user" href="javascript:;" data-id=' +
-                    l +
-                    ' data-banned=' +
-                    j +
-                    '>' +
-                    k +
-                    '</a><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
-                    l +
-                    '>' +
-                    r +
-                    '</a></div>'
-                : '<small>No action available</small>';
             }
           }
         ],
@@ -336,10 +243,12 @@
     // Code for modal
     $('.datatables-basic tbody').on('click', 'tr', function () {
       let c = $(this).find('td');
+      let dataId = $(this).find('[data-id]').data('id');
       const d = $('.dt-column-title');
       // Select the modal data element where you want to display the values
       let modalData = $('.data-modal'); // Change this selector to your actual modal data element's ID or class
 
+      $('#idMail').val(dataId);
       // Clear any existing content in the modal data element
       modalData.empty();
 
@@ -357,6 +266,9 @@
 
         modalData.append('<tr><td>' + dtColumnTitleText + '</td><td>' + tdContent + '<td/></tr>');
       });
+
+      // Extract the data-id from the clicked row and set it to the .input-id element
+
       $('#modalDetails').modal('show');
     });
   });

@@ -15,14 +15,14 @@
 <style>
   /* Hide selected columns on initial */
   .datatables-basic thead tr th:nth-child(2), 
-  .datatables-basic thead tr th:nth-child(5),
+  /* .datatables-basic thead tr th:nth-child(5), */
   .datatables-basic thead tr th:nth-child(7),
   .datatables-basic thead tr th:nth-child(8),
   .datatables-basic thead tr th:nth-child(9),
   .datatables-basic thead tr th:nth-child(10),
   .datatables-basic thead tr th:nth-child(12),
   .datatables-basic tbody tr *:nth-child(2),
-  .datatables-basic tbody tr *:nth-child(5),
+  /* .datatables-basic tbody tr *:nth-child(5), */
   .datatables-basic tbody tr *:nth-child(7),
   .datatables-basic tbody tr *:nth-child(8),
   .datatables-basic tbody tr *:nth-child(9),

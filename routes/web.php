@@ -89,6 +89,7 @@ Route::group(['middleware' => 'authsession'], function () {
 
     // Messages Route
     Route::get('/messages', [Messages::class, 'index'])->name('messages');
+    Route::post('/message/reply', [Messages::class, 'reply'])->name('messages-reply');
 
     // Routes accessible only to superadmins
     Route::group(['middleware' => 'superadmin'], function () {
