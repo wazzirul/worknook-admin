@@ -14,10 +14,12 @@ class Messages extends Controller
     public function reply(Request $request)
     {
         $id = $request->input('idMail');
+        $subject = $request->input('subject');
         $content = $request->input('content');
 
         // dd($id, $content);
         $payload['contact_email_id'] = $id;
+        $payload['subject'] = $subject;
         $payload['message'] = $content;
 
         $data = RequestURI('POST', env('API_URL') . '/contact/reply', $payload);

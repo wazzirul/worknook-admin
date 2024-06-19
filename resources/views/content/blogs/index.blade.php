@@ -1,9 +1,10 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Company Management - Index')
+@section('title', 'Blogs - Index')
 
 @section('vendor-style')
 <link href="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')) }}">
 <link rel="stylesheet"
   href="{{ asset(mix('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')) }}">
@@ -11,22 +12,28 @@
   href="{{ asset(mix('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css')) }}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/2.8.2/slimselect.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/2.8.2/slimselect.css" rel="stylesheet">
+</link>
 <style>
   /* Hide selected columns on initial */
-  .datatables-basic thead tr th:nth-child(2),
-  .datatables-basic thead tr th:nth-child(4),
+  /* .datatables-basic thead tr th:nth-child(2), 
+  .datatables-basic thead tr th:nth-child(5),
   .datatables-basic thead tr th:nth-child(7),
   .datatables-basic thead tr th:nth-child(8),
   .datatables-basic thead tr th:nth-child(9),
+  .datatables-basic thead tr th:nth-child(10),
   .datatables-basic thead tr th:nth-child(12),
   .datatables-basic tbody tr *:nth-child(2),
-  .datatables-basic tbody tr *:nth-child(4),
+  .datatables-basic tbody tr *:nth-child(5),
   .datatables-basic tbody tr *:nth-child(7),
   .datatables-basic tbody tr *:nth-child(8),
   .datatables-basic tbody tr *:nth-child(9),
-  .datatables-basic tbody tr *:nth-child(12) {
+  .datatables-basic tbody tr *:nth-child(10),
+  .datatables-basic tbody tr *:nth-child(12)
+   {
     display: none;
-  }
+  } */
 </style>
 @endsection
 
@@ -45,49 +52,23 @@
   </button>
 </div>
 @endif
-<h4 class="py-3 mb-4">
-  <span class="text-muted fw-light">Company /</span> Job List
-</h4>
-<div class="card mb-4">
-  <div class="d-flex align-items-start row">
-    <div class="col-sm-2 text-center text-sm-left">
-      <div class="card-body p-4">
-        <img src='{{ $dataComp->data->company_profile->company_icon }}' height="140" alt="View Badge User"
-          data-app-dark-img="illustrations/man-with-laptop-dark.png"
-          data-app-light-img="illustrations/man-with-laptop-light.png">
-      </div>
-    </div>
-    <div class="col-sm-7">
-      <div class="card-body">
-        <h5 class="card-title text-primary">{{ $dataComp->data->company_profile->company_name }}</h5>
-        <small>
-          <a href="javascript:;" class="text-primary">{{ $dataComp->data->company_profile->website }}</a>
-        </small>
-        <p class="mb-4">{{ $dataComp->data->company_profile->description }}</p>
-
-        <div class="d-flex column gap-2">
-          <small class="text-muted">Founded by : {{ $dataComp->data->fullname }}</small>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 <!-- DataTable with Buttons -->
+<!-- <select id="jobLevel" multiple name="jobLevel" class="dt-job-level" required></select> -->
 <div class="card">
   <div class="card-datatable table-responsive">
-    <table class="datatables-basic table border-top table-hover table-striped" style="width:100%">
+    <table class="datatables-basic table border-top table-hover" style="width:100%">
       <thead>
         <tr>
           <th>Job Title</th>
           <th>Job Level</th>
           <th>Job Type</th>
+          <th>Job Category</th>
           <th>Description</th>
           <th>Location</th>
           <th>Salary Range</th>
           <th>Responsibilities</th>
-          <th>Requirements</th>
+          <th>Skill Requirements</th>
           <th>Current Applicant</th>
-          <th>Status</th>
           <th>Posted Date</th>
           <th>Action</th>
         </tr>
@@ -111,30 +92,62 @@
         </table>
       </div>
       <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div> -->
+      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-primary">Save changes</button>
+    </div> -->
     </div>
   </div>
+</div>
+
+<!-- Add Blog Modal -->
+<div class="modal fade" id="addBlogModal" tabindex="-1" aria-labelledby="addBlogModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addBlogModalLabel">Add New Blog Post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="blogThumbnailAdd" class="form-label">Thumbnail</label>
+            <input type="file" class="form-control" id="blogThumbnailAdd">
+          </div>
+          <div class="mb-3">
+            <label for="blogTitleAdd" class="form-label">Title</label>
+            <input type="text" class="form-control" id="blogTitleAdd">
+          </div>
+          <div class="mb-3">
+            <label for="blogCategoryAdd" class="form-label">Category</label>
+            <select class="form-select" id="blogCategoryAdd">
+              <option value="technology">Technology</option>
+              <option value="lifestyle">Lifestyle</option>
+              <option value="business">Business</option>
+              <!-- Add more categories as needed -->
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="blogContentAdd" class="form-label">Content</label>
+            <div id="blogContentAdd">
+              <!-- Content editor or textarea can be added here -->
+              <textarea class="form-control" rows="10"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success">Add Blog Post</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 @endsection
 
 @section('page-script')
 <script>
   var userRole = "{{ session('role') }}";
-  var uuid;
-
-  (function () {
-    var match = window.location.href.match(/\/company-details\/([0-9a-fA-F-]{36})/);
-    if (match && match[1])
-    {
-      uuid = match[1];
-      console.log('Extracted Company ID:', uuid);
-    } else
-    {
-      alert('Company ID not found in the URL');
-    }
-  })();
 </script>
 <script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/datatables.min.js"></script>
 <script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
@@ -143,38 +156,5 @@
 <script
   src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-<script src="{{asset('assets/js/job-company-data-tables.js')}}"></script>
-<script>
-  // Delete Function
-  $(document).on('click', '.delete-record', async function () {
-    const status = $(this).data('banned');
-    const dataId = $(this).data('id');
-    const url = "/jobs/store";
-    const method = "POST";
-    // Prepare payload data
-    const payload = {
-      job_id: dataId,
-      soft_delete: status === 1 ? 0 : 1
-    };
-
-    await $.ajax({
-      method: 'POST',
-      url: '/query',
-      data: {
-        _token: $('meta[name="csrf-token"]').attr('content'),
-        url: url,
-        method: method,
-        payload: payload
-      },
-      success: function (response) {
-        setTimeout(function () {
-          location.reload();
-        }, 500); // Adjust delay as needed
-      },
-      error: function (xhr, status, error) {
-        $('.alert-danger').html(xhr.responseText).show(); // Display error message
-      }
-    });
-  });
-</script>
+<!-- <script src="{{asset('assets/js/job-list-data-tables.js')}}"></script> -->
 @endsection

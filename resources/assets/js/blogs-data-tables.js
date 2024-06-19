@@ -294,6 +294,16 @@
                     }
                   }
                 }
+              },
+              {
+                className: 'btn btn-primary',
+                attr: {
+                  'data-bs-toggle': 'modal',
+                  'data-bs-target': '#filterModal',
+                  id: 'btnFilter',
+                  role: 'button'
+                },
+                text: '<i class="tf-icons bx bx-filter"></i>'
               }
             ]
           }
