@@ -6,7 +6,7 @@ image: faisaladiprayugo/ubuntu:v5
 cache:
   paths:
     - vendor/
-    - $ZIP_FILE
+    - worknook_admin.zip
 
 packndeploy_laravel:
   tags:
