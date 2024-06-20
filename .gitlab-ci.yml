@@ -23,17 +23,17 @@ packndeploy_laravel:
     - ssh-add <(echo "$WORKNOOK_ADMIN_INSTANCE_KEY")
   script:
     - echo "Creating ZIP file for $ZIP_FILE"
-    - zip -r $ZIP_FILE *
+    - zip -r $ZIP_FILE_ADMIN *
     - ls -lah
-    - sftp -o StrictHostKeyChecking=no $WORKNOOK_ADMIN_INSTANCE_USER@$WORKNOOK_ADMIN_INSTANCE_HOST <<< $'put '"$ZIP_FILE"
-    - ssh -o StrictHostKeyChecking=no $WORKNOOK_ADMIN_INSTANCE_USER@$WORKNOOK_ADMIN_INSTANCE_HOST 'yes | unzip '"$ZIP_FILE"' -d '"$WORKNOOK_ADMIN_DEPLOY_TEMP"
+    - sftp -o StrictHostKeyChecking=no $WORKNOOK_ADMIN_INSTANCE_USER@$WORKNOOK_ADMIN_INSTANCE_HOST <<< $'put '"$ZIP_FILE_ADMIN"
+    - ssh -o StrictHostKeyChecking=no $WORKNOOK_ADMIN_INSTANCE_USER@$WORKNOOK_ADMIN_INSTANCE_HOST 'yes | unzip '"$ZIP_FILE_ADMIN"' -d '"$WORKNOOK_ADMIN_DEPLOY_TEMP"
     - ssh -o StrictHostKeyChecking=no $WORKNOOK_ADMIN_INSTANCE_USER@$WORKNOOK_ADMIN_INSTANCE_HOST 'rsync -av '"$WORKNOOK_ADMIN_DEPLOY_TEMP $WORKNOOK_ADMIN_DEPLOY_DIR"
-    - ssh -o StrictHostKeyChecking=no $WORKNOOK_ADMIN_INSTANCE_USER@$WORKNOOK_ADMIN_INSTANCE_HOST 'cd '"$WORKNOOK_ADMIN_DEPLOY_DIR"' && php artisan migrate'
-    - ssh -o StrictHostKeyChecking=no $WORKNOOK_ADMIN_INSTANCE_USER@$WORKNOOK_ADMIN_INSTANCE_HOST 'cd '"$WORKNOOK_ADMIN_DEPLOY_DIR"' && php artisan config:clear'
+    - ssh -o StrictHostKeyChecking=no $WORKNOOK_ADMIN_INSTANCE_USER@$WORKNOOK_ADMIN_INSTANCE_HOST 'cd '"$WORKNOOK_ADMIN_DEPLOY_DIR"' && $(which php8.1) artisan migrate'
+    - ssh -o StrictHostKeyChecking=no $WORKNOOK_ADMIN_INSTANCE_USER@$WORKNOOK_ADMIN_INSTANCE_HOST 'cd '"$WORKNOOK_ADMIN_DEPLOY_DIR"' && $(which php8.1) artisan config:clear'
     - ssh -o StrictHostKeyChecking=no $WORKNOOK_ADMIN_INSTANCE_USER@$WORKNOOK_ADMIN_INSTANCE_HOST 'chown -R '"$WORKNOOK_ADMIN_INSTANCE_OWNED"' '"$WORKNOOK_ADMIN_DEPLOY_DIR"
     - ssh -o StrictHostKeyChecking=no $WORKNOOK_ADMIN_INSTANCE_USER@$WORKNOOK_ADMIN_INSTANCE_HOST 'chmod -R 755 '"$WORKNOOK_ADMIN_DEPLOY_DIR"
     - ssh -o StrictHostKeyChecking=no $WORKNOOK_ADMIN_INSTANCE_USER@$WORKNOOK_ADMIN_INSTANCE_HOST 'rm -rf '"$WORKNOOK_ADMIN_DEPLOY_TEMP"
-    - ssh -o StrictHostKeyChecking=no $WORKNOOK_ADMIN_INSTANCE_USER@$WORKNOOK_ADMIN_INSTANCE_HOST 'rm -f '"$ZIP_FILE"
-    - rm -f $ZIP_FILE
+    - ssh -o StrictHostKeyChecking=no $WORKNOOK_ADMIN_INSTANCE_USER@$WORKNOOK_ADMIN_INSTANCE_HOST 'rm -f '"$ZIP_FILE_ADMIN"
+    - rm -f $ZIP_FILE_ADMIN
   only:
     - staging
