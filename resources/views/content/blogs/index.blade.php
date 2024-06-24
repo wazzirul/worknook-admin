@@ -4,7 +4,6 @@
 
 @section('vendor-style')
 <link href="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')) }}">
 <link rel="stylesheet"
   href="{{ asset(mix('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')) }}">
@@ -12,8 +11,6 @@
   href="{{ asset(mix('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css')) }}">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/2.8.2/slimselect.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/2.8.2/slimselect.css" rel="stylesheet">
 </link>
 <style>
   /* Hide selected columns on initial */
@@ -53,23 +50,15 @@
 </div>
 @endif
 <!-- DataTable with Buttons -->
-<!-- <select id="jobLevel" multiple name="jobLevel" class="dt-job-level" required></select> -->
 <div class="card">
   <div class="card-datatable table-responsive">
     <table class="datatables-basic table border-top table-hover" style="width:100%">
       <thead>
         <tr>
-          <th>Job Title</th>
-          <th>Job Level</th>
-          <th>Job Type</th>
-          <th>Job Category</th>
-          <th>Description</th>
-          <th>Location</th>
-          <th>Salary Range</th>
-          <th>Responsibilities</th>
-          <th>Skill Requirements</th>
-          <th>Current Applicant</th>
-          <th>Posted Date</th>
+          <th>Blog Title</th>
+          <th>Blog Description</th>
+          <th>Author</th>
+          <th>Date</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -95,6 +84,33 @@
       <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
       <button type="button" class="btn btn-primary">Save changes</button>
     </div> -->
+    </div>
+  </div>
+</div>
+
+<!-- Modal Filter -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="filterModalLabel">Filter Candidate</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h6>By Status</h6>
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+          <input type="radio" class="btn-check" name="btnradio" id="statusAll" checked>
+          <label class="btn btn-outline-primary" for="statusAll">All</label>
+          <input type="radio" class="btn-check" name="btnradio" id="statusActive">
+          <label class="btn btn-outline-primary" for="statusActive">Active</label>
+          <input type="radio" class="btn-check" name="btnradio" id="statusInactive">
+          <label class="btn btn-outline-primary" for="statusInactive">Deactive</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
     </div>
   </div>
 </div>
@@ -156,5 +172,5 @@
 <script
   src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-<!-- <script src="{{asset('assets/js/job-list-data-tables.js')}}"></script> -->
+<script src="{{asset('assets/js/blogs-data-tables.js')}}"></script>
 @endsection

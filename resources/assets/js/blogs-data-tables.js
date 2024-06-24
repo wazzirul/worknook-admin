@@ -2,9 +2,9 @@
 
 // Request User Data
 (async function () {
-  let urlAPI = '/jobs/show-all';
-  let methodAPI = 'GET';
-  // let payloadAPI = {};
+  let urlAPI = '/blog/show';
+  let methodAPI = 'POST';
+  let payloadAPI = {};
 
   let data_api = [];
 
@@ -14,8 +14,8 @@
     data: {
       _token: $('meta[name="csrf-token"]').attr('content'),
       url: urlAPI,
-      method: methodAPI
-      // payload: payloadAPI
+      method: methodAPI,
+      payload: payloadAPI
     },
     success: res => {
       data_api = res.data;
@@ -36,37 +36,16 @@
         autoWidth: false,
         columns: [
           {
-            data: 'job_title'
+            data: 'blog_title'
           },
           {
-            data: 'job_level.level_name'
+            data: 'description'
           },
           {
-            data: 'job_type_employment[0].type_name'
+            data: 'admin.fullname'
           },
           {
-            data: 'job_category'
-          },
-          {
-            data: 'job_description'
-          },
-          {
-            data: 'location'
-          },
-          {
-            data: 'salary'
-          },
-          {
-            data: 'responsibilities'
-          },
-          {
-            data: 'skills'
-          },
-          {
-            data: 'current_applicant'
-          },
-          {
-            data: 'created_at'
+            data: 'date'
           },
           {
             data: ''
@@ -77,56 +56,7 @@
             targets: 0,
             class: 'job-name',
             render: function (e, t, a, s) {
-              var j = a.job_title;
-              var l = a.company.company_profile.company_name;
-              return j + ' at ' + l + ' Company';
-            }
-          },
-          {
-            targets: '_all',
-            responsivePriority: 0
-          },
-          {
-            targets: 2,
-            render: function (e, t, a, s) {
-              var d = a.job_type_employment.map(type => type.type_name).join(', ');
-              return d;
-            }
-          },
-          {
-            targets: 3,
-            render: function (e, t, a, s) {
-              var c = a.job_category.map(category => category.category_name).join(', ');
-              return c;
-            }
-          },
-          {
-            targets: 6,
-            render: function (e, t, a, s) {
-              var g = a.start_salary;
-              var j = a.top_salary;
-              return g + ' - ' + j;
-            }
-          },
-          {
-            targets: 8,
-            render: function (e, t, a, s) {
-              var b = a.job_required_skill.map(skill => skill.skill_name).join(', ');
-              return b;
-            }
-          },
-          {
-            targets: 9,
-            render: function (e, t, a, s) {
-              var v = a.applied;
-              var w = a.capacity;
-              return v + ' people of ' + w + ' slots available';
-            }
-          },
-          {
-            targets: 10,
-            render: function (data, type, row) {
-              return moment(data).format('YYYY-MM-DD'); // Adjust format as needed
+              return a.blog_title;
             }
           },
           {
@@ -135,16 +65,7 @@
             orderable: !1,
             searchable: !1,
             render: function (e, t, a, s) {
-              var l = a.job_id;
-              var r = 'Delete Job';
-
-              return userRole === '1'
-                ? '<div class="d-flex gap-1"><a class="btn btn-outline-primary edit-record" href="javascript:;">Edit</a><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
-                    l +
-                    '>' +
-                    r +
-                    '</a></div>'
-                : '<small>No action available</small>';
+              return 'sk';
             }
           }
         ],
@@ -294,16 +215,6 @@
                     }
                   }
                 }
-              },
-              {
-                className: 'btn btn-primary',
-                attr: {
-                  'data-bs-toggle': 'modal',
-                  'data-bs-target': '#filterModal',
-                  id: 'btnFilter',
-                  role: 'button'
-                },
-                text: '<i class="tf-icons bx bx-filter"></i>'
               }
             ]
           }

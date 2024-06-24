@@ -21,6 +21,7 @@
     },
     success: res => {
       data_user = res.data.data;
+      console.log(data_user);
     },
     error: err => {
       console.log('error', err);
