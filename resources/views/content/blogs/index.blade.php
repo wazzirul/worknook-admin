@@ -14,23 +14,10 @@
 </link>
 <style>
   /* Hide selected columns on initial */
-  /* .datatables-basic thead tr th:nth-child(2), 
-  .datatables-basic thead tr th:nth-child(5),
-  .datatables-basic thead tr th:nth-child(7),
-  .datatables-basic thead tr th:nth-child(8),
-  .datatables-basic thead tr th:nth-child(9),
-  .datatables-basic thead tr th:nth-child(10),
-  .datatables-basic thead tr th:nth-child(12),
-  .datatables-basic tbody tr *:nth-child(2),
-  .datatables-basic tbody tr *:nth-child(5),
-  .datatables-basic tbody tr *:nth-child(7),
-  .datatables-basic tbody tr *:nth-child(8),
-  .datatables-basic tbody tr *:nth-child(9),
-  .datatables-basic tbody tr *:nth-child(10),
-  .datatables-basic tbody tr *:nth-child(12)
-   {
+  .datatables-basic thead tr th:nth-child(6),
+  .datatables-basic tbody tr *:nth-child(6) {
     display: none;
-  } */
+  }
 </style>
 @endsection
 
@@ -55,9 +42,10 @@
     <table class="datatables-basic table border-top table-hover" style="width:100%">
       <thead>
         <tr>
-          <th>Blog Title</th>
-          <th>Blog Description</th>
+          <th>Title</th>
+          <th>Description</th>
           <th>Author</th>
+          <th>Category</th>
           <th>Date</th>
           <th>Action</th>
         </tr>
@@ -93,19 +81,17 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="filterModalLabel">Filter Candidate</h5>
+        <h5 class="modal-title" id="filterModalLabel">Filter Blogs</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <h6>By Status</h6>
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-          <input type="radio" class="btn-check" name="btnradio" id="statusAll" checked>
-          <label class="btn btn-outline-primary" for="statusAll">All</label>
-          <input type="radio" class="btn-check" name="btnradio" id="statusActive">
-          <label class="btn btn-outline-primary" for="statusActive">Active</label>
-          <input type="radio" class="btn-check" name="btnradio" id="statusInactive">
-          <label class="btn btn-outline-primary" for="statusInactive">Deactive</label>
-        </div>
+        <h6>By Category</h6>
+        <select class="form-select status-dropdown text-capitalize">
+          <option value="">All</option>
+          @foreach ($data->data as $category)
+          <option class="text-capitalize" value="{{ $category->category_name }}">{{ $category->category_name }}</option>
+          @endforeach
+        </select>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

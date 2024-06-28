@@ -19,7 +19,7 @@
     },
     success: res => {
       data_api = res.data;
-      // console.log(data_api);
+      console.log(data_api);
       // return;
     },
     error: err => {
@@ -39,10 +39,13 @@
             data: 'blog_title'
           },
           {
-            data: 'description'
+            data: 'short_description'
           },
           {
             data: 'admin.fullname'
+          },
+          {
+            data: 'category.category_name'
           },
           {
             data: 'date'
@@ -54,9 +57,37 @@
         columnDefs: [
           {
             targets: 0,
-            class: 'job-name',
+            class: 'blog-list',
             render: function (e, t, a, s) {
-              return a.blog_title;
+              var n = a.blog_thumbnail,
+                r = a.blog_title;
+              if (n) var o = '<img src="' + n + '" alt="Avatar" class="rounded-circle">';
+              else {
+                var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
+                    Math.floor(6 * Math.random())
+                  ],
+                  i = (r = a.fullname).match(/\b\w/g) || [];
+                o =
+                  '<span class="avatar-initial rounded-circle bg-label-' +
+                  d +
+                  '">' +
+                  (i = ((i.shift() || '') + (i.pop() || '')).toUpperCase()) +
+                  '</span>';
+              }
+              return (
+                '<div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar me-2">' +
+                o +
+                '</div></div><div class="d-flex flex-column"><span class="emp_name text-truncate">' +
+                r +
+                '</span></div></div>'
+              );
+            }
+          },
+          {
+            targets: 3,
+            render: function (e, t, a, s) {
+              var n = a.category.category_name;
+              return '<span class="badge bg-primary text-capitalize">' + n + '</span>';
             }
           },
           {
@@ -65,7 +96,12 @@
             orderable: !1,
             searchable: !1,
             render: function (e, t, a, s) {
-              return 'sk';
+              var l = a.blog_id;
+              return userRole === '1'
+                ? '<div class="d-flex gap-1"><a class="btn btn-outline-primary" href="blog-details/' +
+                    l +
+                    '">Blog Details</a></div>'
+                : '<small>Unathorized</small>';
             }
           }
         ],
@@ -92,7 +128,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -129,7 +165,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -154,7 +190,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -179,7 +215,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -204,7 +240,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -217,10 +253,20 @@
                 }
               }
             ]
+          },
+          {
+            className: 'btn btn-primary',
+            attr: {
+              'data-bs-toggle': 'modal',
+              'data-bs-target': '#filterModal',
+              id: 'btnFilter',
+              role: 'button'
+            },
+            text: '<i class="tf-icons bx bx-filter"></i>'
           }
         ]
       })),
-      $('div.head-label').html('<h1 class="card-title mb-3">Jobs List</h1>'));
+      $('div.head-label').html('<h1 class="card-title mb-3">Blog List</h1>'));
     setTimeout(() => {
       $('.dataTables_filter .form-control').removeClass('form-control-sm'),
         $('.dataTables_length .form-select').removeClass('form-select-sm');
@@ -250,6 +296,12 @@
         // Show the modal
         $('#modalDetails').modal('show');
       }
+    });
+    // Filter Function
+    $('.status-dropdown').on('change', function (e) {
+      var category = $(this).val();
+      $('.status-dropdown').val(category);
+      $('.datatables-basic').DataTable().column(3).search(category).draw();
     });
   });
 })();

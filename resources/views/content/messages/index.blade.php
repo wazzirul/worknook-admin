@@ -15,23 +15,10 @@
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
 <style>
   /* Hide selected columns on initial */
-  /* .datatables-basic thead tr th:nth-child(2), 
-.datatables-basic thead tr th:nth-child(5),
-.datatables-basic thead tr th:nth-child(7),
-.datatables-basic thead tr th:nth-child(8),
-.datatables-basic thead tr th:nth-child(9),
-.datatables-basic thead tr th:nth-child(10),
-.datatables-basic thead tr th:nth-child(12),
-.datatables-basic tbody tr *:nth-child(2),
-.datatables-basic tbody tr *:nth-child(5),
-.datatables-basic tbody tr *:nth-child(7),
-.datatables-basic tbody tr *:nth-child(8),
-.datatables-basic tbody tr *:nth-child(9),
-.datatables-basic tbody tr *:nth-child(10),
-.datatables-basic tbody tr *:nth-child(12)
-  {
-  display: none;
-} */
+  .datatables-basic thead tr th:nth-child(4),
+  .datatables-basic tbody tr *:nth-child(4) {
+    display: none;
+  }
 </style>
 @endsection
 
@@ -121,6 +108,20 @@
 
 @section('page-script')
 <script>
+  var userRole = "{{ session('role') }}";
+</script>
+<script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script
+  src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- Include the Quill library -->
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script src="{{asset('assets/js/message-data-tables.js')}}"></script>
+<script>
   $(document).ready(function () {
     var quill = new Quill('#replyForm', {
       modules: {
@@ -149,24 +150,6 @@
       $("#replyBlock").toggle();
     });
 
-    $('#modalDetails').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget);
-      var idMail = button.data('id');
-      $('#idMail').val(idMail);
-      $('.data-modal').html('Loading...');
-      $.ajax({
-        url: '/contact/show-details',
-        method: 'POST',
-        data: {
-          _token: $('meta[name="csrf-token"]').attr('content'),
-          id: idMail
-        },
-        success: function (response) {
-          $('.data-modal').html(response.details);
-        }
-      });
-    });
-
     $('#modalDetails').on('hidden.bs.modal', function () {
       $('#replyBlock').empty();
     });
@@ -174,18 +157,27 @@
     $('#showRepBtn').click(async function () {
       if ($(this).find('span:contains("Hide Reply")').is(':visible'))
       {
-        var idMail = $('#idMail').val();
-        $.ajax({
-          url: '/contact/show-reply',
+        $('#replyBlock').html('<p class="text-center mt-2">Loading...</p>');
+
+        let idMail = $('#idMail').val();
+        let urlAPI = '/contact/show-reply';
+        let methodAPI = 'POST';
+        let payloadAPI = {
+          contact_email_id: idMail
+        };
+        await $.ajax({
+          url: '/query',
           method: 'POST',
           data: {
             _token: $('meta[name="csrf-token"]').attr('content'),
-            id: idMail
+            url: urlAPI,
+            method: methodAPI,
+            payload: payloadAPI
           },
           success: function (response) {
-            if (response.reply)
+            if (response.data)
             {
-              var formattedDate = new Date(response.reply.created_at).toLocaleDateString('en-US', {
+              var formattedDate = new Date(response.data.created_at).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
@@ -194,12 +186,13 @@
                 <div class="d-flex flex-column gap-4 p-3 m-3 position-relative">
                   <div class="position-absolute top-0 bottom-0 start-0 end-0 bg-primary" style="opacity: .3;"></div>
                   <div class="d-flex flex-column gap-1">
-                    <h4 class="m-0">${response.reply.subject}</h4>
+                    <h4 class="m-0">${response.data.subject}</h4>
                     <small class="mb-1 text-muted">${formattedDate}</small>
-                    <div>${response.reply.email_body}</div>
+                    <div>${response.data.email_body}</div>
                   </div>
                   <strong class="text-muted">Admin Staff</strong>
                 </div>`;
+              $('#replyBlock').empty();
               $('#replyBlock').html(replyBlock);
             } else
             {
