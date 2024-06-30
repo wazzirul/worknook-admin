@@ -2,9 +2,9 @@
 
 // Request User Data
 (async function () {
-  let urlAPI = '/jobs/show-all';
-  let methodAPI = 'GET';
-  // let payloadAPI = {};
+  let urlAPI = '/blog/show';
+  let methodAPI = 'POST';
+  let payloadAPI = {};
 
   let data_api = [];
 
@@ -14,8 +14,8 @@
     data: {
       _token: $('meta[name="csrf-token"]').attr('content'),
       url: urlAPI,
-      method: methodAPI
-      // payload: payloadAPI
+      method: methodAPI,
+      payload: payloadAPI
     },
     success: res => {
       data_api = res.data;
@@ -36,37 +36,19 @@
         autoWidth: false,
         columns: [
           {
-            data: 'job_title'
+            data: 'blog_title'
           },
           {
-            data: 'job_level.level_name'
+            data: 'short_description'
           },
           {
-            data: 'job_type_employment[0].type_name'
+            data: 'admin.fullname'
           },
           {
-            data: 'job_category'
+            data: 'category.category_name'
           },
           {
-            data: 'job_description'
-          },
-          {
-            data: 'location'
-          },
-          {
-            data: 'salary'
-          },
-          {
-            data: 'responsibilities'
-          },
-          {
-            data: 'skills'
-          },
-          {
-            data: 'current_applicant'
-          },
-          {
-            data: 'created_at'
+            data: 'date'
           },
           {
             data: ''
@@ -75,58 +57,37 @@
         columnDefs: [
           {
             targets: 0,
-            class: 'job-name',
+            class: 'blog-list',
             render: function (e, t, a, s) {
-              var j = a.job_title;
-              var l = a.company.company_profile.company_name;
-              return j + ' at ' + l + ' Company';
-            }
-          },
-          {
-            targets: '_all',
-            responsivePriority: 0
-          },
-          {
-            targets: 2,
-            render: function (e, t, a, s) {
-              var d = a.job_type_employment.map(type => type.type_name).join(', ');
-              return d;
+              var n = a.blog_thumbnail,
+                r = a.blog_title;
+              if (n) var o = '<img src="' + n + '" alt="Avatar" class="rounded-circle">';
+              else {
+                var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
+                    Math.floor(6 * Math.random())
+                  ],
+                  i = (r = a.fullname).match(/\b\w/g) || [];
+                o =
+                  '<span class="avatar-initial rounded-circle bg-label-' +
+                  d +
+                  '">' +
+                  (i = ((i.shift() || '') + (i.pop() || '')).toUpperCase()) +
+                  '</span>';
+              }
+              return (
+                '<div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar me-2">' +
+                o +
+                '</div></div><div class="d-flex flex-column"><span class="emp_name text-truncate">' +
+                r +
+                '</span></div></div>'
+              );
             }
           },
           {
             targets: 3,
             render: function (e, t, a, s) {
-              var c = a.job_category.map(category => category.category_name).join(', ');
-              return c;
-            }
-          },
-          {
-            targets: 6,
-            render: function (e, t, a, s) {
-              var g = a.start_salary;
-              var j = a.top_salary;
-              return g + ' - ' + j;
-            }
-          },
-          {
-            targets: 8,
-            render: function (e, t, a, s) {
-              var b = a.job_required_skill.map(skill => skill.skill_name).join(', ');
-              return b;
-            }
-          },
-          {
-            targets: 9,
-            render: function (e, t, a, s) {
-              var v = a.applied;
-              var w = a.capacity;
-              return v + ' people of ' + w + ' slots available';
-            }
-          },
-          {
-            targets: 10,
-            render: function (data, type, row) {
-              return moment(data).format('YYYY-MM-DD'); // Adjust format as needed
+              var n = a.category.category_name;
+              return '<span class="badge bg-primary text-capitalize">' + n + '</span>';
             }
           },
           {
@@ -135,16 +96,12 @@
             orderable: !1,
             searchable: !1,
             render: function (e, t, a, s) {
-              var l = a.job_id;
-              var r = 'Delete Job';
-
+              var l = a.blog_id;
               return userRole === '1'
-                ? '<div class="d-flex gap-1"><a class="btn btn-outline-primary edit-record" href="javascript:;">Edit</a><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
+                ? '<div class="d-flex gap-1"><a class="btn btn-outline-primary" href="blog-details/' +
                     l +
-                    '>' +
-                    r +
-                    '</a></div>'
-                : '<small>No action available</small>';
+                    '">Blog Details</a></div>'
+                : '<small>Unathorized</small>';
             }
           }
         ],
@@ -171,7 +128,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -208,7 +165,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -233,7 +190,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -258,7 +215,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -283,7 +240,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -296,10 +253,20 @@
                 }
               }
             ]
+          },
+          {
+            className: 'btn btn-primary',
+            attr: {
+              'data-bs-toggle': 'modal',
+              'data-bs-target': '#filterModal',
+              id: 'btnFilter',
+              role: 'button'
+            },
+            text: '<i class="tf-icons bx bx-filter"></i>'
           }
         ]
       })),
-      $('div.head-label').html('<h1 class="card-title mb-3">Jobs List</h1>'));
+      $('div.head-label').html('<h1 class="card-title mb-3">Blog List</h1>'));
     setTimeout(() => {
       $('.dataTables_filter .form-control').removeClass('form-control-sm'),
         $('.dataTables_length .form-select').removeClass('form-select-sm');
@@ -329,6 +296,12 @@
         // Show the modal
         $('#modalDetails').modal('show');
       }
+    });
+    // Filter Function
+    $('.status-dropdown').on('change', function (e) {
+      var category = $(this).val();
+      $('.status-dropdown').val(category);
+      $('.datatables-basic').DataTable().column(3).search(category).draw();
     });
   });
 })();

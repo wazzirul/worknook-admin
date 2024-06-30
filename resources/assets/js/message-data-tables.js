@@ -19,7 +19,7 @@
     },
     success: res => {
       data_api = res.data;
-      console.log(data_api);
+      // console.log(data_api);
       // return;
     },
     error: err => {
@@ -222,16 +222,6 @@
                 }
               }
             ]
-          },
-          {
-            className: 'btn btn-primary',
-            attr: {
-              'data-bs-toggle': 'modal',
-              'data-bs-target': '#filterModal',
-              id: 'btnFilter',
-              role: 'button'
-            },
-            text: '<i class="tf-icons bx bx-filter"></i>'
           }
         ]
       })),
@@ -242,34 +232,31 @@
     }, 300);
     // Code for modal
     $('.datatables-basic tbody').on('click', 'tr', function () {
-      let c = $(this).find('td');
-      let dataId = $(this).find('[data-id]').data('id');
-      const d = $('.dt-column-title');
-      // Select the modal data element where you want to display the values
-      let modalData = $('.data-modal'); // Change this selector to your actual modal data element's ID or class
+      // Check if the tbody contains any td elements with the .dt-empty class
+      if ($('.datatables-basic tbody td.dt-empty').length === 0) {
+        let c = $(this).find('td');
+        let dataId = $(this).find('[data-id]').data('id');
+        const d = $('.dt-column-title');
+        // Select the modal data element where you want to display the values
+        let modalData = $('.data-modal'); // Change this selector to your actual modal data element's ID or class
 
-      $('#idMail').val(dataId);
-      // Clear any existing content in the modal data element
-      modalData.empty();
+        $('#idMail').val(dataId);
+        // Clear any existing content in the modal data element
+        modalData.empty();
 
-      // Iterate over the td elements
-      c.each(function (index) {
-        // Check if the element inside c is an HTML element or text
-        let tdContent;
-        if ($(this).children().length > 0) {
-          tdContent = $(this).html();
-        } else {
-          tdContent = $(this).text();
-        }
+        // Iterate over the td elements
+        c.each(function (index) {
+          // Check if the element inside c is an HTML element or text
+          let tdContent = $(this).children().length > 0 ? $(this).html() : $(this).text();
 
-        let dtColumnTitleText = d.eq(index).text();
+          let dtColumnTitleText = d.eq(index).text();
 
-        modalData.append('<tr><td>' + dtColumnTitleText + '</td><td>' + tdContent + '<td/></tr>');
-      });
+          modalData.append('<tr><td>' + dtColumnTitleText + '</td><td>' + tdContent + '</td></tr>');
+        });
 
-      // Extract the data-id from the clicked row and set it to the .input-id element
-
-      $('#modalDetails').modal('show');
+        // Show the modal
+        $('#modalDetails').modal('show');
+      }
     });
   });
 })();

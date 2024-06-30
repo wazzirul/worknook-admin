@@ -41,6 +41,18 @@
       "name": "Messages",
       "icon": "menu-icon tf-icons bx bx-envelope",
       "slug": "messages"
+    },
+    {
+      "url": "/blogs",
+      "name": "Blogs",
+      "icon": "menu-icon tf-icons bx bx-book-content",
+      "slug": "blogs"
+    },
+    {
+      "url": "/blog-categories",
+      "name": "Blog Categories",
+      "icon": "menu-icon tf-icons bx bx-category",
+      "slug": "blog-categories"
     }
   ]
 }

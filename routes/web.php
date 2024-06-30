@@ -9,6 +9,7 @@ use App\Http\Controllers\job_company_management\JobCompanyManagement;
 use App\Http\Controllers\job_list\JobList;
 use App\Http\Controllers\candidate\Candidate;
 use App\Http\Controllers\messages\Messages;
+use App\Http\Controllers\blogs\Blogs;
 use App\Http\Controllers\layouts\WithoutMenu;
 use App\Http\Controllers\layouts\WithoutNavbar;
 use App\Http\Controllers\layouts\Fluid;
@@ -23,6 +24,7 @@ use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\authentications\RegisterBasic;
 use App\Http\Controllers\authentications\ForgotPasswordBasic;
 use App\Http\Controllers\authentications\NewPassword;
+use App\Http\Controllers\blog_categories\BlogCategories;
 use App\Http\Controllers\cards\CardBasic;
 use App\Http\Controllers\user_interface\Accordion;
 use App\Http\Controllers\user_interface\Alerts;
@@ -90,6 +92,13 @@ Route::group(['middleware' => 'authsession'], function () {
     // Messages Route
     Route::get('/messages', [Messages::class, 'index'])->name('messages');
     Route::post('/message/reply', [Messages::class, 'reply'])->name('messages-reply');
+
+    // Blogs Route
+    Route::get('/blogs', [Blogs::class, 'index'])->name('blogs');
+    Route::get('/blog-details/{slug}', [Blogs::class, 'details'])->name('blog-details');
+
+    // Blog Categories Route
+    Route::get('/blog-categories', [BlogCategories::class, 'index'])->name('blog-categories');
 
     // Routes accessible only to superadmins
     Route::group(['middleware' => 'superadmin'], function () {

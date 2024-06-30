@@ -5,13 +5,15 @@
 @section('vendor-style')
 <link href="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')) }}">
-<link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')) }}">
-<link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')) }}">
+<link rel="stylesheet"
+  href="{{ asset(mix('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')) }}">
+<link rel="stylesheet"
+  href="{{ asset(mix('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css')) }}">
 <style>
   /* Hide selected columns on initial */
-  .datatables-basic thead tr th:nth-child(2), 
+  .datatables-basic thead tr th:nth-child(2),
   .datatables-basic thead tr th:nth-child(4),
   .datatables-basic thead tr th:nth-child(7),
   .datatables-basic thead tr th:nth-child(8),
@@ -22,8 +24,7 @@
   .datatables-basic tbody tr *:nth-child(7),
   .datatables-basic tbody tr *:nth-child(8),
   .datatables-basic tbody tr *:nth-child(9),
-  .datatables-basic tbody tr *:nth-child(12)
-   {
+  .datatables-basic tbody tr *:nth-child(12) {
     display: none;
   }
 </style>
@@ -51,7 +52,9 @@
   <div class="d-flex align-items-start row">
     <div class="col-sm-2 text-center text-sm-left">
       <div class="card-body p-4">
-        <img src='{{ $dataComp->data->company_profile->company_icon }}' height="140" alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png" data-app-light-img="illustrations/man-with-laptop-light.png">
+        <img src='{{ $dataComp->data->company_profile->company_icon }}' height="140" alt="View Badge User"
+          data-app-dark-img="illustrations/man-with-laptop-dark.png"
+          data-app-light-img="illustrations/man-with-laptop-light.png">
       </div>
     </div>
     <div class="col-sm-7">
@@ -121,26 +124,29 @@
   var userRole = "{{ session('role') }}";
   var uuid;
 
-  (function() {
-  var match = window.location.href.match(/\/company-details\/([0-9a-fA-F-]{36})/);
-  if (match && match[1]) {
-    uuid = match[1];
-    console.log('Extracted Company ID:', uuid);
-  } else {
-    alert('Company ID not found in the URL');
-  }
-})();
+  (function () {
+    var match = window.location.href.match(/\/company-details\/([0-9a-fA-F-]{36})/);
+    if (match && match[1])
+    {
+      uuid = match[1];
+      console.log('Extracted Company ID:', uuid);
+    } else
+    {
+      alert('Company ID not found in the URL');
+    }
+  })();
 </script>
 <script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/datatables.min.js"></script>
 <script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
+<script
+  src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="{{asset('assets/js/job-company-data-tables.js')}}"></script>
 <script>
   // Delete Function
-  $(document).on('click', '.delete-record', async function() {
+  $(document).on('click', '.delete-record', async function () {
     const status = $(this).data('banned');
     const dataId = $(this).data('id');
     const url = "/jobs/store";
@@ -152,23 +158,23 @@
     };
 
     await $.ajax({
-        method: 'POST',
-        url: '/query',
-        data: {
-          _token: $('meta[name="csrf-token"]').attr('content'),
-          url: url,
-          method: method,
-          payload: payload
-        },
-        success: function(response) {
-            setTimeout(function() {
-                location.reload();
-            }, 500); // Adjust delay as needed
-        },
-        error: function(xhr, status, error) {
-            $('.alert-danger').html(xhr.responseText).show(); // Display error message
-        }
+      method: 'POST',
+      url: '/query',
+      data: {
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        url: url,
+        method: method,
+        payload: payload
+      },
+      success: function (response) {
+        setTimeout(function () {
+          location.reload();
+        }, 500); // Adjust delay as needed
+      },
+      error: function (xhr, status, error) {
+        $('.alert-danger').html(xhr.responseText).show(); // Display error message
+      }
     });
   });
-</script> 
+</script>
 @endsection
