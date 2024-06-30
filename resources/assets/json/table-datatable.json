@@ -1,0 +1,88 @@
+{
+    "data": [
+        {
+            "admin_id": 123,
+            "fullname": "John Doe",
+            "email": "john.doe@example.com",
+            "profile_photo": "",
+            "role": 1
+        },
+        {
+            "admin_id": 456,
+            "fullname": "Jane Smith",
+            "email": "jane.smith@example.com",
+            "profile_photo": "",
+            "role": 2
+        },
+        {
+            "admin_id": 987,
+            "fullname": "Michael Jordan",
+            "email": "michael.jordan@example.com",
+            "profile_photo": "",
+            "role": 1
+        },
+        {
+            "admin_id": 978,
+            "fullname": "Olivia Jones",
+            "email": "olivia.jones@example.com",
+            "profile_photo": "",
+            "role": 2
+        },
+        {
+            "admin_id": 567,
+            "fullname": "Michael Brown",
+            "email": "michael.brown@example.com",
+            "profile_photo": "",
+            "role": 1
+        },
+        {
+            "admin_id": 999,
+            "fullname": "Alice Walker",
+            "email": "alice.walker@example.com",
+            "profile_photo": "",
+            "role": 1
+        },
+        {
+            "admin_id": 952,
+            "fullname": "William Smith",
+            "email": "william.smith@example.com",
+            "profile_photo": "",
+            "role": 2
+        },
+        {
+            "admin_id": 953,
+            "fullname": "Emily Jones",
+            "email": "emily.jones@example.com",
+            "profile_photo": "",
+            "role": 1
+        },
+        {
+            "admin_id": 995,
+            "fullname": "David Lee",
+            "email": "david.lee@example.com",
+            "profile_photo": "",
+            "role": 2
+        },
+        {
+            "admin_id": 996,
+            "fullname": "Sarah Miller",
+            "email": "sarah.miller@example.com",
+            "profile_photo": "",
+            "role": 1
+        },
+        {
+            "admin_id": 997,
+            "fullname": "Charles Johnson",
+            "email": "charles.johnson@example.com",
+            "profile_photo": "",
+            "role": 2
+        },
+        {
+            "admin_id": 998,
+            "fullname": "Margaret Garcia",
+            "email": "margaret.garcia@example.com",
+            "profile_photo": "",
+            "role": 1
+        }
+    ]
+}

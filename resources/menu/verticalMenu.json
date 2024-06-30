@@ -1,0 +1,58 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Dashboards",
+      "icon": "menu-icon tf-icons bx bx-home-circle",
+      "slug": "dashboard-analytics"
+    },
+    {
+      "url": "/user-management",
+      "name": "User Management",
+      "icon": "menu-icon tf-icons bx bx-group",
+      "slug": "user-management"
+    },
+    {
+      "url": "/company-management",
+      "name": "Company Management",
+      "icon": "menu-icon tf-icons bx bx-buildings",
+      "slug": "company-management"
+    },
+    {
+      "url": "/job-list",
+      "name": "Job List",
+      "icon": "menu-icon tf-icons bx bx-briefcase",
+      "slug": "job-list"
+    },
+    {
+      "url": "/candidate",
+      "name": "Candidate Management",
+      "icon": "menu-icon tf-icons bx bxs-user-account",
+      "slug": "candidate"
+    },
+    {
+      "url": "/activity-history",
+      "name": "Activity History",
+      "icon": "menu-icon tf-icons bx bx-history",
+      "slug": "activity-history"
+    },
+    {
+      "url": "/messages",
+      "name": "Messages",
+      "icon": "menu-icon tf-icons bx bx-envelope",
+      "slug": "messages"
+    },
+    {
+      "url": "/blogs",
+      "name": "Blogs",
+      "icon": "menu-icon tf-icons bx bx-book-content",
+      "slug": "blogs"
+    },
+    {
+      "url": "/blog-categories",
+      "name": "Blog Categories",
+      "icon": "menu-icon tf-icons bx bx-category",
+      "slug": "blog-categories"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+// Form control
+// *******************************************************************************
+// form input placeholder animation
+.form-control {
+  &::placeholder,
+  &:focus::placeholder {
+    transition: $input-placeholder-transition;
+  }
+  // border color on hover state
+  &:hover {
+    &:not([disabled]):not([focus]) {
+      border-color: $input-border-hover-color;
+    }
+  }
+}
+
+.form-control--custom {
+  margin-left: unset !important;
+  border-top-left-radius: var(--bs-border-radius) !important;
+  border-bottom-left-radius: var(--bs-border-radius) !important;
+  padding-inline: 3px !important;
+  border: var(--bs-border-width) solid #d9dee3 !important;
+}
