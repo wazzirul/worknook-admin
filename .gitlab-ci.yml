@@ -1,7 +1,7 @@
 stages:
   - packndeploy
 
-image: faisaladiprayugo/ubuntu:v5
+image: stephenmai45/laravel:latest
 
 cache:
   paths:
