@@ -1,7 +1,7 @@
 stages:
   - packndeploy
 
-image: stephenmai45/ubuntu:latest
+image: stephenmai45/alpine:latest
 
 cache:
   paths:
@@ -16,9 +16,9 @@ packndeploy_laravel:
   stage: packndeploy
   before_script:
     - source .${CI_COMMIT_REF_NAME}.env
-    - apt-get update -y
-    - dpkg-query -W --showformat='${Status}\n' zip | grep "install ok installed" || apt install zip -y
-    - dpkg-query -W --showformat='${Status}\n' unzip | grep "install ok installed" || apt install unzip -y
+    - apk update && apk upgrade
+    - dpkg-query -W --showformat='${Status}\n' zip | grep "install ok installed" || apk add zip 
+    - dpkg-query -W --showformat='${Status}\n' unzip | grep "install ok installed" || apt add unzip 
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$WORKNOOK_ADMIN_INSTANCE_KEY")
   script:
