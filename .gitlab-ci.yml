@@ -1,7 +1,7 @@
 stages:
   - packndeploy
 
-image: stephenmai45/laravel:latest
+image: stephenmai45/ubuntu:latest
 
 cache:
   paths:
@@ -16,8 +16,7 @@ packndeploy_laravel:
   stage: packndeploy
   before_script:
     - source .${CI_COMMIT_REF_NAME}.env
-    - mkdir -p /var/lib/apt/lists/partial
-    - sudo apt-get update -y
+    - apt-get update -y
     - dpkg-query -W --showformat='${Status}\n' zip | grep "install ok installed" || install zip -y
     - dpkg-query -W --showformat='${Status}\n' unzip | grep "install ok installed" || install unzip -y
     - eval $(ssh-agent -s)
