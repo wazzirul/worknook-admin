@@ -17,8 +17,8 @@ packndeploy_laravel:
   before_script:
     - source .${CI_COMMIT_REF_NAME}.env
     - apt-get update -y
-    - dpkg-query -W --showformat='${Status}\n' zip | grep "install ok installed" || install zip -y
-    - dpkg-query -W --showformat='${Status}\n' unzip | grep "install ok installed" || install unzip -y
+    - dpkg-query -W --showformat='${Status}\n' zip | grep "install ok installed" || apt install zip -y
+    - dpkg-query -W --showformat='${Status}\n' unzip | grep "install ok installed" || apt install unzip -y
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$WORKNOOK_ADMIN_INSTANCE_KEY")
   script:
