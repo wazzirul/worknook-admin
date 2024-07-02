@@ -18,7 +18,7 @@ packndeploy_laravel:
     - source .${CI_COMMIT_REF_NAME}.env
     - apk update && apk upgrade
     - dpkg-query -W --showformat='${Status}\n' zip | grep "install ok installed" || apk add zip 
-    - dpkg-query -W --showformat='${Status}\n' unzip | grep "install ok installed" || apt add unzip 
+    - dpkg-query -W --showformat='${Status}\n' unzip | grep "install ok installed" || apk add unzip 
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$WORKNOOK_ADMIN_INSTANCE_KEY")
   script:
