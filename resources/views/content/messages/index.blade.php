@@ -120,6 +120,9 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <!-- Include the Quill library -->
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.5/purify.min.js"
+  integrity="sha512-JatFEe90fJU2nrgf27fUz2hWRvdYrSlTEV8esFuqCtfiqWN8phkS1fUl/xCfYyrLDQcNf3YyS0V9hG7U4RHNmQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 <script src="{{asset('assets/js/message-data-tables.js')}}"></script>
 <script>
   $(document).ready(function () {
@@ -137,6 +140,10 @@
 
     quill.on('text-change', function () {
       var content = quill.root.innerHTML;
+
+      // var sanitizeContent = DOMPurify.sanitize(content);
+
+      // $('#content').val(sanitizeContent);
       $('#content').val(content);
     });
 

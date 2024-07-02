@@ -264,7 +264,16 @@
             },
             text: '<i class="tf-icons bx bx-filter"></i>'
           }
-        ]
+        ],
+        // Add the "create-new" button conditionally
+        initComplete: function (settings, json) {
+          if (userRole === '1') {
+            // Append the button to the appropriate DOM element (adjust as needed)
+            $('.dt-buttons').append(
+              '<button type="button" class="create-new btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#addBlogModal"><i class="bx bx-plus me-sm-1"></i></button>'
+            );
+          }
+        }
       })),
       $('div.head-label').html('<h1 class="card-title mb-3">Blog List</h1>'));
     setTimeout(() => {
@@ -298,10 +307,18 @@
       }
     });
     // Filter Function
-    $('.status-dropdown').on('change', function (e) {
-      var category = $(this).val();
-      $('.status-dropdown').val(category);
-      $('.datatables-basic').DataTable().column(3).search(category).draw();
+    // Function to handle radio button changes
+    $('input[name="filterCat"]').on('change', function (e) {
+      var category = $(this).next('label').text().trim();
+      var searchValue = category === 'All' ? '' : category; // Set search value for 'All' to empty string
+
+      $('.datatables-basic').DataTable().column(3).search(searchValue).draw();
     });
+
+    // $('.status-dropdown').on('change', function (e) {
+    //   var category = $(this).val();
+    //   $('.status-dropdown').val(category);
+    //   $('.datatables-basic').DataTable().column(3).search(category).draw();
+    // });
   });
 })();

@@ -63,7 +63,7 @@
         <small>
           <a href="javascript:;" class="text-primary">{{ $dataComp->data->company_profile->website }}</a>
         </small>
-        <p class="mb-4">{{ $dataComp->data->company_profile->description }}</p>
+        <div class="mb-4">{!! $dataComp->data->company_profile->description !!}</div>
 
         <div class="d-flex column gap-2">
           <small class="text-muted">Founded by : {{ $dataComp->data->fullname }}</small>
