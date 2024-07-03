@@ -121,8 +121,9 @@
         <h5 class="modal-title" id="addBlogModalLabel">Add New Blog Post</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <form action="/blogs/add" method="POST">
       <div class="modal-body">
-        <form action="blogs/add" method="POST">
+      
           @csrf
           <div class="mb-3">
             <label for="blogThumbnailAdd" class="form-label">Thumbnail</label>
@@ -131,16 +132,34 @@
           </div>
           <div class="mb-3">
             <label for="blogTitleAdd" class="form-label">Title</label>
-            <input type="text" class="form-control" id="blogTitleAdd">
+            <input type="text" class="form-control" id="blogTitleAdd" name="blogTitleAdd">
           </div>
           <div class="mb-3">
             <label for="blogCategoryAdd" class="form-label">Category</label>
-            <select class="form-select" id="blogCategoryAdd">
+            <select class="form-select" id="blogCategoryAdd" name="blogCategoryAdd">
               @foreach ($data->data as $category)
-              <option class="text-capitalize" value="{{ $category->category_name }}">{{ $category->category_name }}
+              <option class="text-capitalize" value="{{ $category->blog_category_id }}">{{ $category->category_name }}
               </option>
               @endforeach
             </select>
+          </div>
+          <div class="mb-3">
+            <label for="blogCategoryAdd" class="form-label">Featured</label>
+            <select class="form-select" id="blogFeaturedAdd" name="blogFeaturedAdd">
+             
+              <option class="text-capitalize" value="0">Non-Active
+              </option>
+              <option class="text-capitalize" value="1">Active
+              </option>
+             
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="blogContentAdd" class="form-label">Short Content</label>
+            <input type="hidden" name="blogShortContent" id="blogShortContent">
+            <div id="blogShortContentAdd">
+              <!-- Content editor or textarea can be added here -->
+            </div>
           </div>
           <div class="mb-3">
             <label for="blogContentAdd" class="form-label">Content</label>
@@ -149,12 +168,13 @@
               <!-- Content editor or textarea can be added here -->
             </div>
           </div>
-        </form>
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary">Add Blog Post</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -191,6 +211,26 @@
     quill.on('text-change', function () {
       var content = quill.root.innerHTML;
       $('#blogContent').val(content);
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    var quill = new Quill('#blogShortContentAdd', {
+      modules: {
+        toolbar: [
+          [{ header: [1, 2, false] }],
+          ['bold', 'italic', 'underline'],
+          ['image', 'code-block'],
+        ],
+      },
+      placeholder: 'Blog content here',
+      theme: 'snow',
+    });
+
+    quill.on('text-change', function () {
+      var content = quill.root.innerHTML;
+      $('#blogShortContent').val(content);
     });
   });
 </script>

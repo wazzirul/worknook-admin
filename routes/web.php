@@ -74,7 +74,7 @@ Route::group(['middleware' => 'authsession'], function () {
     Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
 
     // User Management Route
-    Route::get('/user-management', [UserManagement::class, 'index'])->name('user-management');
+    Route::get('/user-management', [UserManagement::class, 'dataComp'])->name('user-management');
 
     // Company Management Route
     Route::get('/company-management', [CompanyManagement::class, 'index'])->name('company-management');
@@ -93,9 +93,10 @@ Route::group(['middleware' => 'authsession'], function () {
     Route::get('/messages', [Messages::class, 'index'])->name('messages');
     Route::post('/message/reply', [Messages::class, 'reply'])->name('messages-reply');
 
-    // Blogs Route
+    // Blogs Route    
     Route::get('/blogs', [Blogs::class, 'index'])->name('blogs');
     Route::get('/blog-details/{slug}', [Blogs::class, 'details'])->name('blog-details');
+    Route::post('/blogs/add', [Blogs::class, 'store'])->name('blog-add');
 
     // Blog Categories Route
     Route::get('/blog-categories', [BlogCategories::class, 'index'])->name('blog-categories');

@@ -39,31 +39,30 @@
 <div class="row">
     <div class="col-lg-8">
         <div class="card mb-4">
-            <img src="https://images.pexels.com/photos/25312271/pexels-photo-25312271/free-photo-of-a-woman-sitting-on-a-cube-with-a-camera.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            <img src="{{$dataBlog->data->blog_thumbnail}}"
                 class="card-img-top" alt="Blog Post Thumbnail">
             <div class="card-header">
                 <h4 class="card-title">Blog Post Details</h4>
             </div>
             <div class="card-body">
                 <h5 class="card-title">Title of the Blog Post</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce rutrum in massa eu
-                    maximus. Sed viverra lobortis mi, nec feugiat tellus scelerisque a.</p>
+                <p class="card-text">{{$dataBlog->data->blog_title}}</p>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <strong>Author:</strong> John Doe
+                    <strong>Author:</strong> {{$dataBlog->data->admin->fullname}}
                 </li>
                 <li class="list-group-item">
-                    <strong>Published:</strong> June 19, 2024
+                    <strong>Published:</strong> {{$dataBlog->data->date}} || June 19, 2024
                 </li>
                 <li class="list-group-item">
                     <strong>Category:</strong>
-                    <div class="badge bg-primary">Technology</div>
+                    <div class="badge bg-primary">{{$dataBlog->data->category->category_name}}</div>
                 </li>
             </ul>
             <div class="card-body">
                 <h5 class="card-title">Content</h5>
-                <p class="card-text">More detailed content of the blog post...</p>
+                <p class="card-text">{!!$dataBlog->data->short_description!!}</p>
             </div>
             <div class="card-footer">
                 <a href="#" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editBlogModal">Edit</a>
@@ -77,7 +76,7 @@
                 <h4 class="card-title">Author Information</h4>
             </div>
             <div class="card-body">
-                <p class="card-text">Author bio and other details...</p>
+                <p class="card-text">Written by {{$dataBlog->data->admin->fullname}}</p>
             </div>
         </div>
     </div>
