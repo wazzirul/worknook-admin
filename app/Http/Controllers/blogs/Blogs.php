@@ -22,7 +22,7 @@ class Blogs extends Controller
 
         $dataBlog = RequestURI('POST', env('API_URL') . '/blog/show', $payloadBlog);      
 
-        if ($dataBlog->success ) {
+        if ($dataBlog->success) {
             return view('content.blogs.details', compact('dataBlog')); //also send dataComp response to blade file
         } else {
             return redirect('/blogs')->with("error", $dataBlog->errors);

@@ -32,6 +32,8 @@
     </button>
 </div>
 @endif
+
+
 <!-- Blog Details -->
 <h4 class="py-3 mb-4">
     <span class="text-muted fw-light">Blog Details /</span> Title Here
@@ -53,7 +55,7 @@
                     <strong>Author:</strong> {{$dataBlog->data->admin->fullname}}
                 </li>
                 <li class="list-group-item">
-                    <strong>Published:</strong> {{$dataBlog->data->date}} || June 19, 2024
+                    <strong>Published:</strong> {{$dataBlog->data->date}} 
                 </li>
                 <li class="list-group-item">
                     <strong>Category:</strong>
@@ -126,22 +128,25 @@
         </div>
     </div>
 </div>
-
 <!-- Modal Delete Confirmation -->
 <div class="modal fade" id="deleteBlogModal" tabindex="-1" aria-hidden="true" style="z-index: 1091">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
+          
             <div class="modal-header">
+              
                 <h5 class="modal-title" id="modalCenterTitle">Delete blog</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <input type="hidden" class="dt-blog-id" name="blogID">
                 <p>Are you sure to delete this blog post?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmationBtn">Delete</button>
+                <button type="button" class="btn btn-danger delete-record" id="confirmationBtn" data-id="{{$dataBlog->data->blog_id}}">Delete</button>
             </div>
+           
         </div>
     </div>
 </div>
@@ -162,18 +167,19 @@
 <!-- <script src="{{asset('assets/js/job-list-data-tables.js')}}"></script> -->
 <script>
     // Delete Function
-    async function deleteJob (jobId) {
+    async function deleteBlog (blogId) {
         $('.modal').modal('hide');
         await $('#modalConfirmation').modal('show');
+        //2x Click
         $(document).on('click', '#confirmationBtn', async function () {
-            const url = "/jobs/store";
+            const url = "/blog/store";
             const method = "POST";
             // Prepare payload data
             const payload = {
-                job_id: jobId,
+                blog_id: blogId,
                 soft_delete: 1
             };
-
+            console.log("masuk");
             await $.ajax({
                 method: 'POST',
                 url: '/query',
@@ -184,8 +190,9 @@
                     payload: payload
                 },
                 success: function (response) {
+                    console.log("success");
                     setTimeout(function () {
-                        location.reload();
+                        location.replace('/blogs');
                     }, 500); // Adjust delay as needed
                 },
                 error: function (xhr, status, error) {
@@ -196,9 +203,9 @@
     };
 
     $(document).on('click', '.delete-record', async function () {
-        const jobId = $(this).data('id');
-
-        deleteJob(jobId);
+        
+        const blogId = $(this).data('id');
+        deleteBlog(blogId);
     });
 </script>
 <script>
@@ -256,4 +263,5 @@
         }
     })
 </script>
+
 @endsection
