@@ -23,9 +23,10 @@ class Blogs extends Controller
         $payloadBlog['blog_id'] = $slug;
 
         $dataBlog = RequestURI('POST', env('API_URL') . '/blog/show', $payloadBlog);
-
-        if ($dataBlog->success) {
-            return view('content.blogs.details', compact('dataBlog'));
+        $data = RequestURI('POST', env('API_URL') . '/blog-categories/show');
+        
+        if ($dataBlog->success&&$data->success) {
+            return view('content.blogs.details', compact('dataBlog','data'));
         } else {
             return redirect('/blogs')->with("error", $dataBlog->errors);
         }

@@ -146,20 +146,17 @@
           <div class="mb-3">
             <label for="blogCategoryAdd" class="form-label">Featured</label>
             <select class="form-select" id="blogFeaturedAdd" name="blogFeaturedAdd">
-             
-              <option class="text-capitalize" value="0">Non-Active
+              
+              <option class="text-capitalize" value="0" >Non-Active
               </option>
-              <option class="text-capitalize" value="1">Active
+              <option class="text-capitalize" value="1" >Active
               </option>
              
             </select>
           </div>
           <div class="mb-3">
-            <label for="blogContentAdd" class="form-label">Short Content</label>
-            <input type="hidden" name="blogShortContent" id="blogShortContent">
-            <div id="blogShortContentAdd">
-              <!-- Content editor or textarea can be added here -->
-            </div>
+            <label for="blogShortContentAdd" class="form-label">Short Description</label>
+            <input type="text" class="form-control" id="blogShortContent" name="blogShortContent">
           </div>
           <div class="mb-3">
             <label for="blogContentAdd" class="form-label">Content</label>
@@ -211,26 +208,6 @@
     quill.on('text-change', function () {
       var content = quill.root.innerHTML;
       $('#blogContent').val(content);
-    });
-  });
-</script>
-<script>
-  $(document).ready(function () {
-    var quill = new Quill('#blogShortContentAdd', {
-      modules: {
-        toolbar: [
-          [{ header: [1, 2, false] }],
-          ['bold', 'italic', 'underline'],
-          ['image', 'code-block'],
-        ],
-      },
-      placeholder: 'Blog content here',
-      theme: 'snow',
-    });
-
-    quill.on('text-change', function () {
-      var content = quill.root.innerHTML;
-      $('#blogShortContent').val(content);
     });
   });
 </script>

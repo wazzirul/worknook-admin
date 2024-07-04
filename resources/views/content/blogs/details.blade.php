@@ -92,39 +92,65 @@
                 <h5 class="modal-title" id="editBlogModalLabel">Edit Blog Post</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form action="/blogs/add" method="POST">
+                <div class="modal-body">
+                
+                    @csrf
                     <div class="mb-3">
-                        <label for="blogThumbnail" class="form-label">Thumbnail</label>
-                        <input type="file" class="form-control" id="blogThumbnail">
+                      <label for="blogThumbnailAdd" class="form-label">Thumbnail</label>
+                      <input type="file" class="form-control" id="blogThumbnailAdd" >
+                      <input type="hidden" name="thumbnailEncode" id="thumbnailEncode" >
                     </div>
                     <div class="mb-3">
-                        <label for="blogTitle" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="blogTitle" value="Title of the Blog Post">
+                      <label for="blogTitleAdd" class="form-label">Title</label>
+                      <input type="text" class="form-control" id="blogTitleAdd" name="blogTitleAdd" value="{{$dataBlog->data->blog_title}}">
                     </div>
                     <div class="mb-3">
-                        <label for="blogCategory" class="form-label">Category</label>
-                        <select class="form-select" id="blogCategory">
-                            <option value="technology">Technology</option>
-                            <option value="lifestyle">Lifestyle</option>
-                            <option value="business">Business</option>
-                            <!-- Add more categories as needed -->
-                        </select>
+                      <label for="blogCategoryAdd" class="form-label">Category</label>
+                      <select class="form-select" id="blogCategoryAdd" name="blogCategoryAdd">
+                        
+                        @foreach ($data->data as $category)
+                        <option class="text-capitalize" value="{{ $category->blog_category_id }}" <?php if($category->blog_category_id == $dataBlog->data->category->blog_category_id)echo "Selected"?>>{{ $category->category_name }}
+                        </option>
+                        @endforeach
+                      </select>
                     </div>
                     <div class="mb-3">
-                        <label for="blogContent" class="form-label">Content</label>
-                        <div id="blogContent">
-                            <!-- Content editor or textarea can be added here -->
-                            <textarea class="form-control"
-                                rows="10">More detailed content of the blog post...</textarea>
-                        </div>
+                      <label for="blogCategoryAdd" class="form-label">Featured</label>
+                      <select class="form-select" id="blogFeaturedAdd" name="blogFeaturedAdd">
+                        <?php $active = "";
+                        if($dataBlog->data->featured==1){
+                          $active = "Selected"; 
+                        } 
+                       ?>
+                        <option class="text-capitalize" value="0">Non-Active
+                        </option>
+                        <option class="text-capitalize" value="1" {{$active}}>Active
+                        </option>
+                       
+                      </select>
                     </div>
+                    <div class="mb-3">
+                      <label for="blogContentAdd" class="form-label">Short Content</label>
+                      <input type="hidden" name="blogShortContent" id="blogShortContent">
+                      <div id="blogShortContentAdd">
+                        <!-- Content editor or textarea can be added here -->
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="blogContentAdd" class="form-label">Content</label>
+                      <input type="hidden" name="blogContent" id="blogContent">
+                      <div id="blogContentAdd">
+                        <!-- Content editor or textarea can be added here -->
+                      </div>
+                    </div>
+                  
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Edit Blog Post</button>
+                </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
         </div>
     </div>
 </div>
