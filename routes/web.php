@@ -97,6 +97,8 @@ Route::group(['middleware' => 'authsession'], function () {
     Route::get('/blogs', [Blogs::class, 'index'])->name('blogs');
     Route::get('/blog-details/{slug}', [Blogs::class, 'details'])->name('blog-details');
     Route::post('/blogs/add', [Blogs::class, 'store'])->name('blog-add');
+    Route::post('/blogs/update', [Blogs::class, 'update'])->name('blog-update');
+    Route::get('/blogs/delete', [Blogs::class, 'delete'])->name('blog-delete');
 
     // Blog Categories Route
     Route::get('/blog-categories', [BlogCategories::class, 'index'])->name('blog-categories');
