@@ -171,7 +171,7 @@
         $('.modal').modal('hide');
         await $('#modalConfirmation').modal('show');
         //2x Click
-        $(document).on('click', '#confirmationBtn', async function () {
+        // $(document).on('click', '#confirmationBtn', async function () {
             const url = "/blog/store";
             const method = "POST";
             // Prepare payload data
@@ -179,7 +179,7 @@
                 blog_id: blogId,
                 soft_delete: 1
             };
-            console.log("masuk");
+          
             await $.ajax({
                 method: 'POST',
                 url: '/query',
@@ -190,16 +190,16 @@
                     payload: payload
                 },
                 success: function (response) {
-                    console.log("success");
+                   
                     setTimeout(function () {
-                        location.replace('/blogs');
+                        location.replace('/blogs/delete');
                     }, 500); // Adjust delay as needed
                 },
                 error: function (xhr, status, error) {
                     $('.alert-danger').html(xhr.responseText).show(); // Display error message
                 }
             });
-        })
+        // })
     };
 
     $(document).on('click', '.delete-record', async function () {
