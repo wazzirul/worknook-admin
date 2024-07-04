@@ -102,6 +102,9 @@ Route::group(['middleware' => 'authsession'], function () {
 
     // Blog Categories Route
     Route::get('/blog-categories', [BlogCategories::class, 'index'])->name('blog-categories');
+    Route::post('/blog-categories/store', [BlogCategories::class, 'store'])->name('blog-categories--create/update');
+    Route::get('/blog-categories/delete', [BlogCategories::class, 'delete'])->name('blog-categories--delete');
+    
 
     // Routes accessible only to superadmins
     Route::group(['middleware' => 'superadmin'], function () {
