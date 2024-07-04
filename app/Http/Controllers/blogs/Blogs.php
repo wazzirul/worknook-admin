@@ -4,6 +4,8 @@ namespace App\Http\Controllers\blogs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use HTMLPurifier;
+use HTMLPurifier_Config;
 
 class Blogs extends Controller
 {
@@ -20,15 +22,16 @@ class Blogs extends Controller
     {
         $payloadBlog['blog_id'] = $slug;
 
-        $dataBlog = RequestURI('POST', env('API_URL') . '/blog/show', $payloadBlog);      
+        $dataBlog = RequestURI('POST', env('API_URL') . '/blog/show', $payloadBlog);
 
         if ($dataBlog->success) {
-            return view('content.blogs.details', compact('dataBlog')); //also send dataComp response to blade file
+            return view('content.blogs.details', compact('dataBlog'));
         } else {
             return redirect('/blogs')->with("error", $dataBlog->errors);
         }
     }
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $thumbnailEncode = $request->input('thumbnailEncode');
         $blogTitleAdd = $request->input('blogTitleAdd');
         $blogCategoryAdd = $request->input('blogCategoryAdd');
@@ -36,23 +39,24 @@ class Blogs extends Controller
         $blogShortContent = $request->input('blogShortContent');
         $blogFeaturedAdd = $request->input('blogFeaturedAdd');
 
+        // Configure HTMLPurifier
+        $config = HTMLPurifier_Config::createDefault();
+        $purifier = new HTMLPurifier($config);
+        $sanitizedContent = $purifier->purify($blogContent);
+
         $payload = [
             'admin_id' =>  session()->get('id'),
             'blog_title' => $blogTitleAdd,
             'blog_thumbnail' => $thumbnailEncode,
             'category_id' => $blogCategoryAdd,
-            'description' => $blogContent,
+            'description' => $sanitizedContent,
             'short_description' => $blogShortContent,
             'featured' => $blogFeaturedAdd,
             'soft_delete' => null
         ];
 
-       
-
         $data = RequestURI('POST', env('API_URL') . '/blog/store', $payload);
 
-       
-        
         if ($data->success) {
             return redirect('/blogs')->with("success", "New Blog Added");
         } else {

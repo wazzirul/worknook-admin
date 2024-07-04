@@ -9,6 +9,6 @@ class BlogCategories extends Controller
 {
     public function index()
     {
-        return view('content.blog-categories.index');
+        return view('content.blog-category.index');
     }
 }
