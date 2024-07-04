@@ -52,10 +52,11 @@
         <h5 class="modal-title" id="blogModalLabel">Add New Blog Category</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="/blogs/add" method="POST">
+      <form action="/blog-categories/add" method="POST">
         <div class="modal-body">
           @csrf
           <div class="mb-3">
+            <input type="text" class="form-control" id="categoryId" name="categoryId" value="Name of the Category" hidden>
             <label for="categoryName" class="form-label">Title</label>
             <input type="text" class="form-control" id="categoryName" name="categoryName" value="Name of the Category"
               required>
@@ -69,7 +70,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Add Blog Category</button>
+          <button type="submit" class="btn btn-primary" id="buttonModal">Add Blog Category</button>
         </div>
       </form>
     </div>
@@ -124,14 +125,18 @@
     {
       if ($(this).hasClass('create-new'))
       {
+        modal.find('#categoryId').val('');
         modal.find('#categoryName, #categoryDesc').val('');
         modal.find('#blogModalLabel').text('Add new blog category');
+        modal.find('#buttonModal').text('Add blog category');
       } else
       {
         const data = $(this).data();
+        modal.find('#categoryId').val(data.id || '');
         modal.find('#categoryName').val(data.name || '');
         modal.find('#categoryDesc').val(data.desc || '');
         modal.find('#blogModalLabel').text('Edit blog category');
+        modal.find('#buttonModal').text('Edit blog category');
       }
 
       modal.find('form').attr('action', url);
@@ -144,11 +149,11 @@
   // Delete Function
   $(document).on('click', '.delete-record', async function () {
     const categoryId = $(this).data('id');
-    const url = "/admins/store";
+    const url = "/blog-categories/store";
     const method = "POST";
     // Prepare payload data
     const payload = {
-      admin_id: categoryId,
+      blog_category_id: categoryId,
       soft_delete: 1
     };
 
@@ -163,7 +168,7 @@
       },
       success: function (response) {
         setTimeout(function () {
-          location.reload();
+          location.replace('blog-categories/delete');
         }, 500); // Adjust delay as needed
       },
       error: function (xhr, status, error) {

@@ -69,7 +69,7 @@
                     r +
                     ' data-desc=' +
                     p +
-                    '><i class="bx bxs-edit"></i></a>'
+                    ' data-id=' + n +'><i class="bx bxs-edit"></i></a>'
                 : '<small>Unathorized</small>';
             }
           }
