@@ -105,6 +105,29 @@
     </div>
   </div>
   <!--/ DataTable with Buttons -->
+
+  <!-- Modal Delete Confirmation -->
+<div class="modal fade" id="modalConfirmation" tabindex="-1" aria-hidden="true" style="z-index: 1091">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        
+          <div class="modal-header">
+            
+              <h5 class="modal-title" id="modalCenterTitle">Delete User</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <input type="hidden" class="dt-blog-id" name="blogID">
+              <p>Are you sure to delete this User?</p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger delete-record" id="confirmationBtn">Delete</button>
+          </div>
+         
+      </div>
+  </div>
+</div>
 @endsection
 
 @section('page-script')
@@ -213,8 +236,12 @@
 <script>
   // Delete Function
   $(document).on('click', '.delete-record', async function() {
+
+    await $('#modalConfirmation').modal('show');
     const adminId = $(this).data('id');
     const url = "/admins/store";
+    $(document).on('click', '#confirmationBtn', async function () {
+    
     const method = "POST";
     // Prepare payload data
     const payload = {
@@ -233,13 +260,14 @@
         },
         success: function(response) {
             setTimeout(function() {
-                location.reload();
+                location.replace("/user-management/delete");
             }, 500); // Adjust delay as needed
         },
         error: function(xhr, status, error) {
             $('.alert-danger').html(xhr.responseText).show(); // Display error message
         }
     });
+    })
   });
 </script>
 @endsection

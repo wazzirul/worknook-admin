@@ -74,13 +74,17 @@ Route::group(['middleware' => 'authsession'], function () {
     Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
 
     // User Management Route
-    Route::get('/user-management', [UserManagement::class, 'dataComp'])->name('user-management');
+    Route::get('/user-management', [UserManagement::class, 'index'])->name('user-management');
+    Route::get('/user-management/delete', [UserManagement::class, 'delete'])->name('user-management--delete');
 
     // Company Management Route
     Route::get('/company-management', [CompanyManagement::class, 'index'])->name('company-management');
+    Route::get('/company-management/remove', [CompanyManagement::class, 'remove'])->name('company-management--remove');
+    Route::get('/company-management/banned', [CompanyManagement::class, 'banned'])->name('company-management--banned');
 
     // Job Company Management Route
     Route::get('/company-details/{slug}', [JobCompanyManagement::class, 'index'])->name('job-company-management');
+    Route::get('/company-details/delete/{slug}', [JobCompanyManagement::class, 'delete'])->name('job-company-management--delete');
 
     // Job List Route
     Route::get('/job-list', [JobList::class, 'index'])->name('job-list');

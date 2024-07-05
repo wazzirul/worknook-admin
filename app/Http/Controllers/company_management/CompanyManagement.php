@@ -65,4 +65,10 @@ class CompanyManagement extends Controller
             return redirect('/user-management')->with("error", $data->errors);
         }
     }
+    public function remove(){
+        return redirect('/company-management')->with("success", "Company Remove Banned Success");
+    }
+    public function banned(){
+        return redirect('/company-management')->with("success", "Company Banned Success");
+    }
 }

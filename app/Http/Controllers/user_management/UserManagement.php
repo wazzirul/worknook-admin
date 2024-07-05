@@ -65,4 +65,8 @@ class UserManagement extends Controller
             return redirect('/user-management')->with("error", $data->errors);
         }
     }
+
+    public function delete(){
+        return redirect('/user-management')->with("success", "User Delete Success");
+    }
 }
