@@ -63,7 +63,7 @@
         <small>
           <a href="javascript:;" class="text-primary">{{ $dataComp->data->company_profile->website }}</a>
         </small>
-        <p class="mb-4">{{ $dataComp->data->company_profile->description }}</p>
+        <div class="mb-4">{!! $dataComp->data->company_profile->description !!}</div>
 
         <div class="d-flex column gap-2">
           <small class="text-muted">Founded by : {{ $dataComp->data->fullname }}</small>
@@ -105,6 +105,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <input type="text" id="id_company" value="{{$dataComp->data->company_profile->user_id}}" hidden>
         <table class="table">
           <tbody class="data-modal">
           </tbody>
@@ -151,30 +152,37 @@
     const dataId = $(this).data('id');
     const url = "/jobs/store";
     const method = "POST";
+    const elementData = $('#id_company').val();
+    const url_delete = "/company-details/delete/" + elementData;
+    console.log(url_delete);
     // Prepare payload data
     const payload = {
       job_id: dataId,
       soft_delete: status === 1 ? 0 : 1
     };
+  // TODO : Close Job with Status not softdelete
 
-    await $.ajax({
-      method: 'POST',
-      url: '/query',
-      data: {
-        _token: $('meta[name="csrf-token"]').attr('content'),
-        url: url,
-        method: method,
-        payload: payload
-      },
-      success: function (response) {
-        setTimeout(function () {
-          location.reload();
-        }, 500); // Adjust delay as needed
-      },
-      error: function (xhr, status, error) {
-        $('.alert-danger').html(xhr.responseText).show(); // Display error message
-      }
-    });
+    // await $.ajax({
+    //   method: 'POST',
+    //   url: '/query',
+    //   data: {
+    //     _token: $('meta[name="csrf-token"]').attr('content'),
+    //     url: url,
+    //     method: method,
+    //     payload: payload
+    //   },
+    //   success: function (response) {
+    //     setTimeout(function () {
+          
+    //      location.replace(url_delete);
+          
+    //     }, 500); // Adjust delay as needed
+        
+    //   },
+    //   error: function (xhr, status, error) {
+    //     $('.alert-danger').html(xhr.responseText).show(); // Display error message
+    //   }
+    // });
   });
 </script>
 @endsection

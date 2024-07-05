@@ -4,6 +4,8 @@ namespace App\Http\Controllers\messages;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use HTMLPurifier;
+use HTMLPurifier_Config;
 
 class Messages extends Controller
 {
@@ -17,10 +19,15 @@ class Messages extends Controller
         $subject = $request->input('subject');
         $content = $request->input('content');
 
+        // Configure HTMLPurifier
+        $config = HTMLPurifier_Config::createDefault();
+        $purifier = new HTMLPurifier($config);
+        $sanitizedContent = $purifier->purify($content);
+
         // dd($id, $content);
         $payload['contact_email_id'] = $id;
         $payload['subject'] = $subject;
-        $payload['message'] = $content;
+        $payload['message'] = $sanitizedContent;
 
         $data = RequestURI('POST', env('API_URL') . '/contact/reply', $payload);
 

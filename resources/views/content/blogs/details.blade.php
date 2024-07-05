@@ -32,6 +32,8 @@
     </button>
 </div>
 @endif
+
+
 <!-- Blog Details -->
 <h4 class="py-3 mb-4">
     <span class="text-muted fw-light">Blog Details /</span> Title Here
@@ -39,31 +41,30 @@
 <div class="row">
     <div class="col-lg-8">
         <div class="card mb-4">
-            <img src="https://images.pexels.com/photos/25312271/pexels-photo-25312271/free-photo-of-a-woman-sitting-on-a-cube-with-a-camera.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            <img src="{{$dataBlog->data->blog_thumbnail}}"
                 class="card-img-top" alt="Blog Post Thumbnail">
             <div class="card-header">
                 <h4 class="card-title">Blog Post Details</h4>
             </div>
             <div class="card-body">
                 <h5 class="card-title">Title of the Blog Post</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce rutrum in massa eu
-                    maximus. Sed viverra lobortis mi, nec feugiat tellus scelerisque a.</p>
+                <p class="card-text">{{$dataBlog->data->blog_title}}</p>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <strong>Author:</strong> John Doe
+                    <strong>Author:</strong> {{$dataBlog->data->admin->fullname}}
                 </li>
                 <li class="list-group-item">
-                    <strong>Published:</strong> June 19, 2024
+                    <strong>Published:</strong> {{$dataBlog->data->date}} 
                 </li>
                 <li class="list-group-item">
                     <strong>Category:</strong>
-                    <div class="badge bg-primary">Technology</div>
+                    <div class="badge bg-primary">{{$dataBlog->data->category->category_name}}</div>
                 </li>
             </ul>
             <div class="card-body">
                 <h5 class="card-title">Content</h5>
-                <p class="card-text">More detailed content of the blog post...</p>
+                <p class="card-text">{!!$dataBlog->data->short_description!!}</p>
             </div>
             <div class="card-footer">
                 <a href="#" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editBlogModal">Edit</a>
@@ -77,7 +78,7 @@
                 <h4 class="card-title">Author Information</h4>
             </div>
             <div class="card-body">
-                <p class="card-text">Author bio and other details...</p>
+                <p class="card-text">Written by {{$dataBlog->data->admin->fullname}}</p>
             </div>
         </div>
     </div>
@@ -91,58 +92,87 @@
                 <h5 class="modal-title" id="editBlogModalLabel">Edit Blog Post</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form action="/blogs/add" method="POST">
+                <div class="modal-body">
+                
+                    @csrf
                     <div class="mb-3">
-                        <label for="blogThumbnail" class="form-label">Thumbnail</label>
-                        <input type="file" class="form-control" id="blogThumbnail">
+                      <label for="blogThumbnailAdd" class="form-label">Thumbnail</label>
+                      <input type="file" class="form-control" id="blogThumbnailAdd" >
+                      <input type="hidden" name="thumbnailEncode" id="thumbnailEncode" >
                     </div>
                     <div class="mb-3">
-                        <label for="blogTitle" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="blogTitle" value="Title of the Blog Post">
+                      <label for="blogTitleAdd" class="form-label">Title</label>
+                      <input type="text" class="form-control" id="blogTitleAdd" name="blogTitleAdd" value="{{$dataBlog->data->blog_title}}">
                     </div>
                     <div class="mb-3">
-                        <label for="blogCategory" class="form-label">Category</label>
-                        <select class="form-select" id="blogCategory">
-                            <option value="technology">Technology</option>
-                            <option value="lifestyle">Lifestyle</option>
-                            <option value="business">Business</option>
-                            <!-- Add more categories as needed -->
-                        </select>
+                      <label for="blogCategoryAdd" class="form-label">Category</label>
+                      <select class="form-select" id="blogCategoryAdd" name="blogCategoryAdd">
+                        
+                        @foreach ($data->data as $category)
+                        <option class="text-capitalize" value="{{ $category->blog_category_id }}" <?php if($category->blog_category_id == $dataBlog->data->category->blog_category_id)echo "Selected"?>>{{ $category->category_name }}
+                        </option>
+                        @endforeach
+                      </select>
                     </div>
                     <div class="mb-3">
-                        <label for="blogContent" class="form-label">Content</label>
-                        <div id="blogContent">
-                            <!-- Content editor or textarea can be added here -->
-                            <textarea class="form-control"
-                                rows="10">More detailed content of the blog post...</textarea>
-                        </div>
+                      <label for="blogCategoryAdd" class="form-label">Featured</label>
+                      <select class="form-select" id="blogFeaturedAdd" name="blogFeaturedAdd">
+                        <?php $active = "";
+                        if($dataBlog->data->featured==1){
+                          $active = "Selected"; 
+                        } 
+                       ?>
+                        <option class="text-capitalize" value="0">Non-Active
+                        </option>
+                        <option class="text-capitalize" value="1" {{$active}}>Active
+                        </option>
+                       
+                      </select>
                     </div>
+                    <div class="mb-3">
+                      <label for="blogContentAdd" class="form-label">Short Content</label>
+                      <input type="hidden" name="blogShortContent" id="blogShortContent">
+                      <div id="blogShortContentAdd">
+                        <!-- Content editor or textarea can be added here -->
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="blogContentAdd" class="form-label">Content</label>
+                      <input type="hidden" name="blogContent" id="blogContent">
+                      <div id="blogContentAdd">
+                        <!-- Content editor or textarea can be added here -->
+                      </div>
+                    </div>
+                  
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Edit Blog Post</button>
+                </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
         </div>
     </div>
 </div>
-
 <!-- Modal Delete Confirmation -->
 <div class="modal fade" id="deleteBlogModal" tabindex="-1" aria-hidden="true" style="z-index: 1091">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
+          
             <div class="modal-header">
+              
                 <h5 class="modal-title" id="modalCenterTitle">Delete blog</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <input type="hidden" class="dt-blog-id" name="blogID">
                 <p>Are you sure to delete this blog post?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmationBtn">Delete</button>
+                <button type="button" class="btn btn-danger delete-record" id="confirmationBtn" data-id="{{$dataBlog->data->blog_id}}">Delete</button>
             </div>
+           
         </div>
     </div>
 </div>
@@ -163,18 +193,19 @@
 <!-- <script src="{{asset('assets/js/job-list-data-tables.js')}}"></script> -->
 <script>
     // Delete Function
-    async function deleteJob (jobId) {
+    async function deleteBlog (blogId) {
         $('.modal').modal('hide');
         await $('#modalConfirmation').modal('show');
-        $(document).on('click', '#confirmationBtn', async function () {
-            const url = "/jobs/store";
+        //2x Click
+        // $(document).on('click', '#confirmationBtn', async function () {
+            const url = "/blog/store";
             const method = "POST";
             // Prepare payload data
             const payload = {
-                job_id: jobId,
+                blog_id: blogId,
                 soft_delete: 1
             };
-
+          
             await $.ajax({
                 method: 'POST',
                 url: '/query',
@@ -185,21 +216,22 @@
                     payload: payload
                 },
                 success: function (response) {
+                   
                     setTimeout(function () {
-                        location.reload();
+                        location.replace('/blogs/delete');
                     }, 500); // Adjust delay as needed
                 },
                 error: function (xhr, status, error) {
                     $('.alert-danger').html(xhr.responseText).show(); // Display error message
                 }
             });
-        })
+        // })
     };
 
     $(document).on('click', '.delete-record', async function () {
-        const jobId = $(this).data('id');
-
-        deleteJob(jobId);
+        
+        const blogId = $(this).data('id');
+        deleteBlog(blogId);
     });
 </script>
 <script>
@@ -257,4 +289,5 @@
         }
     })
 </script>
+
 @endsection

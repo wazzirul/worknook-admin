@@ -75,15 +75,20 @@ Route::group(['middleware' => 'authsession'], function () {
 
     // User Management Route
     Route::get('/user-management', [UserManagement::class, 'index'])->name('user-management');
+    Route::get('/user-management/delete', [UserManagement::class, 'delete'])->name('user-management--delete');
 
     // Company Management Route
     Route::get('/company-management', [CompanyManagement::class, 'index'])->name('company-management');
+    Route::get('/company-management/remove', [CompanyManagement::class, 'remove'])->name('company-management--remove');
+    Route::get('/company-management/banned', [CompanyManagement::class, 'banned'])->name('company-management--banned');
 
     // Job Company Management Route
     Route::get('/company-details/{slug}', [JobCompanyManagement::class, 'index'])->name('job-company-management');
+    Route::get('/company-details/delete/{slug}', [JobCompanyManagement::class, 'delete'])->name('job-company-management--delete');
 
     // Job List Route
     Route::get('/job-list', [JobList::class, 'index'])->name('job-list');
+    Route::get('/job-list/delete',[JobList::class, 'delete'])->name('job-list--delete');
 
     // Candidate Management Route
     Route::get('/candidate', [Candidate::class, 'index'])->name('candidate');
@@ -93,12 +98,18 @@ Route::group(['middleware' => 'authsession'], function () {
     Route::get('/messages', [Messages::class, 'index'])->name('messages');
     Route::post('/message/reply', [Messages::class, 'reply'])->name('messages-reply');
 
-    // Blogs Route
+    // Blogs Route    
     Route::get('/blogs', [Blogs::class, 'index'])->name('blogs');
     Route::get('/blog-details/{slug}', [Blogs::class, 'details'])->name('blog-details');
+    Route::post('/blogs/add', [Blogs::class, 'store'])->name('blog-add');
+    Route::post('/blogs/update', [Blogs::class, 'update'])->name('blog-update');
+    Route::get('/blogs/delete', [Blogs::class, 'delete'])->name('blog-delete');
 
     // Blog Categories Route
     Route::get('/blog-categories', [BlogCategories::class, 'index'])->name('blog-categories');
+    Route::post('/blog-categories/store', [BlogCategories::class, 'store'])->name('blog-categories--create/update');
+    Route::get('/blog-categories/delete', [BlogCategories::class, 'delete'])->name('blog-categories--delete');
+    
 
     // Routes accessible only to superadmins
     Route::group(['middleware' => 'superadmin'], function () {
