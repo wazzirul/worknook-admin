@@ -274,7 +274,7 @@
         },
         success: function (response) {
           setTimeout(function () {
-            location.reload();
+            location.replace('job-list/delete');
           }, 500); // Adjust delay as needed
         },
         error: function (xhr, status, error) {

@@ -84,6 +84,7 @@ Route::group(['middleware' => 'authsession'], function () {
 
     // Job List Route
     Route::get('/job-list', [JobList::class, 'index'])->name('job-list');
+    Route::get('/job-list/delete',[JobList::class, 'delete'])->name('job-list--delete');
 
     // Candidate Management Route
     Route::get('/candidate', [Candidate::class, 'index'])->name('candidate');
