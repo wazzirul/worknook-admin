@@ -26,6 +26,7 @@ use App\Http\Controllers\authentications\ForgotPasswordBasic;
 use App\Http\Controllers\authentications\NewPassword;
 use App\Http\Controllers\blog_categories\BlogCategories;
 use App\Http\Controllers\cards\CardBasic;
+use App\Http\Controllers\master\categories\Categories;
 use App\Http\Controllers\user_interface\Accordion;
 use App\Http\Controllers\user_interface\Alerts;
 use App\Http\Controllers\user_interface\Badges;
@@ -116,7 +117,13 @@ Route::group(['middleware' => 'authsession'], function () {
         // User Management Route
         Route::post('/user-management/create', [UserManagement::class, 'store'])->name('user-management--create');
         Route::post('/user-management/update', [UserManagement::class, 'update'])->name('user-management--update');
+        
     });
+
+    //Master Categories Route
+    Route::get('/master-categories', [Categories::class, 'index'])->name('master-categories');
+    Route::post('/master-categories/store', [Categories::class, 'store'])->name('master-categories--create');
+    Route::get('/master-categories/delete', [Categories::class, 'delete'])->name('master-categories--delete');
 });
 
 // layout
