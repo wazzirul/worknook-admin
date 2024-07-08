@@ -95,8 +95,8 @@ Route::group(['middleware' => 'authsession'], function () {
     Route::get('/candidate-details/{slug}', [Candidate::class, 'details'])->name('candidate-details');
 
     // Messages Route
-    Route::get('/messages', [Messages::class, 'index'])->name('messages');
-    Route::post('/message/reply', [Messages::class, 'reply'])->name('messages-reply');
+    Route::get('/customer-support', [Messages::class, 'index'])->name('messages');
+    Route::post('/customer-support/reply', [Messages::class, 'reply'])->name('messages-reply');
 
     // Blogs Route    
     Route::get('/blogs', [Blogs::class, 'index'])->name('blogs');

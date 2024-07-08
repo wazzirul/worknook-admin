@@ -37,10 +37,10 @@
       "slug": "activity-history"
     },
     {
-      "url": "/messages",
-      "name": "Messages",
+      "url": "/customer-support",
+      "name": "Customer Support",
       "icon": "menu-icon tf-icons bx bx-envelope",
-      "slug": "messages"
+      "slug": "customer-support"
     },
     {
       "url": "/blogs",

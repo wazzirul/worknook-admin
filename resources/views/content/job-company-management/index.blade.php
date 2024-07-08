@@ -75,7 +75,7 @@
 <!-- DataTable with Buttons -->
 <div class="card">
   <div class="card-datatable table-responsive">
-    <table class="datatables-basic table border-top table-hover table-striped" style="width:100%">
+    <table class="datatables-basic table border-top table-hover table-striped table-striped" style="width:100%">
       <thead>
         <tr>
           <th>Job Title</th>
@@ -187,7 +187,7 @@
       job_id: dataId,
       soft_delete: status === 1 ? 0 : 1
     };
-  // TODO : Close Job with Status not softdelete
+    // TODO : Close Job with Status not softdelete
 
     // await $.ajax({
     //   method: 'POST',
@@ -200,11 +200,11 @@
     //   },
     //   success: function (response) {
     //     setTimeout(function () {
-          
+
     //      location.replace(url_delete);
-          
+
     //     }, 500); // Adjust delay as needed
-        
+
     //   },
     //   error: function (xhr, status, error) {
     //     $('.alert-danger').html(xhr.responseText).show(); // Display error message
