@@ -53,6 +53,12 @@
       "name": "Blog Categories",
       "icon": "menu-icon tf-icons bx bx-category",
       "slug": "blog-categories"
+    },
+    {
+      "url": "/master-categories",
+      "name": "Categories",
+      "icon": "menu-icon tf-icons bx bx-category",
+      "slug": "master-categories"
     }
   ]
 }
