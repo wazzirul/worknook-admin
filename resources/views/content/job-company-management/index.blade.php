@@ -118,6 +118,28 @@
     </div>
   </div>
 </div>
+<!-- Modal Delete Confirmation -->
+<div class="modal fade" id="deleteJobModal" tabindex="-1" aria-hidden="true" style="z-index: 1091">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h5 class="modal-title" id="modalCenterTitle">Close Job</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" class="dt-blog-id" name="blogID">
+        <p>Are you sure to close this Job Company?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger delete-record" id="confirmationBtn">Delete</button>
+      </div>
+
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('page-script')
@@ -150,6 +172,11 @@
   $(document).on('click', '.delete-record', async function () {
     const status = $(this).data('banned');
     const dataId = $(this).data('id');
+
+    $('.modal').modal('hide');
+    $('#deleteJobModal').modal('show');
+
+    $(document).on('click', '#confirmationBtn', async function () {
     const url = "/jobs/store";
     const method = "POST";
     const elementData = $('#id_company').val();
@@ -183,6 +210,8 @@
     //     $('.alert-danger').html(xhr.responseText).show(); // Display error message
     //   }
     // });
+  })
   });
+
 </script>
 @endsection

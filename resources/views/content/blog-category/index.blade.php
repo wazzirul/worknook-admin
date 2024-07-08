@@ -152,8 +152,13 @@
 <script>
   // Delete Function
   $(document).on('click', '.delete-record', async function () {
-    loaderFunc();
+    $('.modal').modal('hide');
+    $('#deleteBlogModal').modal('show');
     const categoryId = $(this).data('id');
+    
+    $(document).on('click', '#confirmationBtn', async function () {
+      loaderFunc();
+   
     const url = "/blog-categories/store";
     const method = "POST";
     // Prepare payload data
@@ -180,6 +185,7 @@
         $('.alert-danger').html(xhr.responseText).show(); // Display error message
       }
     });
+    })
   });
 </script>
 @endsection
