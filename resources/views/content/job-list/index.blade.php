@@ -55,7 +55,7 @@
 <!-- <select id="jobLevel" multiple name="jobLevel" class="dt-job-level" required></select> -->
 <div class="card">
   <div class="card-datatable table-responsive">
-    <table class="datatables-basic table border-top table-hover" style="width:100%">
+    <table class="datatables-basic table border-top table-hover table-striped" style="width:100%">
       <thead>
         <tr>
           <th>Job Title</th>
@@ -255,6 +255,7 @@
     $('.modal').modal('hide');
     await $('#modalConfirmation').modal('show');
     $(document).on('click', '#confirmationBtn', async function () {
+      loaderFunc();
       const url = "/jobs/store";
       const method = "POST";
       // Prepare payload data

@@ -140,7 +140,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Edit Blog Post</button>
+                    <button type="submit" class="btn btn-primary" onclick="loaderFunc()">Edit Blog Post</button>
                 </div>
             </form>
         </div>
@@ -178,6 +178,7 @@
 <script>
     // Delete Function
     async function deleteBlog (blogId) {
+        loaderFunc();
         $('.modal').modal('hide');
         await $('#modalConfirmation').modal('show');
         //2x Click
@@ -200,7 +201,6 @@
                 payload: payload
             },
             success: function (response) {
-
                 setTimeout(function () {
                     location.replace('/blogs/delete');
                 }, 500); // Adjust delay as needed
@@ -213,7 +213,6 @@
     };
 
     $(document).on('click', '.delete-record', async function () {
-
         const blogId = $(this).data('id');
         deleteBlog(blogId);
     });
