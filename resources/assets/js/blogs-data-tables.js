@@ -19,7 +19,7 @@
     },
     success: res => {
       data_api = res.data;
-      console.log(data_api);
+      // console.log(data_api);
       // return;
     },
     error: err => {

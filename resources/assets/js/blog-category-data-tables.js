@@ -62,14 +62,19 @@
               var n = a.blog_category_id,
                 r = a.category_name,
                 p = a.description;
+
+              var encodedName = encodeURIComponent(r);
+              var encodedDesc = encodeURIComponent(p);
               return userRole === '1'
                 ? '<div class="d-inline-block"><a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a><ul class="dropdown-menu dropdown-menu-end m-0"><li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id=' +
                     n +
                     '>Delete</a></li></ul></div><a href="javascript:;" class="btn btn-sm btn-icon item-edit" data-name=' +
-                    r +
+                    encodedName +
                     ' data-desc=' +
-                    p +
-                    ' data-id=' + n +'><i class="bx bxs-edit"></i></a>'
+                    encodedDesc +
+                    ' data-id=' +
+                    n +
+                    '><i class="bx bxs-edit"></i></a>'
                 : '<small>Unathorized</small>';
             }
           }

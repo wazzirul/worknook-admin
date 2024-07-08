@@ -56,7 +56,8 @@
         <div class="modal-body">
           @csrf
           <div class="mb-3">
-            <input type="text" class="form-control" id="categoryId" name="categoryId" value="Name of the Category" hidden>
+            <input type="text" class="form-control" id="categoryId" name="categoryId" value="Name of the Category"
+              hidden>
             <label for="categoryName" class="form-label">Title</label>
             <input type="text" class="form-control" id="categoryName" name="categoryName" value="Name of the Category"
               required>
@@ -70,7 +71,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" id="buttonModal">Add Blog Category</button>
+          <button type="submit" class="btn btn-primary" id="buttonModal" onclick="loaderFunc();">Add Blog
+            Category</button>
         </div>
       </form>
     </div>
@@ -132,9 +134,11 @@
       } else
       {
         const data = $(this).data();
+        const name = decodeURIComponent(data.name);
+        const desc = decodeURIComponent(data.desc);
         modal.find('#categoryId').val(data.id || '');
-        modal.find('#categoryName').val(data.name || '');
-        modal.find('#categoryDesc').val(data.desc || '');
+        modal.find('#categoryName').val(name || '');
+        modal.find('#categoryDesc').val(desc || '');
         modal.find('#blogModalLabel').text('Edit blog category');
         modal.find('#buttonModal').text('Edit blog category');
       }
@@ -148,6 +152,7 @@
 <script>
   // Delete Function
   $(document).on('click', '.delete-record', async function () {
+    loaderFunc();
     const categoryId = $(this).data('id');
     const url = "/blog-categories/store";
     const method = "POST";

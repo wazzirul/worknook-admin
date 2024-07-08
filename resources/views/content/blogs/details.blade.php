@@ -1,19 +1,9 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Blogs - Index')
+@section('title', 'Blogs - Details')
 
 @section('vendor-style')
-<link href="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')) }}">
-<link rel="stylesheet"
-    href="{{ asset(mix('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')) }}">
-<link rel="stylesheet"
-    href="{{ asset(mix('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')) }}">
-<link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')) }}">
-<link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css')) }}">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/2.8.2/slimselect.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/2.8.2/slimselect.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
 </link>
 @endsection
 
@@ -41,8 +31,7 @@
 <div class="row">
     <div class="col-lg-8">
         <div class="card mb-4">
-            <img src="{{$dataBlog->data->blog_thumbnail}}"
-                class="card-img-top" alt="Blog Post Thumbnail">
+            <img src="{{$dataBlog->data->blog_thumbnail}}" class="card-img-top" alt="Blog Post Thumbnail">
             <div class="card-header">
                 <h4 class="card-title">Blog Post Details</h4>
             </div>
@@ -55,7 +44,7 @@
                     <strong>Author:</strong> {{$dataBlog->data->admin->fullname}}
                 </li>
                 <li class="list-group-item">
-                    <strong>Published:</strong> {{$dataBlog->data->date}} 
+                    <strong>Published:</strong> {{$dataBlog->data->date}}
                 </li>
                 <li class="list-group-item">
                     <strong>Category:</strong>
@@ -63,11 +52,12 @@
                 </li>
             </ul>
             <div class="card-body">
-                <h5 class="card-title">Content</h5>
-                <p class="card-text">{!!$dataBlog->data->short_description!!}</p>
+                <h5 class="card-title">Content :</h5>
+                <div class="card-text" id="blogContent">{!!$dataBlog->data->description!!}</div>
             </div>
             <div class="card-footer">
-                <a href="#" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editBlogModal">Edit</a>
+                <a href="#" class="btn btn-primary me-2 edit-blog" data-bs-toggle="modal"
+                    data-bs-target="#editBlogModal">Edit</a>
                 <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteBlogModal">Delete</a>
             </div>
         </div>
@@ -92,65 +82,67 @@
                 <h5 class="modal-title" id="editBlogModalLabel">Edit Blog Post</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/blogs/add" method="POST">
+            <form action="/blog/update" method="POST">
                 <div class="modal-body">
-                
                     @csrf
                     <div class="mb-3">
-                      <label for="blogThumbnailAdd" class="form-label">Thumbnail</label>
-                      <input type="file" class="form-control" id="blogThumbnailAdd" >
-                      <input type="hidden" name="thumbnailEncode" id="thumbnailEncode" >
+                        <input type="hidden" name="blogId" id="blogId" value="{{$dataBlog->data->blog_id}}">
+                        <label for="blogThumbnailEdit" class="form-label">Thumbnail</label>
+                        <small class="text-muted">Tip : Leave it empty if image will not updated.</small>
+                        <input type="file" class="form-control" id="blogThumbnailEdit" accept="image/png">
+                        <input type="hidden" name="thumbnailEncode" id="thumbnailEncode">
                     </div>
                     <div class="mb-3">
-                      <label for="blogTitleAdd" class="form-label">Title</label>
-                      <input type="text" class="form-control" id="blogTitleAdd" name="blogTitleAdd" value="{{$dataBlog->data->blog_title}}">
+                        <label for="blogTitleEdit" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="blogTitleEdit" name="blogTitleEdit"
+                            value="{{$dataBlog->data->blog_title}}" required>
                     </div>
                     <div class="mb-3">
-                      <label for="blogCategoryAdd" class="form-label">Category</label>
-                      <select class="form-select" id="blogCategoryAdd" name="blogCategoryAdd">
-                        
-                        @foreach ($data->data as $category)
-                        <option class="text-capitalize" value="{{ $category->blog_category_id }}" <?php if($category->blog_category_id == $dataBlog->data->category->blog_category_id)echo "Selected"?>>{{ $category->category_name }}
-                        </option>
-                        @endforeach
-                      </select>
+                        <label for="blogCategoryEdit" class="form-label">Category</label>
+                        <select class="form-select" id="blogCategoryEdit" name="blogCategoryEdit" required>
+
+                            @foreach ($data->data as $category)
+                            <option class="text-capitalize" value="{{ $category->blog_category_id }}" <?php
+                                if($category->blog_category_id == $dataBlog->data->category->blog_category_id)echo
+                                "Selected"?>>{{ $category->category_name }}
+                            </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3">
-                      <label for="blogCategoryAdd" class="form-label">Featured</label>
-                      <select class="form-select" id="blogFeaturedAdd" name="blogFeaturedAdd">
-                        <?php $active = "";
+                        <label for="blogFeaturedEdit" class="form-label">Featured</label>
+                        <select class="form-select" id="blogFeaturedEdit" name="blogFeaturedEdit" required>
+                            <?php $active = "";
                         if($dataBlog->data->featured==1){
                           $active = "Selected"; 
                         } 
                        ?>
-                        <option class="text-capitalize" value="0">Non-Active
-                        </option>
-                        <option class="text-capitalize" value="1" {{$active}}>Active
-                        </option>
-                       
-                      </select>
+                            <option class="text-capitalize" value="0">Non-Active
+                            </option>
+                            <option class="text-capitalize" value="1" {{$active}}>Active
+                            </option>
+
+                        </select>
                     </div>
                     <div class="mb-3">
-                      <label for="blogContentAdd" class="form-label">Short Content</label>
-                      <input type="hidden" name="blogShortContent" id="blogShortContent">
-                      <div id="blogShortContentAdd">
-                        <!-- Content editor or textarea can be added here -->
-                      </div>
+                        <label for="blogShortContent" class="form-label">Short Content</label>
+                        <input type="text" class="form-control" name="blogShortContent" id="blogShortContent"
+                            value="{{$dataBlog->data->short_description}}" required>
                     </div>
                     <div class="mb-3">
-                      <label for="blogContentAdd" class="form-label">Content</label>
-                      <input type="hidden" name="blogContent" id="blogContent">
-                      <div id="blogContentAdd">
-                        <!-- Content editor or textarea can be added here -->
-                      </div>
+                        <label for="blogContentEdit" class="form-label">Content</label>
+                        <input type="hidden" name="blogContent" id="blogContentEditHidden" required>
+                        <div id="blogContentEdit">
+                            <!-- Content editor or textarea can be added here -->
+                        </div>
                     </div>
-                  
+
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary">Edit Blog Post</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Edit Blog Post</button>
                 </div>
-                </form>
+            </form>
         </div>
     </div>
 </div>
@@ -158,9 +150,9 @@
 <div class="modal fade" id="deleteBlogModal" tabindex="-1" aria-hidden="true" style="z-index: 1091">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-          
+
             <div class="modal-header">
-              
+
                 <h5 class="modal-title" id="modalCenterTitle">Delete blog</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -170,9 +162,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger delete-record" id="confirmationBtn" data-id="{{$dataBlog->data->blog_id}}">Delete</button>
+                <button type="button" class="btn btn-danger delete-record" id="confirmationBtn"
+                    data-id="{{$dataBlog->data->blog_id}}">Delete</button>
             </div>
-           
+
         </div>
     </div>
 </div>
@@ -180,17 +173,8 @@
 @endsection
 
 @section('page-script')
-<script>
-    var userRole = "{{ session('role') }}";
-</script>
-<script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/datatables.min.js"></script>
-<script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script
-    src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-<!-- <script src="{{asset('assets/js/job-list-data-tables.js')}}"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
 <script>
     // Delete Function
     async function deleteBlog (blogId) {
@@ -198,96 +182,92 @@
         await $('#modalConfirmation').modal('show');
         //2x Click
         // $(document).on('click', '#confirmationBtn', async function () {
-            const url = "/blog/store";
-            const method = "POST";
-            // Prepare payload data
-            const payload = {
-                blog_id: blogId,
-                soft_delete: 1
-            };
-          
-            await $.ajax({
-                method: 'POST',
-                url: '/query',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content'),
-                    url: url,
-                    method: method,
-                    payload: payload
-                },
-                success: function (response) {
-                   
-                    setTimeout(function () {
-                        location.replace('/blogs/delete');
-                    }, 500); // Adjust delay as needed
-                },
-                error: function (xhr, status, error) {
-                    $('.alert-danger').html(xhr.responseText).show(); // Display error message
-                }
-            });
-        // })
-    };
-
-    $(document).on('click', '.delete-record', async function () {
-        
-        const blogId = $(this).data('id');
-        deleteBlog(blogId);
-    });
-</script>
-<script>
-    // Open edit user modal
-    $(document).on('click', '.edit-record', function () {
-        $('#modalDetails').modal('hide');
-
-        $('#modal-offcanvas').modal('show');
-    });
-</script>
-<script>
-    (async function () {
-        let urlAPI = '/admin-user/data';
-        let methodAPI = 'POST';
-        let payloadAPI = {
-            paginate: 100
+        const url = "/blog/store";
+        const method = "POST";
+        // Prepare payload data
+        const payload = {
+            blog_id: blogId,
+            soft_delete: 1
         };
-
-        let data_api = [];
 
         await $.ajax({
             method: 'POST',
             url: '/query',
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content'),
-                url: urlAPI,
-                method: methodAPI,
-                payload: payloadAPI
+                url: url,
+                method: method,
+                payload: payload
             },
-            success: res => {
-                data_api = res.data.data;
-                console.log(data_api);
-                // return;
+            success: function (response) {
+
+                setTimeout(function () {
+                    location.replace('/blogs/delete');
+                }, 500); // Adjust delay as needed
             },
-            error: err => {
-                console.log('error', err);
+            error: function (xhr, status, error) {
+                $('.alert-danger').html(xhr.responseText).show(); // Display error message
             }
         });
-    })
+        // })
+    };
 
-    new SlimSelect({
-        select: '#jobLevel',
-        // Array of Option objects
-        data: [{ text: 'Value 1', value: 'value1' }],
-        events: {
-            error: function (err) {
-                console.error(err)
-            },
-            addable: function (value) {
-                return value
+    $(document).on('click', '.delete-record', async function () {
+
+        const blogId = $(this).data('id');
+        deleteBlog(blogId);
+    });
+</script>
+<script>
+    // Input Image script
+    $(document).ready(function () {
+        $('#blogThumbnailEdit').change(function () {
+            var file = this.files[0];
+            var maxSize = 4 * 1024 * 1024; // Convert MB to bytes
+
+            if (file && file.size > maxSize)
+            {
+                alert('File size exceeds 4 MB limit.');
+                $(this).val(''); // Clear the file input
+                return;
             }
-        },
-        settings: {
-            searchHighlight: true
-        }
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#thumbnailEncode').val(e.target.result);
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var quill = new Quill('#blogContentEdit', {
+            modules: {
+                toolbar: [
+                    [{ header: [1, 2, false] }],
+                    ['bold', 'italic', 'underline'],
+                    ['image', 'code-block'],
+                ],
+            },
+            placeholder: 'Reply message',
+            theme: 'snow',
+        });
+
+        let blogContent = $(document).find('#blogContent').html();
+
+        $('#blogContentEditHidden').val(blogContent);
+
+        // quill.setContents([{ insert: blogContent }]);
+        quill.clipboard.dangerouslyPasteHTML(blogContent)
+
+        $(document).on('click', '.edit-blog', function () {
+            quill.on('text-change', function () {
+                var content = quill.root.innerHTML;
+
+                $('#blogContentEditHidden').val(content);
+            });
+        })
     })
 </script>
-
 @endsection
