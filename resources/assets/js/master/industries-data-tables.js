@@ -2,7 +2,7 @@
 
 // Request User Data
 (async function () {
-  let urlAPI = '/type-employments/show';
+  let urlAPI = '/industries/show';
   let methodAPI = 'POST';
   let payloadAPI = {};
 
@@ -34,7 +34,7 @@
         data: data_api,
         columns: [
           {
-            data: 'type_name'
+            data: 'industry_name'
           },
           
           {
@@ -57,8 +57,8 @@
             orderable: !1,
             searchable: !1,
             render: function (e, t, a, s) {
-              var n = a.type_employment_id,
-                r = a.type_name
+              var n = a.industry_id,
+                r = a.industry_name
               
 
               var encodedName = encodeURIComponent(r);
@@ -235,7 +235,7 @@
           }
         }
       })),
-      $('div.head-label').html('<h1 class="card-title mb-3">Master Data Employments</h1>'));
+      $('div.head-label').html('<h1 class="card-title mb-3">Master Data Industries</h1>'));
     setTimeout(() => {
       $('.dataTables_filter .form-control').removeClass('form-control-sm'),
         $('.dataTables_length .form-select').removeClass('form-select-sm');

@@ -53,6 +53,7 @@ use App\Http\Controllers\form_elements\BasicInput;
 use App\Http\Controllers\form_elements\InputGroups;
 use App\Http\Controllers\form_layouts\VerticalForm;
 use App\Http\Controllers\form_layouts\HorizontalForm;
+use App\Http\Controllers\master\industries\Industries;
 use App\Http\Controllers\master\job_levels\JobLevels;
 use App\Http\Controllers\master\skills\Skills;
 use App\Http\Controllers\master\tech_stacks\TechStacks;
@@ -148,6 +149,11 @@ Route::group(['middleware' => 'authsession'], function () {
     Route::get('/master-type-employments', [TypeEmployments::class, 'index'])->name('master-type-employments');
     Route::post('/master-type-employments/store', [TypeEmployments::class, 'store'])->name('master-type-employments--create');
     Route::get('/master-type-employments/delete', [TypeEmployments::class, 'delete'])->name('master-type-employments--delete');
+
+     //Master Type Industries Route
+     Route::get('/master-industries', [Industries::class, 'index'])->name('master-industries');
+     Route::post('/master-industries/store', [Industries::class, 'store'])->name('master-industries--create');
+     Route::get('/master-industries/delete', [Industries::class, 'delete'])->name('master-industries--delete');
 });
 
 // layout
