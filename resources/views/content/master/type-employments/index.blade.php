@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Categories - Index')
+@section('title', 'Type Employments - Index')
 
 @section('vendor-style')
 <link href="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.css" rel="stylesheet">
@@ -34,7 +34,7 @@
     <table class="datatables-basic table border-top table-hover table-striped">
       <thead>
         <tr>
-          <th>Category Name</th>
+          <th>Type Name</th>
           <th>Date</th>
           <th>Action</th>
         </tr>
@@ -43,22 +43,22 @@
   </div>
 </div>
 <!-- Add and Edit Blog Category Modal -->
-<div class="modal fade" id="blogModalCategory" tabindex="-1" aria-labelledby="BlogModalCategoryLabel"
+<div class="modal fade" id="blogModalType" tabindex="-1" aria-labelledby="BlogModalCategoryLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="blogModalLabel">Add New Blog Category</h5>
+        <h5 class="modal-title" id="blogModalLabel">Add Skill Level</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="/blog-categories/add" method="POST">
         <div class="modal-body">
           @csrf
           <div class="mb-3">
-            <input type="text" class="form-control" id="categoryId" name="categoryId" value="Name of the Category"
+            <input type="text" class="form-control" id="typeId" name="typeId" value="Name of the Type"
               hidden>
             <label for="categoryName" class="form-label">Name</label>
-            <input type="text" class="form-control" id="categoryName" name="categoryName" value="Name of the Category"
+            <input type="text" class="form-control" id="typeName" name="typeName" value="Name of the Type"
               required>
           </div>
 
@@ -66,8 +66,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" id="buttonModal" onclick="loaderFunc();">Add Blog
-            Category</button>
+          <button type="submit" class="btn btn-primary" id="buttonModal" onclick="loaderFunc();">Add Level</button>
         </div>
       </form>
     </div>
@@ -75,18 +74,18 @@
 </div>
 
 <!-- Modal Delete Confirmation -->
-<div class="modal fade" id="deleteBlogModal" tabindex="-1" aria-hidden="true" style="z-index: 1091">
+<div class="modal fade" id="deleteTypeEmployments" tabindex="-1" aria-hidden="true" style="z-index: 1091">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
 
       <div class="modal-header">
 
-        <h5 class="modal-title" id="modalCenterTitle">Delete category</h5>
+        <h5 class="modal-title" id="modalCenterTitle">Delete Type Employment</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <input type="hidden" class="dt-blog-id" name="blogID">
-        <p>Are you sure to delete this category?</p>
+        <p>Are you sure to delete this type?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -110,31 +109,32 @@
 <script
   src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-<script src="{{asset('assets/js/master/categories-data-tables.js')}}"></script>
+<script src="{{asset('assets/js/master/type-employments-data-tables.js')}}"></script>
 
 <script>
   // Add and Edit Modal
   $(document).on('click', '.create-new, .item-edit', function () {
-    const modal = $('#blogModalCategory');
-    const url = '/master-categories/store';
+    
+    const modal = $('#blogModalType');
+    const url = '/master-type-employments/store';
 
     if (modal.length)
     {
       if ($(this).hasClass('create-new'))
       {
-        modal.find('#categoryId').val('');
-        modal.find('#categoryName').val('');
-        modal.find('#blogModalLabel').text('Add new category');
-        modal.find('#buttonModal').text('Add category');
+        modal.find('#typeId').val('');
+        modal.find('#typeName').val('');
+        modal.find('#blogModalLabel').text('Add new Type');
+        modal.find('#buttonModal').text('Add Type');
       } else
       {
         const data = $(this).data();
         const name = decodeURIComponent(data.name);
         const desc = decodeURIComponent(data.desc);
-        modal.find('#categoryId').val(data.id || '');
-        modal.find('#categoryName').val(name || '');
-        modal.find('#blogModalLabel').text('Edit category');
-        modal.find('#buttonModal').text('Edit category');
+        modal.find('#typeId').val(data.id || '');
+        modal.find('#typeName').val(name || '');
+        modal.find('#blogModalLabel').text('Edit Type');
+        modal.find('#buttonModal').text('Edit Type');
       }
 
       modal.find('form').attr('action', url);
@@ -147,17 +147,17 @@
   // Delete Function
   $(document).on('click', '.delete-record', async function () {
     $('.modal').modal('hide');
-    $('#deleteBlogModal').modal('show');
-    const categoryId = $(this).data('id');
+    $('#deleteTypeEmployments').modal('show');
+    const type_employment_id = $(this).data('id');
     
     $(document).on('click', '#confirmationBtn', async function () {
       loaderFunc();
    
-    const url = "/categories/store";
+    const url = "/type-employments/store";
     const method = "POST";
     // Prepare payload data
     const payload = {
-      category_id: categoryId,
+      type_employment_id: type_employment_id,
       soft_delete: 1
     };
 
@@ -172,7 +172,7 @@
       },
       success: function (response) {
         setTimeout(function () {
-          location.replace('master-categories/delete');
+          location.replace('/master-type-employments/delete');
         }, 500); // Adjust delay as needed
       },
       error: function (xhr, status, error) {

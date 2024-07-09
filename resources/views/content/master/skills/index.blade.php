@@ -57,7 +57,7 @@
           <div class="mb-3">
             <input type="text" class="form-control" id="skillId" name="skillId" value="Name of the Level"
               hidden>
-            <label for="categoryName" class="form-label">Title</label>
+            <label for="categoryName" class="form-label">Name</label>
             <input type="text" class="form-control" id="skillName" name="skillName" value="Name of the Level"
               required>
           </div>

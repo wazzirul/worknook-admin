@@ -57,7 +57,7 @@
           <div class="mb-3">
             <input type="text" class="form-control" id="jobLevelId" name="jobLevelId" value="Name of the Level"
               hidden>
-            <label for="categoryName" class="form-label">Title</label>
+            <label for="categoryName" class="form-label">Name</label>
             <input type="text" class="form-control" id="levelName" name="levelName" value="Name of the Level"
               required>
           </div>
