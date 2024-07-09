@@ -2,11 +2,9 @@
 
 // Request User Data
 (async function () {
-  let urlAPI = '/admin-user/data';
+  let urlAPI = '/blog/show';
   let methodAPI = 'POST';
-  let payloadAPI = {
-    paginate: 100
-  };
+  let payloadAPI = {};
 
   let data_api = [];
 
@@ -20,8 +18,8 @@
       payload: payloadAPI
     },
     success: res => {
-      data_api = res.data.data;
-      console.log(data_api);
+      data_api = res.data;
+      // console.log(data_api);
       // return;
     },
     error: err => {
@@ -38,25 +36,19 @@
         autoWidth: false,
         columns: [
           {
-            data: 'fullname'
+            data: 'blog_title'
           },
           {
-            data: 'email'
+            data: 'short_description'
           },
           {
-            data: 'status'
+            data: 'admin.fullname'
           },
           {
-            data: 'applicant_profile.current_working'
+            data: 'category.category_name'
           },
           {
-            data: 'applicant_profile.position'
-          },
-          {
-            data: 'applicant_profile.company'
-          },
-          {
-            data: 'created_at'
+            data: 'date'
           },
           {
             data: ''
@@ -65,9 +57,10 @@
         columnDefs: [
           {
             targets: 0,
+            class: 'blog-list',
             render: function (e, t, a, s) {
-              var n = a.applicant_profile?.profile_photo,
-                r = a.fullname;
+              var n = a.blog_thumbnail,
+                r = a.blog_title;
               if (n) var o = '<img src="' + n + '" alt="Avatar" class="rounded-circle">';
               else {
                 var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
@@ -91,51 +84,10 @@
             }
           },
           {
-            targets: 2,
-            render: function (e, t, a, s) {
-              var n = a.status,
-                r = {
-                  1: {
-                    title: 'Active',
-                    class: 'bg-label-primary'
-                  },
-                  0: {
-                    title: 'Inactive',
-                    class: ' bg-label-danger'
-                  }
-                };
-              return void 0 === r[n] ? e : '<span class="badge ' + r[n].class + '">' + r[n].title + '</span>';
-            }
-          },
-          {
             targets: 3,
             render: function (e, t, a, s) {
-              var n = a.applicant_profile?.current_working,
-                r = {
-                  1: {
-                    title: 'Yes',
-                    class: 'bg-label-primary'
-                  },
-                  0: {
-                    title: 'No',
-                    class: 'bg-label-danger'
-                  },
-                  undefined: {
-                    title: 'No Data',
-                    class: 'bg-label-secondary'
-                  }
-                };
-              return void 0 === r[n] ? e : '<span class="badge ' + r[n].class + '">' + r[n].title + '</span>';
-            }
-          },
-          {
-            targets: '_all',
-            responsivePriority: 0
-          },
-          {
-            targets: 6,
-            render: function (data, type, row) {
-              return moment(data).format('YYYY-MM-DD'); // Adjust format as needed
+              var n = a.category.category_name;
+              return '<span class="badge bg-primary text-capitalize">' + n + '</span>';
             }
           },
           {
@@ -144,26 +96,12 @@
             orderable: !1,
             searchable: !1,
             render: function (e, t, a, s) {
-              var l = a.user_id;
-              var j = a.status;
-              var k = j === 1 ? 'Deactivate' : 'Activate';
-              var r = 'Delete';
-
+              var l = a.blog_id;
               return userRole === '1'
-                ? '<div class="d-flex gap-1 flex-wrap"><a class="btn btn-outline-primary" href="candidate-details/' +
+                ? '<div class="d-flex gap-1"><a class="btn btn-outline-primary" href="blog-details/' +
                     l +
-                    '">See Details</a><a class="btn btn-warning ban-user" href="javascript:;" data-id=' +
-                    l +
-                    ' data-banned=' +
-                    j +
-                    '>' +
-                    k +
-                    '</a><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
-                    l +
-                    '>' +
-                    r +
-                    '</a></div>'
-                : '<small>No action available</small>';
+                    '">Blog Details</a></div>'
+                : '<small>Unathorized</small>';
             }
           }
         ],
@@ -190,7 +128,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -227,7 +165,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -252,7 +190,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -277,7 +215,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -302,7 +240,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('blog-list')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -328,7 +266,7 @@
           }
         ]
       })),
-      $('div.head-label').html('<h1 class="card-title mb-3">Candidates</h1>'));
+      $('div.head-label').html('<h1 class="card-title mb-3">Blog List</h1>'));
     setTimeout(() => {
       $('.dataTables_filter .form-control').removeClass('form-control-sm'),
         $('.dataTables_length .form-select').removeClass('form-select-sm');

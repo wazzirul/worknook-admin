@@ -12,6 +12,7 @@ class Blogs extends Controller
     public function index()
     {
         $data = RequestURI('POST', env('API_URL') . '/blog-categories/show');
+        dd($data);
         if ($data->success) {
             return view('content.blogs.index', compact('data'));
         } else {
