@@ -24,6 +24,6 @@ class JobCompanyManagement extends Controller
         }
     }
     public function delete($slug){
-        return redirect('/company-details/'.$slug)->with("success", "Close Job Success");
+        return redirect('/company-details/'.$slug)->with("success", "Job Update Success");
     }
 }

@@ -104,13 +104,13 @@
           {
             targets: 9,
             render: function (e, t, a, s) {
-              var n = a.soft_delete,
+              var n = a.status,
                 r = {
-                  0: {
+                  1: {
                     title: 'Open',
                     class: 'bg-label-primary'
                   },
-                  1: {
+                  2: {
                     title: 'Closed',
                     class: ' bg-label-danger'
                   }
@@ -131,11 +131,13 @@
             searchable: !1,
             render: function (e, t, a, s) {
               var l = a.job_id;
-              var p = a.soft_delete;
-              var r = p === 0 ? 'Close Job' : 'Open Job';
+              var p = a.status;
+              console.log(p);
+              var r = p === 1 ? 'Close Job' : 'Open Job';
+              var btn = p===1 ? 'btn-danger' : 'btn-success';
 
               return userRole === '1'
-                ? '<a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
+                ? '<a class="btn '+btn+' delete-record" href="javascript:;" data-id=' +
                     l +
                     ' data-banned=' +
                     p +

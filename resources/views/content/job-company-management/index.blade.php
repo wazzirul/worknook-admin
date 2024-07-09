@@ -125,16 +125,16 @@
 
       <div class="modal-header">
 
-        <h5 class="modal-title" id="modalCenterTitle">Close Job</h5>
+        <h5 class="modal-title" id="modalCenterTitle"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <input type="hidden" class="dt-blog-id" name="blogID">
-        <p>Are you sure to close this Job Company?</p>
+        <p id="question">Are you sure to close this Job Company?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger delete-record" id="confirmationBtn">Delete</button>
+        <button type="button" class="btn delete-record" id="confirmationBtn"></button>
       </div>
 
     </div>
@@ -176,8 +176,21 @@
     $('.modal').modal('hide');
     $('#deleteJobModal').modal('show');
 
+    if(status===1){
+      $('.modal-title').text("Close Job");
+      $('#question').text("Are you sure to close this Job Company?");
+      $('#confirmationBtn').text("Close");
+      $('#confirmationBtn').addClass("btn-danger");
+    }else{
+      $('.modal-title').text("Open Job");
+      $('#question').text("Are you sure to open this Job Company?");
+      $('#confirmationBtn').text("Open");
+      $('#confirmationBtn').addClass("btn-success");
+    }
+
     $(document).on('click', '#confirmationBtn', async function () {
-    const url = "/jobs/store";
+    
+    const url = "/jobs/change-status";
     const method = "POST";
     const elementData = $('#id_company').val();
     const url_delete = "/company-details/delete/" + elementData;
@@ -185,31 +198,31 @@
     // Prepare payload data
     const payload = {
       job_id: dataId,
-      soft_delete: status === 1 ? 0 : 1
+      status: status === 1 ? 2 : 1
     };
     // TODO : Close Job with Status not softdelete
 
-    // await $.ajax({
-    //   method: 'POST',
-    //   url: '/query',
-    //   data: {
-    //     _token: $('meta[name="csrf-token"]').attr('content'),
-    //     url: url,
-    //     method: method,
-    //     payload: payload
-    //   },
-    //   success: function (response) {
-    //     setTimeout(function () {
+    await $.ajax({
+      method: 'POST',
+      url: '/query',
+      data: {
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        url: url,
+        method: method,
+        payload: payload
+      },
+      success: function (response) {
+        setTimeout(function () {
 
-    //      location.replace(url_delete);
+         location.replace(url_delete);
 
-    //     }, 500); // Adjust delay as needed
+        }, 500); // Adjust delay as needed
 
-    //   },
-    //   error: function (xhr, status, error) {
-    //     $('.alert-danger').html(xhr.responseText).show(); // Display error message
-    //   }
-    // });
+      },
+      error: function (xhr, status, error) {
+        $('.alert-danger').html(xhr.responseText).show(); // Display error message
+      }
+    });
   })
   });
 
