@@ -62,7 +62,7 @@
     },
     {
       "url": "/master-job-levels",
-      "name": "JobLevels",
+      "name": "Job Levels",
       "icon": "menu-icon tf-icons bx bx-category",
       "slug": "master-job-levels"
     },
@@ -74,9 +74,15 @@
     },
     {
       "url": "/master-tech-stacks",
-      "name": "TechStacks",
+      "name": "Tech Stacks",
       "icon": "menu-icon tf-icons bx bx-category",
       "slug": "master-tech-stacks"
+    },
+    {
+      "url": "/master-type-employments",
+      "name": "Type Employments",
+      "icon": "menu-icon tf-icons bx bx-category",
+      "slug": "master-type-employments"
     }
   ]
 }
