@@ -55,6 +55,7 @@ use App\Http\Controllers\form_layouts\VerticalForm;
 use App\Http\Controllers\form_layouts\HorizontalForm;
 use App\Http\Controllers\master\job_levels\JobLevels;
 use App\Http\Controllers\master\skills\Skills;
+use App\Http\Controllers\master\tech_stacks\TechStacks;
 use App\Http\Controllers\tables\Basic as TablesBasic;
 
 // authentication
@@ -136,6 +137,11 @@ Route::group(['middleware' => 'authsession'], function () {
     Route::get('/master-skills', [Skills::class, 'index'])->name('master-skills');
     Route::post('/master-skills/store', [Skills::class, 'store'])->name('master-skills--create');
     Route::get('/master-skills/delete', [Skills::class, 'delete'])->name('master-skills--delete');
+
+    //Master Tech Stacks Route
+    Route::get('/master-tech-stacks', [TechStacks::class, 'index'])->name('master-tech-stacks');
+    Route::post('/master-tech-stacks/store', [TechStacks::class, 'store'])->name('master-tech-stacks--create');
+    Route::get('/master-tech-stacks/delete', [TechStacks::class, 'delete'])->name('master-tech-stacks--delete');
 });
 
 // layout

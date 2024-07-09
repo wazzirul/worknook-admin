@@ -71,6 +71,12 @@
       "name": "Skills",
       "icon": "menu-icon tf-icons bx bx-category",
       "slug": "master-skills"
+    },
+    {
+      "url": "/master-tech-stacks",
+      "name": "TechStacks",
+      "icon": "menu-icon tf-icons bx bx-category",
+      "slug": "master-tech-stacks"
     }
   ]
 }
