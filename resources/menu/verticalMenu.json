@@ -59,6 +59,12 @@
       "name": "Categories",
       "icon": "menu-icon tf-icons bx bx-category",
       "slug": "master-categories"
+    },
+    {
+      "url": "/master-job-levels",
+      "name": "JobLevels",
+      "icon": "menu-icon tf-icons bx bx-category",
+      "slug": "master-job-levels"
     }
   ]
 }
