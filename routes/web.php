@@ -54,6 +54,7 @@ use App\Http\Controllers\form_elements\InputGroups;
 use App\Http\Controllers\form_layouts\VerticalForm;
 use App\Http\Controllers\form_layouts\HorizontalForm;
 use App\Http\Controllers\master\job_levels\JobLevels;
+use App\Http\Controllers\master\skills\Skills;
 use App\Http\Controllers\tables\Basic as TablesBasic;
 
 // authentication
@@ -130,6 +131,11 @@ Route::group(['middleware' => 'authsession'], function () {
     Route::get('/master-job-levels', [JobLevels::class, 'index'])->name('master-job-levels');
     Route::post('/master-job-levels/store', [JobLevels::class, 'store'])->name('master-job-levels--create');
     Route::get('/master-job-levels/delete', [JobLevels::class, 'delete'])->name('master-job-levels--delete');
+
+    //Master Skills Route
+    Route::get('/master-skills', [Skills::class, 'index'])->name('master-skills');
+    Route::post('/master-skills/store', [Skills::class, 'store'])->name('master-skills--create');
+    Route::get('/master-skills/delete', [Skills::class, 'delete'])->name('master-skills--delete');
 });
 
 // layout
