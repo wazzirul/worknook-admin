@@ -55,34 +55,43 @@
       "slug": "blog-categories"
     },
     {
-      "url": "/master-categories",
-      "name": "Categories",
-      "icon": "menu-icon tf-icons bx bx-category",
-      "slug": "master-categories"
-    },
-    {
-      "url": "/master-job-levels",
-      "name": "Job Levels",
-      "icon": "menu-icon tf-icons bx bx-category",
-      "slug": "master-job-levels"
-    },
-    {
-      "url": "/master-skills",
-      "name": "Skills",
-      "icon": "menu-icon tf-icons bx bx-category",
-      "slug": "master-skills"
-    },
-    {
-      "url": "/master-tech-stacks",
-      "name": "Tech Stacks",
-      "icon": "menu-icon tf-icons bx bx-category",
-      "slug": "master-tech-stacks"
-    },
-    {
-      "url": "/master-type-employments",
-      "name": "Type Employments",
-      "icon": "menu-icon tf-icons bx bx-category",
-      "slug": "master-type-employments"
+      "url": "/",
+      "name": "Master Data",
+      "icon": "menu-icon tf-icons bx bx-box",
+      "slug": "master",
+      "submenu":[
+        {
+          "url": "/master-categories",
+          "name": "Categories",
+          "slug": "master-categories"
+        },
+        {
+          "url": "/master-job-levels",
+          "name": "Job Levels",
+          "slug": "master-job-levels"
+        },
+        {
+          "url": "/master-skills",
+          "name": "Skills",
+          "slug": "master-skills"
+        },
+        {
+          "url": "/master-tech-stacks",
+          "name": "Tech Stacks",
+          "slug": "master-tech-stacks"
+        },
+        {
+          "url": "/master-type-employments",
+          "name": "Employments",
+          "slug": "master-type-employments"
+        },
+        {
+          "url": "/master-industries",
+          "name": "Industries",
+          "slug": "master-industries"
+        }
+      ]
     }
+    
   ]
 }
