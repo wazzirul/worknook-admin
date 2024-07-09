@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Categories - Index')
+@section('title', 'Job Level - Index')
 
 @section('vendor-style')
 <link href="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.css" rel="stylesheet">
@@ -34,7 +34,7 @@
     <table class="datatables-basic table border-top table-hover table-striped">
       <thead>
         <tr>
-          <th>Category Name</th>
+          <th>Job Level Name</th>
           <th>Date</th>
           <th>Action</th>
         </tr>
@@ -43,22 +43,22 @@
   </div>
 </div>
 <!-- Add and Edit Blog Category Modal -->
-<div class="modal fade" id="blogModalCategory" tabindex="-1" aria-labelledby="BlogModalCategoryLabel"
+<div class="modal fade" id="blogModalJob" tabindex="-1" aria-labelledby="BlogModalCategoryLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="blogModalLabel">Add New Blog Category</h5>
+        <h5 class="modal-title" id="blogModalLabel">Add New Level</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="/blog-categories/add" method="POST">
         <div class="modal-body">
           @csrf
           <div class="mb-3">
-            <input type="text" class="form-control" id="categoryId" name="categoryId" value="Name of the Category"
+            <input type="text" class="form-control" id="jobLevelId" name="jobLevelId" value="Name of the Level"
               hidden>
             <label for="categoryName" class="form-label">Title</label>
-            <input type="text" class="form-control" id="categoryName" name="categoryName" value="Name of the Category"
+            <input type="text" class="form-control" id="levelName" name="levelName" value="Name of the Level"
               required>
           </div>
 
@@ -66,8 +66,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" id="buttonModal" onclick="loaderFunc();">Add Blog
-            Category</button>
+          <button type="submit" class="btn btn-primary" id="buttonModal" onclick="loaderFunc();">Add Level</button>
         </div>
       </form>
     </div>
@@ -75,18 +74,18 @@
 </div>
 
 <!-- Modal Delete Confirmation -->
-<div class="modal fade" id="deleteBlogModal" tabindex="-1" aria-hidden="true" style="z-index: 1091">
+<div class="modal fade" id="deleteJobLevel" tabindex="-1" aria-hidden="true" style="z-index: 1091">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
 
       <div class="modal-header">
 
-        <h5 class="modal-title" id="modalCenterTitle">Delete category</h5>
+        <h5 class="modal-title" id="modalCenterTitle">Delete Level</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <input type="hidden" class="dt-blog-id" name="blogID">
-        <p>Are you sure to delete this category?</p>
+        <p>Are you sure to delete this level?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -110,31 +109,31 @@
 <script
   src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-<script src="{{asset('assets/js/master/categories-data-tables.js')}}"></script>
+<script src="{{asset('assets/js/master/job-levels-data-tables.js')}}"></script>
 
 <script>
   // Add and Edit Modal
   $(document).on('click', '.create-new, .item-edit', function () {
-    const modal = $('#blogModalCategory');
-    const url = '/master-categories/store';
+    const modal = $('#blogModalJob');
+    const url = '/master-job-levels/store';
 
     if (modal.length)
     {
       if ($(this).hasClass('create-new'))
       {
-        modal.find('#categoryId').val('');
-        modal.find('#categoryName').val('');
-        modal.find('#blogModalLabel').text('Add new category');
-        modal.find('#buttonModal').text('Add category');
+        modal.find('#jobLevelId').val('');
+        modal.find('#levelName').val('');
+        modal.find('#blogModalLabel').text('Add new Level');
+        modal.find('#buttonModal').text('Add Level');
       } else
       {
         const data = $(this).data();
         const name = decodeURIComponent(data.name);
         const desc = decodeURIComponent(data.desc);
-        modal.find('#categoryId').val(data.id || '');
-        modal.find('#categoryName').val(name || '');
-        modal.find('#blogModalLabel').text('Edit category');
-        modal.find('#buttonModal').text('Edit category');
+        modal.find('#jobLevelId').val(data.id || '');
+        modal.find('#levelName').val(name || '');
+        modal.find('#blogModalLabel').text('Edit Level');
+        modal.find('#buttonModal').text('Edit Level');
       }
 
       modal.find('form').attr('action', url);
@@ -147,17 +146,17 @@
   // Delete Function
   $(document).on('click', '.delete-record', async function () {
     $('.modal').modal('hide');
-    $('#deleteBlogModal').modal('show');
-    const categoryId = $(this).data('id');
+    $('#deleteJobLevel').modal('show');
+    const job_level_id = $(this).data('id');
     
     $(document).on('click', '#confirmationBtn', async function () {
       loaderFunc();
    
-    const url = "/categories/store";
+    const url = "/job-levels/store";
     const method = "POST";
     // Prepare payload data
     const payload = {
-      category_id: categoryId,
+      job_level_id: job_level_id,
       soft_delete: 1
     };
 
@@ -172,7 +171,7 @@
       },
       success: function (response) {
         setTimeout(function () {
-          location.replace('master-categories/delete');
+          location.replace('/master-job-levels/delete');
         }, 500); // Adjust delay as needed
       },
       error: function (xhr, status, error) {
