@@ -65,6 +65,12 @@
       "name": "JobLevels",
       "icon": "menu-icon tf-icons bx bx-category",
       "slug": "master-job-levels"
+    },
+    {
+      "url": "/master-skills",
+      "name": "Skills",
+      "icon": "menu-icon tf-icons bx bx-category",
+      "slug": "master-skills"
     }
   ]
 }
