@@ -110,7 +110,7 @@
 <script
   src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-<script src="{{asset('assets/js/master/categories.js')}}"></script>
+<script src="{{asset('assets/js/master/categories-data-tables.js')}}"></script>
 
 <script>
   // Add and Edit Modal
