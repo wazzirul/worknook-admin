@@ -50,7 +50,7 @@
           <div class="avatar me-2">
             <span class="avatar-initial rounded bg-label-primary"><i class="bx bxs-user"></i></span>
           </div>
-          <h4 class="ms-1 mb-0">{{$summary->total_candidate}}</h4>
+          <h4 class="ms-1 mb-0">42</h4>
         </div>
         <p class="mb-1">Total Candidate</p>
         <!-- <p class="mb-0">
@@ -67,7 +67,7 @@
           <div class="avatar me-2">
             <span class="avatar-initial rounded bg-label-info"><i class="bx bx-user-plus"></i></span>
           </div>
-          <h4 class="ms-1 mb-0">{{$summary->total_new_candidate}}</h4>
+          <h4 class="ms-1 mb-0">8</h4>
         </div>
         <p class="mb-1">Total New Candidate</p>
         <!-- <p class="mb-0">
@@ -84,7 +84,7 @@
           <div class="avatar me-2">
             <span class="avatar-initial rounded bg-label-success"><i class="bx bx-user-check"></i></span>
           </div>
-          <h4 class="ms-1 mb-0">{{$summary->total_active_candidate}}</h4>
+          <h4 class="ms-1 mb-0">27</h4>
         </div>
         <p class="mb-1">Total Active Candidate</p>
         <!-- <p class="mb-0">
@@ -101,7 +101,7 @@
           <div class="avatar me-2">
             <span class="avatar-initial rounded bg-label-danger"><i class="bx bx-user-x"></i></span>
           </div>
-          <h4 class="ms-1 mb-0">{{$summary->total_nonactive_candidate}}</h4>
+          <h4 class="ms-1 mb-0">13</h4>
         </div>
         <p class="mb-1">Total Inactive Candidate</p>
         <!-- <p class="mb-0">
