@@ -66,7 +66,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" id="buttonModal" onclick="loaderFunc();">Add Level</button>
+          <button type="submit" class="btn btn-primary" id="buttonModal" onclick="">Add Level</button>
         </div>
       </form>
     </div>
@@ -114,7 +114,11 @@
 <script>
   // Add and Edit Modal
   $(document).on('click', '.create-new, .item-edit', function () {
-    
+    $(document).on('click', '#buttonModal', function () {
+      if($('#typeName').val()!=""){
+      loaderFunc();
+    }
+    })
     const modal = $('#blogModalType');
     const url = '/master-type-employments/store';
 
