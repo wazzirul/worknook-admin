@@ -71,7 +71,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" id="buttonModal" onclick="loaderFunc();">Add Blog
+          <button type="submit" class="btn btn-primary" id="buttonModal" onclick="">Add Blog
             Category</button>
         </div>
       </form>
@@ -120,6 +120,13 @@
 <script>
   // Add and Edit Modal
   $(document).on('click', '.create-new, .item-edit', function () {
+    
+    $(document).on('click', '#buttonModal', function () {
+      if($('#categoryName').val()!="" && $('#categoryDesc').val()!="" ){
+      loaderFunc();
+    }
+    })
+
     const modal = $('#blogModalCategory');
     const url = '/blog-categories/store';
 
