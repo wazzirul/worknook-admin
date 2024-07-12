@@ -53,6 +53,7 @@ use App\Http\Controllers\form_elements\BasicInput;
 use App\Http\Controllers\form_elements\InputGroups;
 use App\Http\Controllers\form_layouts\VerticalForm;
 use App\Http\Controllers\form_layouts\HorizontalForm;
+use App\Http\Controllers\list_backup\ListBackup;
 use App\Http\Controllers\master\industries\Industries;
 use App\Http\Controllers\master\job_levels\JobLevels;
 use App\Http\Controllers\master\skills\Skills;
@@ -154,6 +155,9 @@ Route::group(['middleware' => 'authsession'], function () {
      Route::get('/master-industries', [Industries::class, 'index'])->name('master-industries');
      Route::post('/master-industries/store', [Industries::class, 'store'])->name('master-industries--create');
      Route::get('/master-industries/delete', [Industries::class, 'delete'])->name('master-industries--delete');
+
+     // List Backup Route
+    Route::get('/list-backup', [ListBackup::class, 'index'])->name('list-backup');
 });
 
 // layout

@@ -91,6 +91,12 @@
           "slug": "master-industries"
         }
       ]
+    },
+    {
+      "url": "/list-backup",
+      "name": "List Backup",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "slug": "list-backup"
     }
     
   ]
