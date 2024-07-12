@@ -2,6 +2,17 @@
 
 @section('title', 'Dashboard - Analytics')
 
+@section('vendor-style')
+<link href="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')) }}">
+<link rel="stylesheet"
+  href="{{ asset(mix('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')) }}">
+<link rel="stylesheet"
+  href="{{ asset(mix('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css')) }}">
+@endsection
+
 @section('content')
 <!-- Error and Success Alert -->
 @if(Session::has('error'))
@@ -103,9 +114,10 @@
       <!-- Datatables New Jobs Here -->
       <!-- Heading : Latest Jobs Posted -->
       <!-- Button See More Jobs -->
+      <!-- Data only display about 3-5 latest data -->
       <div class="card">
         <div class="card-datatable table-responsive">
-          <table class="datatables-basic table border-top table-hover" style="width:100%">
+          <table class="datatables-basic table border-top table-hover" style="width:100%" id="tableJob">
             <thead>
               <tr>
                 <th>Job Title</th>
@@ -125,11 +137,12 @@
   <div class="row">
     <div class="col-12 mb-4">
       <!-- Datatables New Registered User Here -->
-      <!-- Heading : New Users -->
-      <!-- Button See More Candidates / User -->
+      <!-- Heading : New Registered Candidate -->
+      <!-- Button See More Candidates -->
+      <!-- Data only display about 3-5 latest data -->
       <div class="card">
         <div class="card-datatable table-responsive">
-          <table class="datatables-basic table border-top table-hover" style="width:100%">
+          <table class="datatables-basic table border-top table-hover" style="width:100%" id="tableUser">
             <thead>
               <tr>
                 <th>Name</th>
@@ -148,4 +161,12 @@
   @section('page-script')
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <script src="{{asset('assets/js/dashboard-charts.js')}}"></script>
+
+  <script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/datatables.min.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
+  <script
+    src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+  <script src="{{asset('assets/js/dashboard-user-data-tables.js')}}"></script>
+  <script src="{{asset('assets/js/dashboard-job-data-tables.js')}}"></script>
   @endsection
