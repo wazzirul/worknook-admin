@@ -102,7 +102,7 @@
         <h5 class="card-title mb-0">Job Types</h5>
       </div>
       <div class="card-body">
-        <canvas id="polarChart" class="chartjs" data-height="200"></canvas>
+        <canvas id="doughnutChart" class="chartjs" data-height="350"></canvas>
       </div>
     </div>
     <!-- Line 2 Col 2 -->

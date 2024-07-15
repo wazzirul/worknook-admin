@@ -56,62 +56,52 @@
     o.height = o.dataset.height;
   });
 
-  // Polar Chart Initialize
+  // Doughnut Chart Initialize
+  const colors = [primaryClr, '#00C6FF', '#F6E382', '#525FB4', '#D1FAE0', '#DEB887', '#B43C2F'];
   $(function () {
-    var k = $('#polarChart'),
+    var k = $('#doughnutChart'),
       k =
         k &&
         new Chart(k, {
-          type: 'polarArea',
+          type: 'doughnut',
           data: {
-            labels: ['Full Time', 'Part Time', 'Remote', 'Contract'],
+            labels: ['Full Time', 'Part Time', 'Remote', 'Contract', 'Test'],
+            label: 'sjs',
             datasets: [
               {
-                label: 'Total',
-                backgroundColor: [primaryClr, '#00C6FF', '#F6E382', '#525FB4'],
+                data: [19, 17, 15, 13, 2],
+                backgroundColor: colors,
                 // Todo : Enable and replace the data after fetching
                 // data: data_polar,
-                data: [19, 17, 15, 13],
-                borderWidth: 0
+                borderWidth: 0,
+                pointStyle: 'rectRounded'
               }
             ]
           },
           options: {
+            maintainAspectRatio: false,
             responsive: !0,
-            maintainAspectRatio: !1,
             animation: {
               duration: 500
             },
-            scales: {
-              r: {
-                ticks: {
-                  display: !1,
-                  color: textClr
-                },
-                grid: {
-                  display: !1
-                }
-              }
-            },
+            cutout: '68%',
             plugins: {
+              legend: {
+                display: 1,
+                position: 'bottom'
+              },
               tooltip: {
+                callbacks: {
+                  label: function (o) {
+                    return ' ' + (o.labels || '') + ' : ' + o.parsed + ' %';
+                  }
+                },
                 rtl: isRtl,
                 backgroundColor: cardClr,
                 titleColor: headClr,
                 bodyColor: textClr,
                 borderWidth: 1,
                 borderColor: borderClr
-              },
-              legend: {
-                rtl: isRtl,
-                position: 'right',
-                labels: {
-                  usePointStyle: !0,
-                  padding: 25,
-                  boxWidth: 8,
-                  boxHeight: 8,
-                  color: textClr
-                }
               }
             }
           }
