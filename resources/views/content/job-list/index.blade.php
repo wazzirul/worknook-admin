@@ -375,7 +375,7 @@
       });
     }
 
-    // TODO: Show button function here
+    await $('.edit-record').attr('disabled', false);
   }
 
   loadData();

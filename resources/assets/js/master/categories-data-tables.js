@@ -19,7 +19,7 @@
     },
     success: res => {
       data_api = res.data;
-      // console.log(data_api);
+      console.log(data_api);
     },
     error: err => {
       console.log('error', err);
@@ -36,7 +36,7 @@
           {
             data: 'category_name'
           },
-          
+
           {
             data: 'created_at'
           },
@@ -58,11 +58,10 @@
             searchable: !1,
             render: function (e, t, a, s) {
               var n = a.category_id,
-                r = a.category_name
-              
+                r = a.category_name;
 
               var encodedName = encodeURIComponent(r);
-             
+
               return userRole === '1'
                 ? '<div class="d-inline-block"><a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a><ul class="dropdown-menu dropdown-menu-end m-0"><li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id=' +
                     n +
