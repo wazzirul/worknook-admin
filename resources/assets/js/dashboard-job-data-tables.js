@@ -36,6 +36,7 @@
         autoWidth: false,
         paging: false, // Disable pagination
         lengthChange: false, // Hide "entries per page" select input
+        searching: false,
         columns: [
           {
             data: 'blog_title'
