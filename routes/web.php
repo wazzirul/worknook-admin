@@ -94,6 +94,7 @@ Route::group(['middleware' => 'authsession'], function () {
 
     // Job List Route
     Route::get('/job-list', [JobList::class, 'index'])->name('job-list');
+    Route::get('/job-list/details/{slug}', [JobList::class, 'details'])->name('job-list--details');
     Route::get('/job-list/delete', [JobList::class, 'delete'])->name('job-list--delete');
 
     // Candidate Management Route
@@ -122,7 +123,6 @@ Route::group(['middleware' => 'authsession'], function () {
         // User Management Route
         Route::post('/user-management/create', [UserManagement::class, 'store'])->name('user-management--create');
         Route::post('/user-management/update', [UserManagement::class, 'update'])->name('user-management--update');
-        
     });
 
     //Master Categories Route
@@ -150,10 +150,10 @@ Route::group(['middleware' => 'authsession'], function () {
     Route::post('/master-type-employments/store', [TypeEmployments::class, 'store'])->name('master-type-employments--create');
     Route::get('/master-type-employments/delete', [TypeEmployments::class, 'delete'])->name('master-type-employments--delete');
 
-     //Master Type Industries Route
-     Route::get('/master-industries', [Industries::class, 'index'])->name('master-industries');
-     Route::post('/master-industries/store', [Industries::class, 'store'])->name('master-industries--create');
-     Route::get('/master-industries/delete', [Industries::class, 'delete'])->name('master-industries--delete');
+    //Master Type Industries Route
+    Route::get('/master-industries', [Industries::class, 'index'])->name('master-industries');
+    Route::post('/master-industries/store', [Industries::class, 'store'])->name('master-industries--create');
+    Route::get('/master-industries/delete', [Industries::class, 'delete'])->name('master-industries--delete');
 });
 
 // layout

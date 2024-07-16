@@ -163,7 +163,7 @@
                       class: ' bg-label-primary'
                     }
                   };
-                  return void 0 === r[n] ? 'N/A' : '<span class="badge ' + r[n].class + '">' + r[n].title + '</span>';
+                return void 0 === r[n] ? 'N/A' : '<span class="badge ' + r[n].class + '">' + r[n].title + '</span>';
               } else {
                 return 'N/A';
               }
@@ -173,9 +173,9 @@
             responsivePriority: 0,
             targets: 4,
             render: function (e, t, a, s) {
-              if(a.applicant_profile != null) {
+              if (a.applicant_profile != null) {
                 var p = a.applicant_profile.position;
-                if(p != null){
+                if (p != null) {
                   return p;
                 } else {
                   return 'N/A';
@@ -189,14 +189,14 @@
             responsivePriority: 0,
             targets: 5,
             render: function (e, t, a, s) {
-              if(a.applicant_profile != null) {
+              if (a.applicant_profile != null) {
                 var p = a.applicant_profile.company;
-                if(p != null){
+                if (p != null) {
                   return p;
-                }else {
+                } else {
                   return 'N/A';
                 }
-              }else {
+              } else {
                 return 'N/A';
               }
             }
@@ -218,7 +218,7 @@
               var s = a.soft_delete;
               var x = s === 1 ? 'Remove Ban' : 'Ban Candidate';
               return userRole === '1'
-                ? '<div class="d-flex gap-1"><a class="btn btn-outline-primary" href="company-details/' +
+                ? '<div class="d-flex gap-1 flex-wrap"><a class="btn btn-outline-primary" href="company-details/' +
                     l +
                     '">See Jobs</a><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
                     l +

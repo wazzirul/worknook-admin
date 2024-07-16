@@ -1,40 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Job Lists - Index')
-
-@section('vendor-style')
-<link href="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')) }}">
-<link rel="stylesheet"
-  href="{{ asset(mix('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')) }}">
-<link rel="stylesheet"
-  href="{{ asset(mix('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')) }}">
-<link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')) }}">
-<link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css')) }}">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/2.8.2/slimselect.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/2.8.2/slimselect.css" rel="stylesheet">
-</link>
-<style>
-  /* Hide selected columns on initial */
-  .datatables-basic thead tr th:nth-child(2),
-  .datatables-basic thead tr th:nth-child(5),
-  .datatables-basic thead tr th:nth-child(7),
-  .datatables-basic thead tr th:nth-child(8),
-  .datatables-basic thead tr th:nth-child(9),
-  .datatables-basic thead tr th:nth-child(10),
-  .datatables-basic thead tr th:nth-child(12),
-  .datatables-basic tbody tr *:nth-child(2),
-  .datatables-basic tbody tr *:nth-child(5),
-  .datatables-basic tbody tr *:nth-child(7),
-  .datatables-basic tbody tr *:nth-child(8),
-  .datatables-basic tbody tr *:nth-child(9),
-  .datatables-basic tbody tr *:nth-child(10),
-  .datatables-basic tbody tr *:nth-child(12) {
-    display: none;
-  }
-</style>
-@endsection
+@section('title', 'Job Details')
 
 @section('content')
 <!-- Error and Success Alert -->
@@ -51,50 +17,68 @@
   </button>
 </div>
 @endif
-<!-- DataTable with Buttons -->
-<!-- <select id="jobLevel" multiple name="jobLevel" class="dt-job-level" required></select> -->
 <div class="card">
-  <div class="card-datatable table-responsive">
-    <table class="datatables-basic table border-top table-hover table-striped" style="width:100%">
-      <thead>
-        <tr>
-          <th>Job Title</th>
-          <th>Job Level</th>
-          <th>Job Type</th>
-          <th>Job Category</th>
-          <th>Description</th>
-          <th>Location</th>
-          <th>Salary Range</th>
-          <th>Responsibilities</th>
-          <th>Skill Requirements</th>
-          <th>Current Applicant</th>
-          <th>Posted Date</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-    </table>
+  <div class="card-header">
+    <h2>Job Details</h2>
   </div>
-</div>
-
-<!-- Modal Details -->
-<div class="modal fade dtr-bs-modal" id="modalDetails" role="dialog" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalCenterTitle">Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <table class="table">
-          <tbody class="data-modal">
-          </tbody>
-        </table>
-      </div>
-      <!-- <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-      <button type="button" class="btn btn-primary">Save changes</button>
-    </div> -->
+  <div class="card-body">
+    <div class="mb-3">
+      <label for="jobTitleFill" class="form-label"><strong>Job Title:</strong></label>
+      <span id="jobTitleFill">Software Engineer</span>
     </div>
+    <div class="mb-3">
+      <label for="jobLevelFill" class="form-label"><strong>Job Level:</strong></label>
+      <span id="jobLevelFill">Senior</span>
+    </div>
+    <div class="mb-3">
+      <label for="jobTypeFill" class="form-label"><strong>Job Type:</strong></label>
+      <span id="jobTypeFill">Full-time</span>
+    </div>
+    <div class="mb-3">
+      <label for="jobCategoryFill" class="form-label"><strong>Job Category:</strong></label>
+      <span id="jobCategoryFill">Information Technology</span>
+    </div>
+    <div class="mb-3">
+      <label for="descriptionFill" class="form-label"><strong>Description:</strong></label>
+      <p id="descriptionFill">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum viverra
+        quam
+        id
+        mauris ullamcorper, et dapibus nunc mollis.</p>
+    </div>
+    <div class="mb-3">
+      <label for="locationFill" class="form-label"><strong>Location:</strong></label>
+      <span id="locationFill">New York, NY</span>
+    </div>
+    <div class="mb-3">
+      <label for="salaryRangeFill" class="form-label"><strong>Salary Range:</strong></label>
+      <span id="salaryRangeFill">$80,000 - $100,000 per year</span>
+    </div>
+    <div class="mb-3">
+      <label for="responsibilitiesFill" class="form-label"><strong>Responsibilities:</strong></label>
+      <ul id="responsibilitiesFill">
+        <li>Develop new features</li>
+        <li>Maintain existing codebase</li>
+        <li>Collaborate with team members</li>
+      </ul>
+    </div>
+    <div class="mb-3">
+      <label for="skillRequirementsFill" class="form-label"><strong>Skill Requirements:</strong></label>
+      <ul id="skillRequirementsFill">
+        <li>Proficiency in Java</li>
+        <li>Experience with Spring Boot</li>
+        <li>Strong problem-solving skills</li>
+      </ul>
+    </div>
+    <div class="mb-3">
+      <label for="currentApplicantFill" class="form-label"><strong>Current Applicant:</strong></label>
+      <span id="currentApplicantFill">10</span>
+    </div>
+    <div class="mb-3">
+      <label for="postedDateFill" class="form-label"><strong>Posted Date:</strong></label>
+      <span id="postedDateFill">2024-07-15</span>
+    </div>
+    <button role="button" class="btn btn-outline-primary edit-record" disabled="" data-bs-toggle="modal"
+      data-bs-target="#editJobModal">Edit</button>
   </div>
 </div>
 
@@ -283,102 +267,102 @@
 </script>
 <script>
   // Open edit user modal
-  // $(document).on('click', '.edit-record', function () {
-  //   $('#modalDetails').modal('hide');
+  $(document).on('click', '.edit-record', function () {
+    $('#modalDetails').modal('hide');
 
-  //   $('#editJobModal').modal('show');
-  // });
+    $('#editJobModal').modal('show');
+  });
 </script>
 <script>
-  // async function requestURI (urlAPI) {
-  //   let methodAPI = 'POST';
-  //   let payloadAPI = {
-  //   };
+  async function requestURI (urlAPI) {
+    let methodAPI = 'POST';
+    let payloadAPI = {
+    };
 
-  //   try
-  //   {
-  //     let response = await new Promise((resolve, reject) => {
-  //       $.ajax({
-  //         method: methodAPI,
-  //         url: '/query',
-  //         data: {
-  //           _token: $('meta[name="csrf-token"]').attr('content'),
-  //           url: urlAPI,
-  //           method: methodAPI,
-  //           payload: payloadAPI
-  //         },
-  //         success: res => {
-  //           resolve(res.data);
-  //         },
-  //         error: err => {
-  //           reject(err);
-  //         }
-  //       });
-  //     });
+    try
+    {
+      let response = await new Promise((resolve, reject) => {
+        $.ajax({
+          method: methodAPI,
+          url: '/query',
+          data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            url: urlAPI,
+            method: methodAPI,
+            payload: payloadAPI
+          },
+          success: res => {
+            resolve(res.data);
+          },
+          error: err => {
+            reject(err);
+          }
+        });
+      });
 
-  //     return response;
-  //   } catch (err)
-  //   {
-  //     console.log('error', err);
-  //     return null;
-  //   }
-  // }
+      return response;
+    } catch (err)
+    {
+      console.log('error', err);
+      return null;
+    }
+  }
 
-  // async function loadData () {
-  //   const [dataLevels, dataSkills, dataCategories, dataTypes] = await Promise.all([requestURI('/job-levels/show'),
-  //   requestURI('/skills/show'),
-  //   requestURI('/categories/show'),
-  //   requestURI('/type-employments/show')])
+  async function loadData () {
+    const [dataLevels, dataSkills, dataCategories, dataTypes] = await Promise.all([requestURI('/job-levels/show'),
+    requestURI('/skills/show'),
+    requestURI('/categories/show'),
+    requestURI('/type-employments/show')])
 
-  //   console.log('Data Levels:', dataLevels);
-  //   console.log('Data Skills:', dataSkills);
-  //   console.log('Data Categories:', dataCategories);
-  //   console.log('Data Types:', dataTypes);
+    console.log('Data Levels:', dataLevels);
+    console.log('Data Skills:', dataSkills);
+    console.log('Data Categories:', dataCategories);
+    console.log('Data Types:', dataTypes);
 
-  //   if (dataLevels)
-  //   {
-  //     let levelsSelect = $('#jobLevel');
-  //     dataLevels.forEach(level => {
-  //       levelsSelect.append(new Option(level.level_name, level.job_level_id));
-  //     });
-  //   }
+    if (dataLevels)
+    {
+      let levelsSelect = $('#jobLevel');
+      dataLevels.forEach(level => {
+        levelsSelect.append(new Option(level.level_name, level.job_level_id));
+      });
+    }
 
-  //   if (dataSkills)
-  //   {
-  //     let skillsSelect = $('#jobSkill');
-  //     dataSkills.forEach(skill => {
-  //       skillsSelect.append(new Option(skill.skill_name, skill.skill_id));
-  //     });
-  //   }
+    if (dataSkills)
+    {
+      let skillsSelect = $('#jobSkill');
+      dataSkills.forEach(skill => {
+        skillsSelect.append(new Option(skill.skill_name, skill.skill_id));
+      });
+    }
 
-  //   if (dataCategories)
-  //   {
-  //     let categoriesSelect = $('#jobCategoryContainer');
-  //     dataCategories.forEach(category => {
-  //       let checkbox = `
-  //       <div class="col-md-6 col-12">
-  //         <input class="form-check-input" type="checkbox" name="jobCategories[]" value="${category.category_id}" id="${categoriesSelect}_${category.category_id}">
-  //         <label class="form-check-label" for="${categoriesSelect}_${category.category_id}">
-  //           ${category.category_name}
-  //         </label>
-  //       </div>
-  //     `;
-  //       categoriesSelect.append(checkbox);
-  //     });
-  //   }
+    if (dataCategories)
+    {
+      let categoriesSelect = $('#jobCategoryContainer');
+      dataCategories.forEach(category => {
+        let checkbox = `
+        <div class="col-md-6 col-12">
+          <input class="form-check-input" type="checkbox" name="jobCategories[]" value="${category.category_id}" id="${categoriesSelect}_${category.category_id}">
+          <label class="form-check-label" for="${categoriesSelect}_${category.category_id}">
+            ${category.category_name}
+          </label>
+        </div>
+      `;
+        categoriesSelect.append(checkbox);
+      });
+    }
 
-  //   if (dataTypes)
-  //   {
-  //     let typesSelect = $('#jobType');
-  //     dataTypes.forEach(type => {
-  //       typesSelect.append(new Option(type.type_name, type.type_employment_id));
-  //     });
-  //   }
+    if (dataTypes)
+    {
+      let typesSelect = $('#jobType');
+      dataTypes.forEach(type => {
+        typesSelect.append(new Option(type.type_name, type.type_employment_id));
+      });
+    }
 
-  //   await $('.edit-record').attr('disabled', false);
-  // }
+    await $('.edit-record').attr('disabled', false);
+  }
 
-  // loadData();
+  loadData();
 </script>
 <script>
 

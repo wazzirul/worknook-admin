@@ -139,7 +139,9 @@
               var r = 'Delete Job';
 
               return userRole === '1'
-                ? '<div class="d-flex gap-1"><button role="button" class="btn btn-outline-primary edit-record" disabled>Edit</button><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
+                ? '<div class="d-flex gap-1 flex-wrap"><a class="btn btn-outline-primary" href="job-list/details/' +
+                    l +
+                    '">Details</a><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
                     l +
                     '>' +
                     r +

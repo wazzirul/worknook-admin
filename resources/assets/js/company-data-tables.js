@@ -21,7 +21,7 @@
     },
     success: res => {
       data_user = res.data;
-      console.log('data_user', data_user)
+      console.log('data_user', data_user);
     },
     error: err => {
       console.log('error', err);
@@ -161,7 +161,7 @@
               var s = a.soft_delete;
               var x = s === 1 ? 'Remove Ban' : 'Ban Company';
               return userRole === '1'
-                ? '<div class="d-flex gap-1"><a class="btn btn-outline-primary" href="company-details/' +
+                ? '<div class="d-flex gap-1 flex-wrap"><a class="btn btn-outline-primary" href="company-details/' +
                     l +
                     '">See Jobs</a><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
                     l +

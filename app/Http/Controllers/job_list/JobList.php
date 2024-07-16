@@ -17,6 +17,11 @@ class JobList extends Controller
         }
     }
 
+    public function details($slug)
+    {
+        return view('content.job-list.details');
+    }
+
     public function delete()
     {
         return redirect('/job-list')->with("success", "Job Delete Success");
