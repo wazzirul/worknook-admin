@@ -9,6 +9,11 @@ class Analytics extends Controller
 {
   public function index()
   {
-    return view('content.dashboard.dashboards-analytics');
+    $dataSummary = RequestURI('GET', env('API_URL') . '/admin-dashboard/summary');
+    if ($dataSummary->success) {
+      return view('content.dashboard.dashboards-analytics', ['summary' => $dataSummary->data]);
+    } else {
+      return redirect('/')->with('error', $dataSummary->errors);
+    }
   }
 }

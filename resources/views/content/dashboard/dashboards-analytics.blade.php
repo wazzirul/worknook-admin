@@ -37,7 +37,7 @@
           <div class="avatar me-2">
             <span class="avatar-initial rounded bg-label-primary"><i class="bx bxs-user"></i></span>
           </div>
-          <h4 class="ms-1 mb-0">220</h4>
+          <h4 class="ms-1 mb-0">{{$summary->total_jobs}}</h4>
         </div>
         <p class="mb-1">Total Jobs Posted</p>
       </div>
@@ -50,7 +50,7 @@
           <div class="avatar me-2">
             <span class="avatar-initial rounded bg-label-info"><i class="bx bx-user-plus"></i></span>
           </div>
-          <h4 class="ms-1 mb-0">705</h4>
+          <h4 class="ms-1 mb-0">{{$summary->total_applicants}}</h4>
         </div>
         <p class="mb-1">Total Applicants</p>
       </div>
@@ -63,7 +63,7 @@
           <div class="avatar me-2">
             <span class="avatar-initial rounded bg-label-success"><i class="bx bx-user-check"></i></span>
           </div>
-          <h4 class="ms-1 mb-0">115</h4>
+          <h4 class="ms-1 mb-0">{{$summary->total_companies}}</h4>
         </div>
         <p class="mb-1">Total Company Registered</p>
       </div>

@@ -3,44 +3,58 @@
 (async function () {
   // Function for Polar Chart / Job Types
   //   Function for fetch
-  //   async function requestURI(urlAPI) {
-  //     let methodAPI = 'POST';
-  //     let payloadAPI = {};
+  async function requestURI(urlAPI) {
+    let methodAPI = 'POST';
+    let payloadAPI = {};
 
-  //     try {
-  //       let response = await new Promise((resolve, reject) => {
-  //         $.ajax({
-  //           method: methodAPI,
-  //           url: '/query',
-  //           data: {
-  //             _token: $('meta[name="csrf-token"]').attr('content'),
-  //             url: urlAPI,
-  //             method: methodAPI,
-  //             payload: payloadAPI
-  //           },
-  //           success: res => {
-  //             resolve(res.data);
-  //           },
-  //           error: err => {
-  //             reject(err);
-  //           }
-  //         });
-  //       });
+    try {
+      let response = await new Promise((resolve, reject) => {
+        $.ajax({
+          method: methodAPI,
+          url: '/query',
+          data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            url: urlAPI,
+            method: methodAPI,
+            payload: payloadAPI
+          },
+          success: res => {
+            resolve(res.data);
+          },
+          error: err => {
+            reject(err);
+          }
+        });
+      });
 
-  //       return response;
-  //     } catch (err) {
-  //       console.log('error', err);
-  //       return null;
-  //     }
-  //   }
+      return response;
+    } catch (err) {
+      console.log('error', err);
+      return null;
+    }
+  }
 
-  //   Put URL Here
-  //   const [dataLevels, dataSkills, dataCategories, dataTypes] = await Promise.all([
-  //     requestURI('/job-levels/show'),
-  //     requestURI('/skills/show'),
-  //     requestURI('/categories/show'),
-  //     requestURI('/type-employments/show')
-  //   ]);
+  // Put URL Here
+  const [dataJobStatistics, dataJobType] = await Promise.all([
+    requestURI('/admin-dashboard/job-statistics'),
+    requestURI('/admin-dashboard/job-categories-statistics')
+  ]);
+  console.log(dataJobType);
+
+  var labels = [];
+  var data = [];
+
+  dataJobType.forEach(function (item) {
+    //key mengambil data nama
+    for (var key in item) {
+      //check properti
+      if (item.hasOwnProperty(key)) {
+        labels.push(key);
+        data.push(item[key]);
+      }
+    }
+  });
+  console.log(labels, data);
 
   // Variable Definition
   let cardClr, headClr, textClr, bodyClr, borderClr, primaryClr, secondaryClr, isRtl;
@@ -65,11 +79,11 @@
         new Chart(k, {
           type: 'doughnut',
           data: {
-            labels: ['Full Time', 'Part Time', 'Remote', 'Contract', 'Test'],
+            labels: labels,
             label: 'sjs',
             datasets: [
               {
-                data: [19, 17, 15, 13, 2],
+                data: data,
                 backgroundColor: colors,
                 // Todo : Enable and replace the data after fetching
                 // data: data_polar,
@@ -93,7 +107,7 @@
               tooltip: {
                 callbacks: {
                   label: function (o) {
-                    return ' ' + (o.labels || '') + ' : ' + o.parsed + ' %';
+                    return ' ' + (o.labels || '') + ' : ' + o.parsed;
                   }
                 },
                 rtl: isRtl,
