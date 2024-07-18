@@ -35,7 +35,7 @@
   }
 
   // Put URL Here
-  const [dataJobStatistics, dataJobType] = await Promise.all([
+  let [dataJobStatistics, dataJobType] = await Promise.all([
     requestURI('/admin-dashboard/job-statistics'),
     requestURI('/admin-dashboard/job-categories-statistics')
   ]);
@@ -54,7 +54,68 @@
       }
     }
   });
-  console.log(labels, data);
+
+  //data example
+  dataJobStatistics = {
+    statistics: [
+      {
+        label: 'Jan',
+        label_full: '2024-01-01',
+        job_posted: 15,
+        job_applied: 11
+      },
+      {
+        label: 'Feb',
+        label_full: '2024-02-01',
+        job_posted: 10,
+        job_applied: 5
+      },
+      {
+        label: 'Mar',
+        label_full: '2024-03-01',
+        job_posted: 12,
+        job_applied: 5
+      },
+      {
+        label: 'Apr',
+        label_full: '2024-03-01',
+        job_posted: 20,
+        job_applied: 10
+      },
+      {
+        label: 'May',
+        label_full: '2024-03-01',
+        job_posted: 20,
+        job_applied: 10
+      }
+    ]
+  };
+
+  console.log(dataJobStatistics);
+  var listMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var Month = new Date().getMonth();
+  var MonthNow = [];
+
+  var job_applied = [];
+  var job_posted = [];
+  var none = 0;
+
+  //bulan berdasarkan tahun ini
+  for (let i = 0; i <= Month; i++) {
+    MonthNow.push(listMonth[i]);
+  }
+  //Mengambil data
+  dataJobStatistics.statistics.slice(0, Month + 1).forEach((stat, i) => {
+    if (stat['label'] == listMonth[i]) {
+      job_applied.push(stat['job_applied']);
+      job_posted.push(stat['job_posted']);
+    } else {
+      job_applied.push(none);
+      job_posted.push(none);
+    }
+  });
+
+  console.log(MonthNow);
 
   // Variable Definition
   let cardClr, headClr, textClr, bodyClr, borderClr, primaryClr, secondaryClr, isRtl;
@@ -130,11 +191,11 @@
         new Chart(l, {
           type: 'line',
           data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            labels: MonthNow,
             datasets: [
               {
                 label: 'Job Applied',
-                data: [40, 55, 45, 75, 65, 55, 70, 60, 100, 98, 90, 120],
+                data: job_applied,
                 // Todo : Enable and replace the data after fetching
                 // Todo : Data must have array of per month
                 // data: data_job_applied,
@@ -152,7 +213,7 @@
               },
               {
                 label: 'Job Posted',
-                data: [70, 85, 75, 150, 100, 140, 110, 105, 160, 150, 125, 190],
+                data: job_posted,
                 // Todo : Enable and replace the data after fetching
                 // Todo : Data must have array of per month
                 // Todo : If 2024 now is still on July, the month appear only from 2024 Jan - July
@@ -208,13 +269,13 @@
               },
               y: {
                 min: 0,
-                max: 400,
+                max: 100,
                 grid: {
                   color: 'transparent',
                   borderColor: borderClr
                 },
                 ticks: {
-                  stepSize: 100,
+                  stepSize: 10,
                   color: textClr
                 }
               }
