@@ -2,30 +2,30 @@
 
 // Request User Data
 (async function () {
-  // let urlAPI = '/blog/show';
-  // let methodAPI = 'POST';
-  // let payloadAPI = {};
+  let urlAPI = '/admin-dashboard/new-user-registered';
+  let methodAPI = 'POST';
+  let payloadAPI = {};
 
   let data_api = [];
 
-  // await $.ajax({
-  //   method: 'POST',
-  //   url: '/query',
-  //   data: {
-  //     _token: $('meta[name="csrf-token"]').attr('content'),
-  //     url: urlAPI,
-  //     method: methodAPI,
-  //     payload: payloadAPI
-  //   },
-  //   success: res => {
-  //     data_api = res.data;
-  //     // console.log(data_api);
-  //     // return;
-  //   },
-  //   error: err => {
-  //     console.log('error', err);
-  //   }
-  // });
+  await $.ajax({
+    method: 'POST',
+    url: '/query',
+    data: {
+      _token: $('meta[name="csrf-token"]').attr('content'),
+      url: urlAPI,
+      method: methodAPI,
+      payload: payloadAPI
+    },
+    success: res => {
+      data_api = res.data;
+      // console.log(data_api);
+      // return;
+    },
+    error: err => {
+      console.log('error', err);
+    }
+  });
 
   $(function () {
     var e,
@@ -39,55 +39,40 @@
         searching: false,
         columns: [
           {
-            data: 'blog_title'
+            data: 'fullname'
           },
           {
-            data: 'short_description'
+            data: 'email'
           },
           {
-            data: 'admin.fullname'
+            data: 'created_at'
           },
           {
-            data: 'category.category_name'
-          },
-          {
-            data: 'date'
+            data: ''
           }
         ],
         columnDefs: [
           {
-            targets: 0,
-            class: 'blog-list',
-            render: function (e, t, a, s) {
-              var n = a.blog_thumbnail,
-                r = a.blog_title;
-              if (n) var o = '<img src="' + n + '" alt="Avatar" class="rounded-circle">';
-              else {
-                var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
-                    Math.floor(6 * Math.random())
-                  ],
-                  i = (r = a.fullname).match(/\b\w/g) || [];
-                o =
-                  '<span class="avatar-initial rounded-circle bg-label-' +
-                  d +
-                  '">' +
-                  (i = ((i.shift() || '') + (i.pop() || '')).toUpperCase()) +
-                  '</span>';
-              }
-              return (
-                '<div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar me-2">' +
-                o +
-                '</div></div><div class="d-flex flex-column"><span class="emp_name text-truncate">' +
-                r +
-                '</span></div></div>'
-              );
+            targets: 3,
+            render: function (data, type, row) {
+              return moment(data).format('YYYY-MM-DD'); // Adjust format as needed
             }
           },
           {
-            targets: 3,
+            targets: -2,
             render: function (e, t, a, s) {
-              var n = a.category.category_name;
-              return '<span class="badge bg-primary text-capitalize">' + n + '</span>';
+              var n = a.status,
+                r = {
+                  1: {
+                    title: 'User',
+                    class: 'bg-label-primary'
+                  },
+                  2: {
+                    title: 'Company',
+                    class: ' bg-label-success'
+                  }
+                };
+              return void 0 === r[n] ? e : '<span class="badge ' + r[n].class + '">' + r[n].title + '</span>';
             }
           }
         ],
