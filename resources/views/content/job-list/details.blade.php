@@ -17,6 +17,13 @@
   </button>
 </div>
 @endif
+
+<?php
+$skillsJson = json_encode($data->data->job_required_skill);
+$categoryJson = json_encode($data->data->job_category);
+?>
+<div id="skillsCategory" data-skills="{{$skillsJson}}" data-category="{{$categoryJson}}"></div>
+
 <div class="card">
   <div class="card-header">
     <h2>Job Details</h2>
@@ -24,60 +31,65 @@
   <div class="card-body">
     <div class="mb-3">
       <label for="jobTitleFill" class="form-label"><strong>Job Title:</strong></label>
-      <span id="jobTitleFill">Software Engineer</span>
+      <span id="jobTitleFill">{{$data->data->job_title}}</span>
     </div>
     <div class="mb-3">
       <label for="jobLevelFill" class="form-label"><strong>Job Level:</strong></label>
-      <span id="jobLevelFill">Senior</span>
+      <span id="jobLevelFill">{{$data->data->job_level->level_name}}</span>
     </div>
     <div class="mb-3">
       <label for="jobTypeFill" class="form-label"><strong>Job Type:</strong></label>
-      <span id="jobTypeFill">Full-time</span>
+      <span id="jobTypeFill">{{$data->data->job_type_employment[0]->type_name}}</span>
     </div>
     <div class="mb-3">
       <label for="jobCategoryFill" class="form-label"><strong>Job Category:</strong></label>
-      <span id="jobCategoryFill">Information Technology</span>
+      <span id="jobCategoryFill">
+        @foreach ($data->data->job_category as $item)
+            {{$item->category_name}},
+        @endforeach
+      </span>
     </div>
     <div class="mb-3">
       <label for="descriptionFill" class="form-label"><strong>Description:</strong></label>
-      <p id="descriptionFill">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum viverra
-        quam
-        id
-        mauris ullamcorper, et dapibus nunc mollis.</p>
+      <p id="descriptionFill">{!!$data->data->job_description!!}</p>
     </div>
     <div class="mb-3">
       <label for="locationFill" class="form-label"><strong>Location:</strong></label>
-      <span id="locationFill">New York, NY</span>
+      <span id="locationFill">{{$data->data->location}}</span>
     </div>
     <div class="mb-3">
       <label for="salaryRangeFill" class="form-label"><strong>Salary Range:</strong></label>
-      <span id="salaryRangeFill">$80,000 - $100,000 per year</span>
+      <span id="salaryRangeFill">${{$data->data->start_salary}} - ${{$data->data->top_salary}} per year</span>
     </div>
     <div class="mb-3">
       <label for="responsibilitiesFill" class="form-label"><strong>Responsibilities:</strong></label>
-      <ul id="responsibilitiesFill">
+      {{-- <ul id="responsibilitiesFill">
         <li>Develop new features</li>
         <li>Maintain existing codebase</li>
         <li>Collaborate with team members</li>
-      </ul>
+      </ul> --}}
+      {!!$data->data->responsibilities!!}
     </div>
     <div class="mb-3">
       <label for="skillRequirementsFill" class="form-label"><strong>Skill Requirements:</strong></label>
       <ul id="skillRequirementsFill">
-        <li>Proficiency in Java</li>
-        <li>Experience with Spring Boot</li>
-        <li>Strong problem-solving skills</li>
+        <?php $skillsJson = json_encode($data->data->job_required_skill); ?>
+        @foreach ($data->data->job_required_skill as $item)
+        <li>{{$item->skill_name}}</li>
+        @endforeach
+        
       </ul>
     </div>
     <div class="mb-3">
       <label for="currentApplicantFill" class="form-label"><strong>Current Applicant:</strong></label>
-      <span id="currentApplicantFill">10</span>
+      <span id="currentApplicantFill">{{$data->data->applied}}</span>
     </div>
     <div class="mb-3">
       <label for="postedDateFill" class="form-label"><strong>Posted Date:</strong></label>
-      <span id="postedDateFill">2024-07-15</span>
+      <?php $date = new DateTime($data->data->created_at); ?>
+      <span id="postedDateFill">{{$date->format('Y-m-d')}}</span>
     </div>
-    <button role="button" class="btn btn-outline-primary edit-record" disabled="" data-bs-toggle="modal"
+    <button role="button" class="btn btn-outline-primary edit-record" data-bs-toggle="modal"
       data-bs-target="#editJobModal">Edit</button>
   </div>
 </div>
@@ -91,17 +103,17 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="modal-form" action="#" method="POST" class="row g-2">
+        <form id="modal-form" action="/job-list/store" method="POST" class="row g-2">
           @csrf
           <!-- Job ID -->
-          <input type="hidden" class="dt-job-id" name="jobID">
+          <input type="" class="dt-job-id" name="jobID" value="{{$data->data->job_id}}" hidden>
 
           <!-- Job Title -->
           <div class="col-sm-12">
             <label class="form-label" for="jobTitle">Job Title</label>
             <div class="input-group input-group-merge">
               <input type="text" id="jobTitle" class="form-control dt-job-title" name="jobTitle"
-                placeholder="Job Title Here" aria-label="Job Title Here" required />
+                placeholder="Job Title Here" aria-label="Job Title Here" value="{{$data->data->job_title}}" required />
             </div>
           </div>
 
@@ -110,6 +122,7 @@
             <label class="form-label" for="jobLevel">Job Level</label>
             <div class="input-group input-group-merge">
               <select id="jobLevel" name="jobLevel" class="form-select dt-job-level" required>
+
               </select>
             </div>
           </div>
@@ -118,7 +131,7 @@
           <div class="col-sm-12">
             <label class="form-label" for="jobType">Job Type</label>
             <div class="input-group input-group-merge">
-              <select id="jobType" name="jobType" class="form-select dt-job-level" required>
+              <select id="jobType" name="jobType[]" class="form-select dt-job-level" required>
               </select>
             </div>
           </div>
@@ -135,7 +148,7 @@
             <label class="form-label" for="description">Description</label>
             <div class="input-group input-group-merge">
               <input type="text" id="description" class="form-control dt-description" name="description"
-                placeholder="Job Description" aria-label="Job Description" required />
+                placeholder="Job Description" aria-label="Job Description" value="{!!$data->data->job_description!!}" required />
             </div>
           </div>
 
@@ -144,7 +157,7 @@
             <label class="form-label" for="location">Location</label>
             <div class="input-group input-group-merge">
               <input type="text" id="location" class="form-control dt-location" name="location"
-                placeholder="Job Location" aria-label="Job Location" required />
+                placeholder="Job Location" aria-label="Job Location" value="{{$data->data->location}}" required />
             </div>
           </div>
 
@@ -153,9 +166,9 @@
             <label class="form-label" for="startSalary">Salary Range</label>
             <div class="input-group">
               <input type="text" id="startSalary" name="startSalary" class="form-control dt-start-salary"
-                placeholder="Start Salary">
+                placeholder="Start Salary" value="{{$data->data->start_salary}}">
               <input type="text" id="topSalary" name="topSalary" class="form-control dt-top-salary"
-                placeholder="Top Salary">
+                placeholder="Top Salary" value="{{$data->data->top_salary}}">
             </div>
           </div>
 
@@ -164,20 +177,17 @@
             <label class="form-label" for="responsibilities">Responsibilities</label>
             <div class="input-group input-group-merge">
               <input type="text" id="responsibilities" class="form-control dt-responsibilities" name="responsibilities"
-                placeholder="Job Responsibilities" aria-label="Job Responsibilities" required />
+                placeholder="Job Responsibilities" aria-label="Job Responsibilities" value="{!!$data->data->responsibilities!!}" required />
             </div>
           </div>
 
           <!-- Skill (Select 2.js) -->
           <div class="col-sm-12">
-            <label class="form-label" for="jobSkill">Skill Requirements</label>
-            <div class="input-group input-group-merge">
-              <select id="jobSkill" name="jobSkill" class="form-select dt-job-skill" required>
-                <option value="1">Sales</option>
-                <option value="2">Admin Staff</option>
-              </select>
+            <label class="form-label" for="jobSkill">Skill Requirement</label>
+            <div class="row g-2" id="jobSkillContainer">
             </div>
           </div>
+
 
           <div class="col-sm-12">
             <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit</button>
@@ -222,8 +232,7 @@
 <script
   src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-<script src="{{asset('assets/js/job-list-data-tables.js')}}"></script>
-<script>
+{{-- <script>
   // Delete Function
   async function deleteJob (jobId) {
     $('.modal').modal('hide');
@@ -264,12 +273,11 @@
 
     deleteJob(jobId);
   });
-</script>
+</script> --}}
 <script>
   // Open edit user modal
   $(document).on('click', '.edit-record', function () {
     $('#modalDetails').modal('hide');
-
     $('#editJobModal').modal('show');
   });
 </script>
@@ -318,30 +326,58 @@
     console.log('Data Skills:', dataSkills);
     console.log('Data Categories:', dataCategories);
     console.log('Data Types:', dataTypes);
+    //mengambil array php skill & category 
+    const skillsCategory = document.getElementById('skillsCategory');
 
     if (dataLevels)
     {
       let levelsSelect = $('#jobLevel');
       dataLevels.forEach(level => {
-        levelsSelect.append(new Option(level.level_name, level.job_level_id));
+        const option = new Option(level.level_name, level.job_level_id);
+        var lvl_name = document.getElementById('jobLevelFill').textContent;
+       
+        if (level.level_name === lvl_name) {
+                option.selected = true;
+            }
+            levelsSelect.append(option);
       });
     }
 
     if (dataSkills)
     {
-      let skillsSelect = $('#jobSkill');
+      let skillsSelect = $('#jobSkillContainer');
+      //array php skills
+      const skills = JSON.parse(skillsCategory.getAttribute('data-skills'));
+      console.log(skills);
+      var i = 0;
       dataSkills.forEach(skill => {
-        skillsSelect.append(new Option(skill.skill_name, skill.skill_id));
-      });
+        let checkbox = `
+        <div class="col-md-6 col-12">
+          <input class="form-check-input" type="checkbox" name="jobSkill[]" value="${skill.skill_id}" id="skill_${skill.skill_name}">
+          <label class="form-check-label" for="skill_${skill.skill_id}">
+            ${skill.skill_name}
+          </label>
+        </div>
+      `;
+      skillsSelect.append(checkbox);
+      })
+      //checked skills
+      skills.forEach(s => {
+        const checkboxElement = document.getElementById(`skill_${s.skill_name}`);
+        checkboxElement.checked = true;
+        
+      })
     }
 
     if (dataCategories)
     {
       let categoriesSelect = $('#jobCategoryContainer');
+      //array php ke js
+      const categories = JSON.parse(skillsCategory.getAttribute('data-category'));
       dataCategories.forEach(category => {
         let checkbox = `
         <div class="col-md-6 col-12">
-          <input class="form-check-input" type="checkbox" name="jobCategories[]" value="${category.category_id}" id="${categoriesSelect}_${category.category_id}">
+          <input class="form-check-input" type="checkbox" name="jobCategories[]" value="${category.category_id}" id="category_${category.category_name}">
           <label class="form-check-label" for="${categoriesSelect}_${category.category_id}">
             ${category.category_name}
           </label>
@@ -349,13 +385,25 @@
       `;
         categoriesSelect.append(checkbox);
       });
+      //checked
+      categories.forEach(c => {
+        const checkboxElement = document.getElementById(`category_${c.category_name}`);
+        checkboxElement.checked = true;
+        
+      })
     }
 
     if (dataTypes)
     {
       let typesSelect = $('#jobType');
       dataTypes.forEach(type => {
-        typesSelect.append(new Option(type.type_name, type.type_employment_id));
+        const option = new Option(type.type_name, type.type_employment_id);
+        var typeName = document.getElementById('jobTypeFill').textContent;
+       
+        if (type.type_name === typeName) {
+                option.selected = true;
+            }
+            typesSelect.append(option);
       });
     }
 
