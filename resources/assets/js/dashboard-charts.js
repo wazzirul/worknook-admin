@@ -105,15 +105,25 @@
     MonthNow.push(listMonth[i]);
   }
   //Mengambil data
-  dataJobStatistics.statistics.slice(0, Month + 1).forEach((stat, i) => {
-    if (stat['label'] == listMonth[i]) {
-      job_applied.push(stat['job_applied']);
-      job_posted.push(stat['job_posted']);
+  listMonth.slice(0, Month + 1).forEach((list, i) => {
+    var dataMonth = FilterMap(list);
+    console.log(dataMonth);
+    if (dataMonth) {
+      job_applied.push(dataMonth[0].job_applied);
+      job_posted.push(dataMonth[0].job_posted);
     } else {
       job_applied.push(none);
       job_posted.push(none);
     }
   });
+  //filter data berdasarkan bulan
+  function FilterMap(month) {
+    var data = dataJobStatistics.statistics.filter(p => p.label === month);
+    if (data.length === 0) {
+      data = 0;
+    }
+    return data;
+  }
 
   console.log(MonthNow);
 
