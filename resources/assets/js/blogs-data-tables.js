@@ -19,7 +19,7 @@
     },
     success: res => {
       data_api = res.data;
-      console.log(data_api);
+      // console.log(data_api);
       // return;
     },
     error: err => {
@@ -98,7 +98,7 @@
             render: function (e, t, a, s) {
               var l = a.blog_id;
               return userRole === '1'
-                ? '<div class="d-flex gap-1"><a class="btn btn-outline-primary" href="blog-details/' +
+                ? '<div class="d-flex gap-1 flex-wrap"><a class="btn btn-outline-primary" href="blog-details/' +
                     l +
                     '">Blog Details</a></div>'
                 : '<small>Unathorized</small>';

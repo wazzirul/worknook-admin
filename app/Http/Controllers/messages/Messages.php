@@ -29,12 +29,12 @@ class Messages extends Controller
         $payload['subject'] = $subject;
         $payload['message'] = $sanitizedContent;
 
-        $data = RequestURI('POST', env('API_URL') . '/contact/reply', $payload);
+        $data = RequestURI('POST', env('API_URL') . '/customer-support/reply', $payload);
 
         if ($data->success) {
-            return redirect('/messages')->with("success", "Reply Message Sent");
+            return redirect('/customer-support')->with("success", "Reply Message Sent");
         } else {
-            return redirect('/messages')->with("error", $data->errors);
+            return redirect('/customer-support')->with("error", $data->errors);
         }
     }
 }

@@ -24,9 +24,11 @@ class Blogs extends Controller
 
         $dataBlog = RequestURI('POST', env('API_URL') . '/blog/show', $payloadBlog);
         $data = RequestURI('POST', env('API_URL') . '/blog-categories/show');
-        
-        if ($dataBlog->success&&$data->success) {
-            return view('content.blogs.details', compact('dataBlog','data'));
+
+        // dd($dataBlog);
+
+        if ($dataBlog->success && $data->success) {
+            return view('content.blogs.details', compact('dataBlog', 'data'));
         } else {
             return redirect('/blogs')->with("error", $dataBlog->errors);
         }
@@ -65,32 +67,39 @@ class Blogs extends Controller
         }
     }
 
-    public function delete(){
+    public function delete()
+    {
         return redirect('/blogs')->with("success", "Blog Delete Success");
     }
 
-    public function update(Request $request){
-        $blog_id = $request->input('blogID');
+    public function update(Request $request)
+    {
+        $blog_id = $request->input('blogId');
         $thumbnailEncode = $request->input('thumbnailEncode');
-        $blogTitleAdd = $request->input('blogTitleAdd');
-        $blogCategoryAdd = $request->input('blogCategoryAdd');
+        $blogTitleEdit = $request->input('blogTitleEdit');
+        $blogCategoryEdit = $request->input('blogCategoryEdit');
         $blogContent = $request->input('blogContent');
         $blogShortContent = $request->input('blogShortContent');
-        $blogFeaturedAdd = $request->input('blogFeaturedAdd');   
+        $blogFeaturedEdit = $request->input('blogFeaturedEdit');
+
+        // Configure HTMLPurifier
+        $config = HTMLPurifier_Config::createDefault();
+        $purifier = new HTMLPurifier($config);
+        $sanitizedContent = $purifier->purify($blogContent);
 
         $payload = [
             'admin_id' =>  session()->get('id'),
             'blog_id' => $blog_id,
-            'blog_title' => $blogTitleAdd,
-            'blog_thumbnail' => $thumbnailEncode,
-            'category_id' => $blogCategoryAdd,
-            'description' => $blogContent,
+            'blog_title' => $blogTitleEdit,
+            'blog_thumbnail' => $thumbnailEncode ? $thumbnailEncode : null,
+            'category_id' => $blogCategoryEdit,
+            'description' => $sanitizedContent,
             'short_description' => $blogShortContent,
-            'featured' => $blogFeaturedAdd,
+            'featured' => $blogFeaturedEdit,
             'soft_delete' => null
         ];
 
-        dd($payload);
+        // dd($payload);
 
         $data = RequestURI('POST', env('API_URL') . '/blog/store', $payload);
 
@@ -99,6 +108,5 @@ class Blogs extends Controller
         } else {
             return redirect('/blogs')->with("error", $data->errors);
         }
-
     }
 }

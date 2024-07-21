@@ -40,7 +40,7 @@
 <!-- DataTable with Buttons -->
 <div class="card">
   <div class="card-datatable table-responsive">
-    <table class="datatables-basic table border-top table-hover" style="width:100%">
+    <table class="datatables-basic table border-top table-hover table-striped" style="width:100%">
       <thead>
         <tr>
           <th>Title</th>
@@ -122,8 +122,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="/blogs/add" method="POST">
-      <div class="modal-body">
-      
+        <div class="modal-body">
+
           @csrf
           <div class="mb-3">
             <label for="blogThumbnailAdd" class="form-label">Thumbnail</label>
@@ -146,12 +146,12 @@
           <div class="mb-3">
             <label for="blogCategoryAdd" class="form-label">Featured</label>
             <select class="form-select" id="blogFeaturedAdd" name="blogFeaturedAdd">
-              
-              <option class="text-capitalize" value="0" >Non-Active
+
+              <option class="text-capitalize" value="0">Non-Active
               </option>
-              <option class="text-capitalize" value="1" >Active
+              <option class="text-capitalize" value="1">Active
               </option>
-             
+
             </select>
           </div>
           <div class="mb-3">
@@ -165,12 +165,12 @@
               <!-- Content editor or textarea can be added here -->
             </div>
           </div>
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Add Blog Post</button>
-      </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" onclick="loaderFunc();">Add Blog Post</button>
+        </div>
       </form>
     </div>
   </div>

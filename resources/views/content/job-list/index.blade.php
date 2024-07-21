@@ -55,7 +55,7 @@
 <!-- <select id="jobLevel" multiple name="jobLevel" class="dt-job-level" required></select> -->
 <div class="card">
   <div class="card-datatable table-responsive">
-    <table class="datatables-basic table border-top table-hover" style="width:100%">
+    <table class="datatables-basic table border-top table-hover table-striped" style="width:100%">
       <thead>
         <tr>
           <th>Job Title</th>
@@ -125,34 +125,24 @@
           <div class="col-sm-12">
             <label class="form-label" for="jobLevel">Job Level</label>
             <div class="input-group input-group-merge">
-              <select id="jobLevel" name="jobLevel" class="form-control form-control--custom dt-job-level" multiple
-                required>
-                <!-- Example options -->
-                <!-- <option value="1">Entry Level</option> -->
-                <!-- <option value="2">Admin Staff</option> -->
+              <select id="jobLevel" name="jobLevel" class="form-select dt-job-level" required>
               </select>
             </div>
           </div>
 
-          <!-- Job Type (Select 2.js) -->
+          <!-- Job Type -->
           <div class="col-sm-12">
             <label class="form-label" for="jobType">Job Type</label>
             <div class="input-group input-group-merge">
-              <select id="jobType" name="jobType" class="form-select dt-job-level" multiple="multiple" required>
-                <option value="1">Full Time</option>
-                <option value="2">Admin Staff</option>
+              <select id="jobType" name="jobType" class="form-select dt-job-level" required>
               </select>
             </div>
           </div>
 
-          <!-- Job Category (Select 2.js) -->
+          <!-- Job Category -->
           <div class="col-sm-12">
             <label class="form-label" for="jobCategory">Job Category</label>
-            <div class="input-group input-group-merge">
-              <select id="jobCategory" name="jobCategory" class="form-select dt-job-category" required>
-                <option value="1">Sales</option>
-                <option value="2">Admin Staff</option>
-              </select>
+            <div class="row g-2" id="jobCategoryContainer">
             </div>
           </div>
 
@@ -255,6 +245,7 @@
     $('.modal').modal('hide');
     await $('#modalConfirmation').modal('show');
     $(document).on('click', '#confirmationBtn', async function () {
+      loaderFunc();
       const url = "/jobs/store";
       const method = "POST";
       // Prepare payload data
@@ -292,57 +283,104 @@
 </script>
 <script>
   // Open edit user modal
-  $(document).on('click', '.edit-record', function () {
-    $('#modalDetails').modal('hide');
+  // $(document).on('click', '.edit-record', function () {
+  //   $('#modalDetails').modal('hide');
 
-    $('#editJobModal').modal('show');
-  });
+  //   $('#editJobModal').modal('show');
+  // });
 </script>
 <script>
-  (async function () {
-    let urlAPI = '/admin-user/data';
-    let methodAPI = 'POST';
-    let payloadAPI = {
-      paginate: 100
-    };
+  // async function requestURI (urlAPI) {
+  //   let methodAPI = 'POST';
+  //   let payloadAPI = {
+  //   };
 
-    let data_api = [];
+  //   try
+  //   {
+  //     let response = await new Promise((resolve, reject) => {
+  //       $.ajax({
+  //         method: methodAPI,
+  //         url: '/query',
+  //         data: {
+  //           _token: $('meta[name="csrf-token"]').attr('content'),
+  //           url: urlAPI,
+  //           method: methodAPI,
+  //           payload: payloadAPI
+  //         },
+  //         success: res => {
+  //           resolve(res.data);
+  //         },
+  //         error: err => {
+  //           reject(err);
+  //         }
+  //       });
+  //     });
 
-    await $.ajax({
-      method: 'POST',
-      url: '/query',
-      data: {
-        _token: $('meta[name="csrf-token"]').attr('content'),
-        url: urlAPI,
-        method: methodAPI,
-        payload: payloadAPI
-      },
-      success: res => {
-        data_api = res.data.data;
-        console.log(data_api);
-        // return;
-      },
-      error: err => {
-        console.log('error', err);
-      }
-    });
-  })
+  //     return response;
+  //   } catch (err)
+  //   {
+  //     console.log('error', err);
+  //     return null;
+  //   }
+  // }
 
-  new SlimSelect({
-    select: '#jobLevel',
-    // Array of Option objects
-    data: [{ text: 'Value 1', value: 'value1' }],
-    events: {
-      error: function (err) {
-        console.error(err)
-      },
-      addable: function (value) {
-        return value
-      }
-    },
-    settings: {
-      searchHighlight: true
-    }
-  })
+  // async function loadData () {
+  //   const [dataLevels, dataSkills, dataCategories, dataTypes] = await Promise.all([requestURI('/job-levels/show'),
+  //   requestURI('/skills/show'),
+  //   requestURI('/categories/show'),
+  //   requestURI('/type-employments/show')])
+
+  //   console.log('Data Levels:', dataLevels);
+  //   console.log('Data Skills:', dataSkills);
+  //   console.log('Data Categories:', dataCategories);
+  //   console.log('Data Types:', dataTypes);
+
+  //   if (dataLevels)
+  //   {
+  //     let levelsSelect = $('#jobLevel');
+  //     dataLevels.forEach(level => {
+  //       levelsSelect.append(new Option(level.level_name, level.job_level_id));
+  //     });
+  //   }
+
+  //   if (dataSkills)
+  //   {
+  //     let skillsSelect = $('#jobSkill');
+  //     dataSkills.forEach(skill => {
+  //       skillsSelect.append(new Option(skill.skill_name, skill.skill_id));
+  //     });
+  //   }
+
+  //   if (dataCategories)
+  //   {
+  //     let categoriesSelect = $('#jobCategoryContainer');
+  //     dataCategories.forEach(category => {
+  //       let checkbox = `
+  //       <div class="col-md-6 col-12">
+  //         <input class="form-check-input" type="checkbox" name="jobCategories[]" value="${category.category_id}" id="${categoriesSelect}_${category.category_id}">
+  //         <label class="form-check-label" for="${categoriesSelect}_${category.category_id}">
+  //           ${category.category_name}
+  //         </label>
+  //       </div>
+  //     `;
+  //       categoriesSelect.append(checkbox);
+  //     });
+  //   }
+
+  //   if (dataTypes)
+  //   {
+  //     let typesSelect = $('#jobType');
+  //     dataTypes.forEach(type => {
+  //       typesSelect.append(new Option(type.type_name, type.type_employment_id));
+  //     });
+  //   }
+
+  //   await $('.edit-record').attr('disabled', false);
+  // }
+
+  // loadData();
+</script>
+<script>
+
 </script>
 @endsection

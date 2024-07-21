@@ -75,7 +75,7 @@
 <!-- DataTable with Buttons -->
 <div class="card">
   <div class="card-datatable table-responsive">
-    <table class="datatables-basic table border-top table-hover table-striped" style="width:100%">
+    <table class="datatables-basic table border-top table-hover table-striped table-striped" style="width:100%">
       <thead>
         <tr>
           <th>Job Title</th>
@@ -118,6 +118,28 @@
     </div>
   </div>
 </div>
+<!-- Modal Delete Confirmation -->
+<div class="modal fade" id="deleteJobModal" tabindex="-1" aria-hidden="true" style="z-index: 1091">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h5 class="modal-title" id="modalCenterTitle"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" class="dt-blog-id" name="blogID">
+        <p id="question">Are you sure to close this Job Company?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn delete-record" id="confirmationBtn"></button>
+      </div>
+
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('page-script')
@@ -150,7 +172,25 @@
   $(document).on('click', '.delete-record', async function () {
     const status = $(this).data('banned');
     const dataId = $(this).data('id');
-    const url = "/jobs/store";
+
+    $('.modal').modal('hide');
+    $('#deleteJobModal').modal('show');
+
+    if(status===1){
+      $('.modal-title').text("Close Job");
+      $('#question').text("Are you sure to close this Job Company?");
+      $('#confirmationBtn').text("Close");
+      $('#confirmationBtn').addClass("btn-danger");
+    }else{
+      $('.modal-title').text("Open Job");
+      $('#question').text("Are you sure to open this Job Company?");
+      $('#confirmationBtn').text("Open");
+      $('#confirmationBtn').addClass("btn-success");
+    }
+
+    $(document).on('click', '#confirmationBtn', async function () {
+    
+    const url = "/jobs/change-status";
     const method = "POST";
     const elementData = $('#id_company').val();
     const url_delete = "/company-details/delete/" + elementData;
@@ -158,31 +198,33 @@
     // Prepare payload data
     const payload = {
       job_id: dataId,
-      soft_delete: status === 1 ? 0 : 1
+      status: status === 1 ? 2 : 1
     };
-  // TODO : Close Job with Status not softdelete
+    // TODO : Close Job with Status not softdelete
 
-    // await $.ajax({
-    //   method: 'POST',
-    //   url: '/query',
-    //   data: {
-    //     _token: $('meta[name="csrf-token"]').attr('content'),
-    //     url: url,
-    //     method: method,
-    //     payload: payload
-    //   },
-    //   success: function (response) {
-    //     setTimeout(function () {
-          
-    //      location.replace(url_delete);
-          
-    //     }, 500); // Adjust delay as needed
-        
-    //   },
-    //   error: function (xhr, status, error) {
-    //     $('.alert-danger').html(xhr.responseText).show(); // Display error message
-    //   }
-    // });
+    await $.ajax({
+      method: 'POST',
+      url: '/query',
+      data: {
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        url: url,
+        method: method,
+        payload: payload
+      },
+      success: function (response) {
+        setTimeout(function () {
+
+         location.replace(url_delete);
+
+        }, 500); // Adjust delay as needed
+
+      },
+      error: function (xhr, status, error) {
+        $('.alert-danger').html(xhr.responseText).show(); // Display error message
+      }
+    });
+  })
   });
+
 </script>
 @endsection

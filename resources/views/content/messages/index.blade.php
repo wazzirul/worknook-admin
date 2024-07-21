@@ -40,7 +40,7 @@
 <!-- DataTable with Buttons -->
 <div class="card">
   <div class="card-datatable table-responsive">
-    <table class="datatables-basic table border-top table-hover" style="width:100%">
+    <table class="datatables-basic table border-top table-hover table-striped" style="width:100%">
       <thead>
         <tr>
           <th>Sender</th>
@@ -97,7 +97,7 @@
               <label class="form-label" for="replyForm">Message</label>
               <div id="replyForm" name="replyForm"></div>
             </div>
-            <button type="submit" class="btn btn-primary data-submit">Submit</button>
+            <button type="submit" class="btn btn-primary data-submit" onclick="loaderFunc();">Submit</button>
           </div>
         </form>
       </div>
