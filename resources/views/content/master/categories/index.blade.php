@@ -62,22 +62,22 @@
               required>
           </div>
           <div class="mb-3">
-            
+
             <label for="categoryName" class="form-label">Icon</label>
             <input type="file" class="form-control" id="iconCategory" name="iconCategory" required>
             <input type="text" class="form-control" id="iconThumbnail" name="iconThumbnail" value="Name of the Category"
               hidden>
           </div>
           <div class="mb-3" style="display: flex">
-              <img src="" alt="" id="valueImage" style="max-width:65px;aspect-ratio:1/1">
+            <img src="" alt="" id="valueImage" style="max-width:65px;aspect-ratio:1/1">
           </div>
-         
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary" id="buttonModal" onclick="">Add Blog
             Category</button>
-          </div>
+        </div>
       </form>
     </div>
   </div>
@@ -122,16 +122,17 @@
 <script src="{{asset('assets/js/master/categories-data-tables.js')}}"></script>
 
 <script>
-  function requiredInput(){
+  function requiredInput () {
     document.getElementById('iconCategory').required = false;
   }
   // Add and Edit Modal
   $(document).on('click', '.create-new, .item-edit', function () {
-    
+
     $(document).on('click', '#buttonModal', function () {
-      if($('#categoryName').val()!="" && $('#iconCategory').val()!="" || $('#iconThumbnail').val()!=""){
-      loaderFunc();
-    }
+      if ($('#categoryName').val() != "" && $('#iconCategory').val() != "" || $('#iconThumbnail').val() != "")
+      {
+        loaderFunc();
+      }
     })
     const modal = $('#blogModalCategory');
     const url = '/master-categories/store';
@@ -165,7 +166,7 @@
       modal.modal('show');
     }
   });
-  function setImgSrc(url) {
+  function setImgSrc (url) {
     var imgElement = document.getElementById('valueImage');
     imgElement.src = url;
   }
@@ -177,107 +178,113 @@
     $('.modal').modal('hide');
     $('#deleteBlogModal').modal('show');
     const categoryId = $(this).data('id');
-    
+
     $(document).on('click', '#confirmationBtn', async function () {
       loaderFunc();
-   
-    const url = "/categories/store";
-    const method = "POST";
-    // Prepare payload data
-    const payload = {
-      category_id: categoryId,
-      soft_delete: 1
-    };
 
-    await $.ajax({
-      method: 'POST',
-      url: '/query',
-      data: {
-        _token: $('meta[name="csrf-token"]').attr('content'),
-        url: url,
-        method: method,
-        payload: payload
-      },
-      success: function (response) {
-        setTimeout(function () {
-          location.replace('master-categories/delete');
-        }, 500); // Adjust delay as needed
-      },
-      error: function (xhr, status, error) {
-        $('.alert-danger').html(xhr.responseText).show(); // Display error message
-      }
-    });
+      const url = "/categories/store";
+      const method = "POST";
+      // Prepare payload data
+      const payload = {
+        category_id: categoryId,
+        soft_delete: 1
+      };
+
+      await $.ajax({
+        method: 'POST',
+        url: '/query',
+        data: {
+          _token: $('meta[name="csrf-token"]').attr('content'),
+          url: url,
+          method: method,
+          payload: payload
+        },
+        success: function (response) {
+          setTimeout(function () {
+            location.replace('master-categories/delete');
+          }, 500); // Adjust delay as needed
+        },
+        error: function (xhr, status, error) {
+          $('.alert-danger').html(xhr.responseText).show(); // Display error message
+        }
+      });
     })
   });
 </script>
 
 <script>
-   $(document).ready(function () {
+  $(document).ready(function () {
     $('#iconCategory').change(function () {
       var file = this.files[0];
-      
+
       var reader = new FileReader();
-      
-        reader.onload = function (e) {
-          var result =  e.target.result;
-          var img = document.getElementById('valueImage');
 
-          //cek file svg
-          if (file.type === 'image/svg+xml') {
-            
-                // Parse the SVG string and change color to black
-            var parser = new DOMParser();
-            var svgDoc = parser.parseFromString(result, 'image/svg+xml');
-            var svgElement = svgDoc.documentElement;
+      reader.onload = function (e) {
+        var result = e.target.result;
+        var img = document.getElementById('valueImage');
 
-            // Change fill and stroke attributes to black
-            changeSvgColorToBlack(svgElement);
+        //cek file svg
+        if (file.type === 'image/svg+xml')
+        {
 
-            // Serialize the modified SVG back to string
-            var serializer = new XMLSerializer();
-            var newResult = serializer.serializeToString(svgElement);
+          // Parse the SVG string and change color to black
+          var parser = new DOMParser();
+          var svgDoc = parser.parseFromString(result, 'image/svg+xml');
+          var svgElement = svgDoc.documentElement;
 
-            // svg.innerHTML = newResult;
-            var newResult = 'data:image/svg+xml;base64,' + btoa(newResult);
-            img.src = newResult;
-            result = newResult;
-          }else{
-            img.src = result;
-          }
-          $('#iconThumbnail').val(result);
+          // Change fill and stroke attributes to black
+          changeSvgColorToBlack(svgElement);
+
+          // Serialize the modified SVG back to string
+          var serializer = new XMLSerializer();
+          var newResult = serializer.serializeToString(svgElement);
+
+          // svg.innerHTML = newResult;
+          var newResult = 'data:image/svg+xml;base64,' + btoa(newResult);
+          img.src = newResult;
+          result = newResult;
+        } else
+        {
+          img.src = result;
+        }
+        $('#iconThumbnail').val(result);
       };
-     
-      if(file.type === 'image/svg+xml'){
+
+      if (file.type === 'image/svg+xml')
+      {
         reader.readAsText(file);
-      }else{
+      } else
+      {
         reader.readAsDataURL(file);
       }
-      
-    
+
+
     });
   });
 
-  function changeSvgColorToBlack(svgElement) {
+  function changeSvgColorToBlack (svgElement) {
     // Change fill and stroke attributes to black
     var elements = svgElement.querySelectorAll('*');
-    elements.forEach(function(element) {
-        if (element.hasAttribute('width')) {
-            element.setAttribute('width', '100%');
-        }
-        if (element.hasAttribute('height')) {
-            element.setAttribute('height', '100%');
-        }
-        if (element.hasAttribute('stroke')) {
-            element.setAttribute('stroke', 'currentColor');
-        }
-        if (element.hasAttribute('fill')) {
-            element.setAttribute('fill', 'currentColor');
-        }
+    elements.forEach(function (element) {
+      if (element.hasAttribute('width'))
+      {
+        element.setAttribute('width', '100%');
+      }
+      if (element.hasAttribute('height'))
+      {
+        element.setAttribute('height', '100%');
+      }
+      if (element.hasAttribute('stroke'))
+      {
+        element.setAttribute('stroke', 'currentColor');
+      }
+      if (element.hasAttribute('fill'))
+      {
+        element.setAttribute('fill', 'currentColor');
+      }
 
     });
-}
+  }
 
 </script>
 @endsection
-
-

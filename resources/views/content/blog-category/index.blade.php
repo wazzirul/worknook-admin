@@ -121,9 +121,10 @@
   // Add and Edit Modal
   $(document).on('click', '.create-new, .item-edit', function () {
     $(document).on('click', '#buttonModal', function () {
-      if($('#categoryName').val()!="" && $('#categoryDesc').val()!=""){
-      loaderFunc();
-    }
+      if ($('#categoryName').val() != "" && $('#categoryDesc').val() != "")
+      {
+        loaderFunc();
+      }
     })
     const modal = $('#blogModalCategory');
     const url = '/blog-categories/store';
@@ -160,36 +161,36 @@
     $('.modal').modal('hide');
     $('#deleteBlogModal').modal('show');
     const categoryId = $(this).data('id');
-    
+
     $(document).on('click', '#confirmationBtn', async function () {
       loaderFunc();
-   
-    const url = "/blog-categories/store";
-    const method = "POST";
-    // Prepare payload data
-    const payload = {
-      blog_category_id: categoryId,
-      soft_delete: 1
-    };
 
-    await $.ajax({
-      method: 'POST',
-      url: '/query',
-      data: {
-        _token: $('meta[name="csrf-token"]').attr('content'),
-        url: url,
-        method: method,
-        payload: payload
-      },
-      success: function (response) {
-        setTimeout(function () {
-          location.replace('blog-categories/delete');
-        }, 500); // Adjust delay as needed
-      },
-      error: function (xhr, status, error) {
-        $('.alert-danger').html(xhr.responseText).show(); // Display error message
-      }
-    });
+      const url = "/blog-categories/store";
+      const method = "POST";
+      // Prepare payload data
+      const payload = {
+        blog_category_id: categoryId,
+        soft_delete: 1
+      };
+
+      await $.ajax({
+        method: 'POST',
+        url: '/query',
+        data: {
+          _token: $('meta[name="csrf-token"]').attr('content'),
+          url: url,
+          method: method,
+          payload: payload
+        },
+        success: function (response) {
+          setTimeout(function () {
+            location.replace('blog-categories/delete');
+          }, 500); // Adjust delay as needed
+        },
+        error: function (xhr, status, error) {
+          $('.alert-danger').html(xhr.responseText).show(); // Display error message
+        }
+      });
     })
   });
 </script>
