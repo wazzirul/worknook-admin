@@ -1,5 +1,9 @@
 @extends('layouts/contentNavbarLayout')
 
+@section('vendor-style')
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+</link>
+@endsection
 @section('title', 'Job Details')
 
 @section('content')
@@ -51,7 +55,7 @@ $categoryJson = json_encode($data->data->job_category);
     </div>
     <div class="mb-3">
       <label for="descriptionFill" class="form-label"><strong>Description:</strong></label>
-      <p id="descriptionFill">{!!$data->data->job_description!!}</p>
+      <div id="descriptionFill">{!!$data->data->job_description!!}</div>
     </div>
     <div class="mb-3">
       <label for="locationFill" class="form-label"><strong>Location:</strong></label>
@@ -68,7 +72,7 @@ $categoryJson = json_encode($data->data->job_category);
         <li>Maintain existing codebase</li>
         <li>Collaborate with team members</li>
       </ul> --}}
-      {!!$data->data->responsibilities!!}
+      <div id="responsibilitiesFill">{!!$data->data->responsibilities!!}</div>      
     </div>
     <div class="mb-3">
       <label for="skillRequirementsFill" class="form-label"><strong>Skill Requirements:</strong></label>
@@ -144,13 +148,16 @@ $categoryJson = json_encode($data->data->job_category);
           </div>
 
           <!-- Description -->
-          <div class="col-sm-12">
-            <label class="form-label" for="description">Description</label>
-            <div class="input-group input-group-merge">
-              <input type="text" id="description" class="form-control dt-description" name="description"
-                placeholder="Job Description" aria-label="Job Description" value="{!!$data->data->job_description!!}" required />
+
+        <div class="col-sm-12">
+          <div class="mb-3">
+            <label for="blogDescEdit" class="form-label">Description</label>
+            <input type="hidden" name="description" id="descriptionEditHidden" required>
+            <div id="description">
+                <!-- Content editor or textarea can be added here -->
             </div>
-          </div>
+        </div>
+        </div>
 
           <!-- Location -->
           <div class="col-sm-12">
@@ -174,12 +181,15 @@ $categoryJson = json_encode($data->data->job_category);
 
           <!-- Responsibilities -->
           <div class="col-sm-12">
-            <label class="form-label" for="responsibilities">Responsibilities</label>
-            <div class="input-group input-group-merge">
-              <input type="text" id="responsibilities" class="form-control dt-responsibilities" name="responsibilities"
-                placeholder="Job Responsibilities" aria-label="Job Responsibilities" value="{!!$data->data->responsibilities!!}" required />
-            </div>
+            <div class="mb-3">
+              <label for="ResponEdit" class="form-label">Responsibilities</label>
+              <input type="hidden" name="responsibilities" id="responsibilitiesEditHidden" required>
+              <div id="responsibilities">
+                  <!-- Content editor or textarea can be added here -->
+              </div>
           </div>
+          </div>  
+          
 
           <!-- Skill (Select 2.js) -->
           <div class="col-sm-12">
@@ -222,6 +232,7 @@ $categoryJson = json_encode($data->data->job_category);
 @endsection
 
 @section('page-script')
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <script>
   var userRole = "{{ session('role') }}";
 </script>
@@ -413,6 +424,64 @@ $categoryJson = json_encode($data->data->job_category);
   loadData();
 </script>
 <script>
+  $(document).ready(function () {
+      var quill = new Quill('#description', {
+          modules: {
+              toolbar: [
+                  [{ header: [1, 2, false] }],
+                  ['bold', 'italic', 'underline'],
+                  ['image', 'code-block'],
+              ],
+          },
+          placeholder: 'Reply message',
+          theme: 'snow',
+      });
 
+      let blogContent = $(document).find('#descriptionFill').html();
+      console.log(blogContent);
+      $('#descriptionEditHidden').val(blogContent);
+
+      // quill.setContents([{ insert: blogContent }]);
+      quill.clipboard.dangerouslyPasteHTML(blogContent)
+
+      $(document).on('click', '.edit-record', function () {
+          quill.on('text-change', function () {
+              var content = quill.root.innerHTML;
+
+              $('#descriptionEditHidden').val(content);
+          });
+      })
+  })
+</script>
+
+<script>
+  $(document).ready(function () {
+      var quill = new Quill('#responsibilities', {
+          modules: {
+              toolbar: [
+                  [{ header: [1, 2, false] }],
+                  ['bold', 'italic', 'underline'],
+                  ['image', 'code-block'],
+              ],
+          },
+          placeholder: 'Reply message',
+          theme: 'snow',
+      });
+
+      let blogContent = $(document).find('#responsibilitiesFill').html();
+      console.log(blogContent);
+      $('#responsibilitiesEditHidden').val(blogContent);
+
+      // quill.setContents([{ insert: blogContent }]);
+      quill.clipboard.dangerouslyPasteHTML(blogContent)
+
+      $(document).on('click', '.edit-record', function () {
+          quill.on('text-change', function () {
+              var content = quill.root.innerHTML;
+
+              $('#responsibilitiesEditHidden').val(content);
+          });
+      })
+  })
 </script>
 @endsection

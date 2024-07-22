@@ -94,17 +94,20 @@
                     </div>
                     <div class="mb-3">
                         <label for="blogTitleEdit" class="form-label">Title</label>
+                        <small class="text-muted">Tip : Leave it empty if title will not updated</small>
                         <input type="text" class="form-control" id="blogTitleEdit" name="blogTitleEdit"
-                            value="{{$dataBlog->data->blog_title}}" required>
+                            required>
                     </div>
                     <div class="mb-3">
                         <label for="blogCategoryEdit" class="form-label">Category</label>
                         <select class="form-select" id="blogCategoryEdit" name="blogCategoryEdit" required>
 
                             @foreach ($data->data as $category)
-                            <option class="text-capitalize" value="{{ $category->blog_category_id }}" <?php
-                                if($category->blog_category_id == $dataBlog->data->category->blog_category_id)echo
-                                "Selected"?>>{{ $category->category_name }}
+                            <option class="text-capitalize" value="{{ $category->blog_category_id }}" <?php if (
+                              $category->blog_category_id == $dataBlog->data->category->blog_category_id
+                            ) {
+                              echo 'Selected';
+                            } ?>>{{ $category->category_name }}
                             </option>
                             @endforeach
                         </select>
@@ -112,11 +115,12 @@
                     <div class="mb-3">
                         <label for="blogFeaturedEdit" class="form-label">Featured</label>
                         <select class="form-select" id="blogFeaturedEdit" name="blogFeaturedEdit" required>
-                            <?php $active = "";
-                        if($dataBlog->data->featured==1){
-                          $active = "Selected"; 
-                        } 
-                       ?>
+                            <?php
+                            $active = '';
+                            if ($dataBlog->data->featured == 1) {
+                              $active = 'Selected';
+                            }
+                            ?>
                             <option class="text-capitalize" value="0">Non-Active
                             </option>
                             <option class="text-capitalize" value="1" {{$active}}>Active
@@ -254,7 +258,7 @@
         });
 
         let blogContent = $(document).find('#blogContent').html();
-
+        console.log(blogContent);
         $('#blogContentEditHidden').val(blogContent);
 
         // quill.setContents([{ insert: blogContent }]);

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\job_list;
 
 use App\Http\Controllers\Controller;
+use HTMLPurifier;
+use HTMLPurifier_Config;
 use Illuminate\Http\Request;
 
 class JobList extends Controller
@@ -43,6 +45,12 @@ class JobList extends Controller
     $responsibilities = $request->input('responsibilities');
     $job_skill = $request->input('jobSkill');
 
+    // Configure HTMLPurifier
+    $config = HTMLPurifier_Config::createDefault();
+    $purifier = new HTMLPurifier($config);
+    $sanitizedDescription = $purifier->purify($job_desc);
+    $sanitizedRespon = $purifier->purify($responsibilities);
+
     $message = null;
     $payload = null;
     if ($job_id == null) {
@@ -60,16 +68,15 @@ class JobList extends Controller
         'job_level_id' => $job_level,
         'type_employment_id' => $job_type,
         'category_id' => $job_category,
-        'job_description' => $job_desc,
+        'job_description' => $sanitizedDescription,
         'location' => $location,
         'start_salary' => $start_salary,
         'top_salary' => $top_salary,
-        'responsibilities' => $responsibilities,
+        'responsibilities' => $sanitizedRespon,
         'skill_id' => $job_skill,
       ];
       $message = 'Edit Job Success';
     }
-    dd($payload);
     $data = RequestURI('POST', env('API_URL') . '/jobs/store', $payload);
 
     if ($data->success) {
