@@ -5,7 +5,9 @@
   //   Function for fetch
   async function requestURI(urlAPI) {
     let methodAPI = 'POST';
-    let payloadAPI = {};
+    let payloadAPI = {
+      filter: '3'
+    };
 
     try {
       let response = await new Promise((resolve, reject) => {
@@ -35,12 +37,38 @@
   }
 
   // Put URL Here
-  let [dataJobStatistics, dataJobType] = await Promise.all([
+  let [dataJobStat, dataJobType] = await Promise.all([
     requestURI('/admin-dashboard/job-statistics'),
     requestURI('/admin-dashboard/job-categories-statistics')
   ]);
-  console.log(dataJobType);
+  let dataJobStatistics = [];
 
+  //ngecek object
+  function isObject(value) {
+    return typeof value === 'object' && value !== null && !Array.isArray(value);
+  }
+  //Mengubah Object jadi Array
+  if (isObject(dataJobStat)) {
+    dataJobStatistics.push(dataJobStat);
+  } else {
+    dataJobStatistics = dataJobStat;
+  }
+  console.log(dataJobStatistics);
+  var dataList = document.getElementById('dataList');
+
+  //dropdown ITEM
+  dataJobStatistics.forEach(function (item) {
+    // Membuat elemen <li> baru
+    var listItem = document.createElement('li');
+    var data = new Date(item.start_date).getFullYear();
+    listItem.textContent = data;
+    listItem.classList.add('dropdown-item');
+    listItem.classList.add('dropdown-item', 'd-flex', 'align-items-center');
+    listItem.setAttribute('data-year', data);
+    // Menambahkan elemen <li> ke dalam <ul>
+    dataList.appendChild(listItem);
+  });
+  // }
   var labels = [];
   var data = [];
 
@@ -55,70 +83,65 @@
     }
   });
 
-  //data example
-  dataJobStatistics = {
-    statistics: [
-      {
-        label: 'Jan',
-        label_full: '2024-01-01',
-        job_posted: 15,
-        job_applied: 11
-      },
-      {
-        label: 'Feb',
-        label_full: '2024-02-01',
-        job_posted: 10,
-        job_applied: 5
-      },
-      {
-        label: 'Mar',
-        label_full: '2024-03-01',
-        job_posted: 12,
-        job_applied: 5
-      },
-      {
-        label: 'Apr',
-        label_full: '2024-03-01',
-        job_posted: 20,
-        job_applied: 10
-      },
-      {
-        label: 'May',
-        label_full: '2024-03-01',
-        job_posted: 20,
-        job_applied: 10
-      }
-    ]
-  };
-
-  console.log(dataJobStatistics);
-  var listMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  var Month = new Date().getMonth();
   var MonthNow = [];
-
   var job_applied = [];
   var job_posted = [];
   var none = 0;
+  var Month = 12;
+  var dataYear = [];
+  var listMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  //bulan berdasarkan tahun ini
-  for (let i = 0; i <= Month; i++) {
-    MonthNow.push(listMonth[i]);
-  }
-  //Mengambil data
-  listMonth.slice(0, Month + 1).forEach((list, i) => {
-    var dataMonth = FilterMap(list);
-    console.log(dataMonth);
-    if (dataMonth) {
-      job_applied.push(dataMonth[0].job_applied);
-      job_posted.push(dataMonth[0].job_posted);
-    } else {
-      job_applied.push(none);
-      job_posted.push(none);
+  let yearNow = new Date().getFullYear();
+  var dataYear = [];
+
+  function DataMonthNow() {
+    Month = new Date().getMonth();
+    MonthNow = [];
+    //bulan berdasarkan tahun ini
+    for (let i = 0; i <= Month; i++) {
+      MonthNow.push(listMonth[i]);
     }
-  });
+    return MonthNow;
+  }
+
+  //Mengambil data
+  function DataYearsNow(year) {
+    if (year == yearNow) {
+      DataMonthNow();
+    } else {
+      MonthNow = listMonth;
+      Month = 12;
+    }
+    job_applied = [];
+    job_posted = [];
+    var dataMonth = [];
+    none = 0;
+    listMonth.slice(0, Month + 1).forEach((list, i) => {
+      dataMonth = FilterMonth(list, year);
+      console.log(dataMonth);
+      if (dataMonth) {
+        job_applied.push(dataMonth[0].job_applied);
+        job_posted.push(dataMonth[0].job_posted);
+      } else {
+        job_applied.push(none);
+        job_posted.push(none);
+      }
+    });
+  }
+
+  DataYearsNow(yearNow);
+
+  function filterYear(year, array) {
+    var data;
+    data = array.filter(p => new Date(p.start_date).getFullYear() == year);
+    return data;
+  }
+
   //filter data berdasarkan bulan
-  function FilterMap(month) {
-    var data = dataJobStatistics.statistics.filter(p => p.label === month);
+  function FilterMonth(month, year) {
+    dataYear = filterYear(year, dataJobStatistics);
+    var data = dataYear[0].statistics.filter(p => p.label === month);
+
     if (data.length === 0) {
       data = 0;
     }
@@ -195,102 +218,122 @@
 
   // Line Area Chart Initialize
   $(function () {
-    var l = $('#lineAreaChart'),
-      l =
-        l &&
-        new Chart(l, {
-          type: 'line',
-          data: {
-            labels: MonthNow,
-            datasets: [
-              {
-                label: 'Job Applied',
-                data: job_applied,
-                // Todo : Enable and replace the data after fetching
-                // Todo : Data must have array of per month
-                // data: data_job_applied,
-                tension: 0,
-                fill: !0,
-                backgroundColor: primaryClr,
-                pointStyle: 'circle',
-                borderColor: 'transparent',
-                pointRadius: 0.5,
-                pointHoverRadius: 5,
-                pointHoverBorderWidth: 5,
-                pointBorderColor: 'transparent',
-                pointHoverBackgroundColor: primaryClr,
-                pointHoverBorderColor: '#ababca'
-              },
-              {
-                label: 'Job Posted',
-                data: job_posted,
-                // Todo : Enable and replace the data after fetching
-                // Todo : Data must have array of per month
-                // Todo : If 2024 now is still on July, the month appear only from 2024 Jan - July
-                // data: data_job_posted,
-                tension: 0,
-                fill: !0,
-                backgroundColor: secondaryClr,
-                pointStyle: 'circle',
-                borderColor: 'transparent',
-                pointRadius: 0.5,
-                pointHoverRadius: 5,
-                pointHoverBorderWidth: 5,
-                pointBorderColor: 'transparent',
-                pointHoverBackgroundColor: secondaryClr,
-                pointHoverBorderColor: '#ceceab'
-              }
-            ]
+    var l = $('#lineAreaChart');
+    let myChart = new Chart(l, {
+      type: 'line',
+      data: {
+        labels: MonthNow,
+        datasets: [
+          {
+            label: 'Job Applied',
+            data: job_applied,
+            // Todo : Enable and replace the data after fetching
+            // Todo : Data must have array of per month
+            // data: data_job_applied,
+            tension: 0,
+            fill: !0,
+            backgroundColor: primaryClr,
+            pointStyle: 'circle',
+            borderColor: 'transparent',
+            pointRadius: 0.5,
+            pointHoverRadius: 5,
+            pointHoverBorderWidth: 5,
+            pointBorderColor: 'transparent',
+            pointHoverBackgroundColor: primaryClr,
+            pointHoverBorderColor: '#ababca'
           },
-          options: {
-            responsive: !0,
-            maintainAspectRatio: !1,
-            plugins: {
-              legend: {
-                position: 'top',
-                rtl: isRtl,
-                align: 'start',
-                labels: {
-                  usePointStyle: !0,
-                  padding: 35,
-                  boxWidth: 6,
-                  boxHeight: 6,
-                  color: textClr
-                }
-              },
-              tooltip: {
-                rtl: isRtl,
-                backgroundColor: bodyClr,
-                titleColor: headClr,
-                bodyColor: textClr,
-                borderWidth: 1,
-                borderColor: borderClr
-              }
+          {
+            label: 'Job Posted',
+            data: job_posted,
+            // Todo : Enable and replace the data after fetching
+            // Todo : Data must have array of per month
+            // Todo : If 2024 now is still on July, the month appear only from 2024 Jan - July
+            // data: data_job_posted,
+            tension: 0,
+            fill: !0,
+            backgroundColor: secondaryClr,
+            pointStyle: 'circle',
+            borderColor: 'transparent',
+            pointRadius: 0.5,
+            pointHoverRadius: 5,
+            pointHoverBorderWidth: 5,
+            pointBorderColor: 'transparent',
+            pointHoverBackgroundColor: secondaryClr,
+            pointHoverBorderColor: '#ceceab'
+          }
+        ]
+      },
+      options: {
+        responsive: !0,
+        maintainAspectRatio: !1,
+        plugins: {
+          legend: {
+            position: 'top',
+            rtl: isRtl,
+            align: 'start',
+            labels: {
+              usePointStyle: !0,
+              padding: 35,
+              boxWidth: 6,
+              boxHeight: 6,
+              color: textClr
+            }
+          },
+          tooltip: {
+            rtl: isRtl,
+            backgroundColor: bodyClr,
+            titleColor: headClr,
+            bodyColor: textClr,
+            borderWidth: 1,
+            borderColor: borderClr
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              color: 'transparent',
+              borderColor: borderClr
             },
-            scales: {
-              x: {
-                grid: {
-                  color: 'transparent',
-                  borderColor: borderClr
-                },
-                ticks: {
-                  color: textClr
-                }
-              },
-              y: {
-                min: 0,
-                max: 100,
-                grid: {
-                  color: 'transparent',
-                  borderColor: borderClr
-                },
-                ticks: {
-                  stepSize: 10,
-                  color: textClr
-                }
-              }
+            ticks: {
+              color: textClr
+            }
+          },
+          y: {
+            min: 0,
+            max: 100,
+            grid: {
+              color: 'transparent',
+              borderColor: borderClr
+            },
+            ticks: {
+              stepSize: 10,
+              color: textClr
             }
           }
-        });
+        }
+      }
+    });
+    function refreshChartData(year) {
+      // Data baru
+      listMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      if (yearNow == year) {
+        listMonth = DataMonthNow();
+      }
+      DataYearsNow(year);
+
+      // Update data pada dataset
+      myChart.data.labels = listMonth;
+      myChart.data.datasets[0].data = job_applied;
+      myChart.data.datasets[1].data = job_posted;
+      // Perbarui grafik
+      myChart.update();
+    }
+
+    document.querySelectorAll('.dropdown-item').forEach(function (item) {
+      item.addEventListener('click', function () {
+        var year = this.getAttribute('data-year');
+        setTimeout(refreshChartData(year), 2000);
+      });
+    });
   });
 })();
