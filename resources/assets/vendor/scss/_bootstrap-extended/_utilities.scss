@@ -1025,3 +1025,10 @@ a.invert-bg-dark {
   width: 0.1%;
   white-space: nowrap;
 }
+
+.text-style-2lines {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}

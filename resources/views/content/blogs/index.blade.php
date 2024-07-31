@@ -87,12 +87,6 @@
       </div>
       <div class="modal-body">
         <h6>By Category</h6>
-        <!-- <select class="form-select status-dropdown text-capitalize">
-          <option value="">All</option>
-          @foreach ($data->data as $category)
-          <option class="text-capitalize" value="{{ $category->category_name }}">{{ $category->category_name }}</option>
-          @endforeach
-        </select> -->
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
           <input type="radio" class="btn-check" name="filterCat" id="statusAll" checked>
           <label class="btn btn-outline-primary text-capitalize" for="statusAll">All</label>
@@ -123,7 +117,6 @@
       </div>
       <form action="/blogs/add" method="POST">
         <div class="modal-body">
-
           @csrf
           <div class="mb-3">
             <label for="blogThumbnailAdd" class="form-label">Thumbnail</label>
@@ -132,7 +125,11 @@
           </div>
           <div class="mb-3">
             <label for="blogTitleAdd" class="form-label">Title</label>
-            <input type="text" class="form-control" id="blogTitleAdd" name="blogTitleAdd">
+            <input type="text" class="form-control" id="blogTitleAdd" name="blogTitleAdd" required>
+          </div>
+          <div class="mb-3">
+            <label for="blogSlugAdd" class="form-label">Slug</label>
+            <input type="text" class="form-control" id="blogSlugAdd" name="blogSlugAdd" required>
           </div>
           <div class="mb-3">
             <label for="blogCategoryAdd" class="form-label">Category</label>
@@ -146,12 +143,10 @@
           <div class="mb-3">
             <label for="blogCategoryAdd" class="form-label">Featured</label>
             <select class="form-select" id="blogFeaturedAdd" name="blogFeaturedAdd">
-
               <option class="text-capitalize" value="0">Non-Active
               </option>
               <option class="text-capitalize" value="1">Active
               </option>
-
             </select>
           </div>
           <div class="mb-3">
@@ -188,7 +183,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script
   src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <script src="{{asset('assets/js/blogs-data-tables.js')}}"></script>
 <script>
@@ -231,6 +225,26 @@
       };
       reader.readAsDataURL(file);
     });
+  });
+</script>
+<script>
+  // Slug auto write and customization
+  $(document).ready(function () {
+    $('#blogTitleAdd').on('input', function () {
+      var title = $(this).val();
+      var slug = title.toLowerCase()
+        .replace(/[^\w\s]/gi, '')
+        .replace(/\s+/g, '-');
+      $('#blogSlugAdd').val(slug);
+    });
+
+    $('#blogSlugAdd').on('input', function () {
+      var slug = $(this).val();
+      slug = slug.toLowerCase()
+        .replace(/[^\w\s-]/gi, '')
+        .replace(/\s+/g, '-');
+      $(this).val(slug);
+    })
   });
 </script>
 @endsection

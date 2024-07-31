@@ -26,7 +26,7 @@
 
 <!-- Blog Details -->
 <h4 class="py-3 mb-4">
-    <span class="text-muted fw-light">Blog Details /</span> Title Here
+    <span class="text-muted fw-light">Blog Details /</span> {{$dataBlog->data->blog_title}}
 </h4>
 <div class="row">
     <div class="col-lg-8">
@@ -82,7 +82,7 @@
                 <h5 class="modal-title" id="editBlogModalLabel">Edit Blog Post</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/blog/update" method="POST">
+            <form action="/blog/update" method="POST" id="blogEditForm">
                 <div class="modal-body">
                     @csrf
                     <div class="mb-3">
@@ -94,9 +94,13 @@
                     </div>
                     <div class="mb-3">
                         <label for="blogTitleEdit" class="form-label">Title</label>
-                        <small class="text-muted">Tip : Leave it empty if title will not updated</small>
                         <input type="text" class="form-control" id="blogTitleEdit" name="blogTitleEdit"
-                            required>
+                            value="{{$dataBlog->data->blog_title}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="blogSlugEdit" class="form-label">Slug</label>
+                        <input type="text" class="form-control" id="blogSlugEdit" name="blogSlugEdit"
+                            value="{{$dataBlog->data->slug}}" required>
                     </div>
                     <div class="mb-3">
                         <label for="blogCategoryEdit" class="form-label">Category</label>
@@ -104,10 +108,10 @@
 
                             @foreach ($data->data as $category)
                             <option class="text-capitalize" value="{{ $category->blog_category_id }}" <?php if (
-                              $category->blog_category_id == $dataBlog->data->category->blog_category_id
-                            ) {
-                              echo 'Selected';
-                            } ?>>{{ $category->category_name }}
+                                $category->blog_category_id == $dataBlog->data->category->blog_category_id
+                                ) {
+                                echo 'Selected';
+                                } ?>>{{ $category->category_name }}
                             </option>
                             @endforeach
                         </select>
@@ -272,5 +276,41 @@
             });
         })
     })
+</script>
+<script>
+    // Slug auto write and customization
+    $(document).ready(function () {
+        $('#blogTitleEdit').on('input', function () {
+            var title = $(this).val();
+            var slug = title.toLowerCase()
+                .replace(/[^\w\s]/gi, '')
+                .replace(/\s+/g, '-');
+            $('#blogSlugEdit').val(slug);
+        });
+
+        $('#blogSlugEdit').on('input', function () {
+            var slug = $(this).val();
+            slug = slug.toLowerCase()
+                .replace(/[^\w\s-]/gi, '')
+                .replace(/\s+/g, '-');
+            $(this).val(slug);
+        });
+
+        // Store the initial value of blogTitleEdit
+        var initialTitle = $('#blogTitleEdit').val();
+
+        // Track changes to blogTitleEdit
+        var isTitleChanged = false;
+        $('#blogTitleEdit').on('input', function () {
+            isTitleChanged = true;
+        });
+
+        $('#blogEditForm').on('submit', function (e) {
+            if (!isTitleChanged)
+            {
+                $('#blogTitleEdit').val(null);
+            }
+        });
+    });
 </script>
 @endsection
