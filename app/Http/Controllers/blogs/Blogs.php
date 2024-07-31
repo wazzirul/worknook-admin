@@ -37,6 +37,7 @@ class Blogs extends Controller
     {
         $thumbnailEncode = $request->input('thumbnailEncode');
         $blogTitleAdd = $request->input('blogTitleAdd');
+        $blogSlugAdd = $request->input('blogSlugAdd');
         $blogCategoryAdd = $request->input('blogCategoryAdd');
         $blogContent = $request->input('blogContent');
         $blogShortContent = $request->input('blogShortContent');
@@ -50,6 +51,7 @@ class Blogs extends Controller
         $payload = [
             'admin_id' =>  session()->get('id'),
             'blog_title' => $blogTitleAdd,
+            'slug' => $blogSlugAdd,
             'blog_thumbnail' => $thumbnailEncode,
             'category_id' => $blogCategoryAdd,
             'description' => $sanitizedContent,
@@ -77,6 +79,7 @@ class Blogs extends Controller
         $blog_id = $request->input('blogId');
         $thumbnailEncode = $request->input('thumbnailEncode');
         $blogTitleEdit = $request->input('blogTitleEdit');
+        $blogSlugEdit = $request->input('blogSlugEdit');
         $blogCategoryEdit = $request->input('blogCategoryEdit');
         $blogContent = $request->input('blogContent');
         $blogShortContent = $request->input('blogShortContent');
@@ -90,7 +93,7 @@ class Blogs extends Controller
         $payload = [
             'admin_id' =>  session()->get('id'),
             'blog_id' => $blog_id,
-            'blog_title' => $blogTitleEdit,
+            'slug' => $blogSlugEdit,
             'blog_thumbnail' => $thumbnailEncode ? $thumbnailEncode : null,
             'category_id' => $blogCategoryEdit,
             'description' => $sanitizedContent,
@@ -99,7 +102,10 @@ class Blogs extends Controller
             'soft_delete' => null
         ];
 
-        // dd($payload);
+        // Conditionally add properties if they are not null
+        if ($blogTitleEdit !== null) {
+            $payload['blog_title'] = $blogTitleEdit;
+        }
 
         $data = RequestURI('POST', env('API_URL') . '/blog/store', $payload);
 
