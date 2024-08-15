@@ -2,26 +2,26 @@
 
 // Request User Data
 (async function () {
-  let urlUser = '/company/show';
-  let methodUser = 'POST';
-  let payloadUser = {
-    status: '2'
+  let urlAPI = '/company-team/show';
+  let methodAPI = 'POST';
+  let payloadAPI = {
+    user_id: uuid
   };
 
-  let data_user = [];
+  let data_api = [];
 
   await $.ajax({
     method: 'POST',
     url: '/query',
     data: {
       _token: $('meta[name="csrf-token"]').attr('content'),
-      url: urlUser,
-      method: methodUser,
-      payload: payloadUser
+      url: urlAPI,
+      method: methodAPI,
+      payload: payloadAPI
     },
     success: res => {
-      data_user = res.data;
-      console.log('data_user', data_user);
+      data_api = res.data;
+      console.log(data_api);
     },
     error: err => {
       console.log('error', err);
@@ -33,49 +33,60 @@
       t = $('.datatables-basic');
     t.length &&
       ((e = t.DataTable({
-        data: data_user,
-        // responsive: true,
+        data: data_api,
         autoWidth: false,
         columns: [
           {
-            data: 'company_profile.company_name'
+            data: 'team_name'
           },
           {
-            data: 'founder'
+            data: 'team_position'
           },
           {
-            data: 'company_profile.email'
+            data: 'email'
+          },
+          // // {
+          // //   data: 'gsocial_ids'
+          // // },
+          // // {
+          // //   data: 'fsocial_ids'
+          // // },
+          // {
+          //   data: 'sso_auth'
+          // },
+          {
+            data: 'instagram'
+          },
+          {
+            data: 'linkedin'
           },
           // {
-          //   data: 'industry'
+          //   data: 'status'
           // },
-          // {
-          //   data: 'location'
-          // },
-          {
-            data: 'company_profile.employees'
-          },
-          {
-            data: 'created_at'
-          },
-          {
-            data: 'status'
-          },
-          {
-            data: 'description'
-          },
           {
             data: ''
           }
         ],
         columnDefs: [
+          //   {
+          //     targets: 0,
+          //     class: 'job-name'
+          //   },
+
+          //   {
+          //     targets: 5,
+          //     render: function (e, t, a, s) {
+          //       var g = a.start_salary;
+          //       var j = a.top_salary;
+          //       return g + ' - ' + j;
+          //     }
+          //   },
           {
             targets: 0,
             responsivePriority: 0,
             render: function (e, t, a, s) {
-              var n = a.company_profile.company_icon,
-                r = a.company_profile.company_name,
-                l = a.company_profile.website;
+              var n = a.team_photo,
+                r = a.team_name;
 
               if (n) {
                 var o = '<img src="' + n + '" alt="Avatar" class="rounded-circle">';
@@ -83,7 +94,7 @@
                 var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
                   Math.floor(6 * Math.random())
                 ];
-                var i = (r = a.fullname).match(/\b\w/g) || [];
+                var i = (r = a.team_name).match(/\b\w/g) || [];
                 o =
                   '<span class="avatar-initial rounded-circle bg-label-' +
                   d +
@@ -96,82 +107,56 @@
               output += '<div class="avatar-wrapper"><div class="avatar me-2">' + o + '</div></div>';
               output += '<div class="d-flex flex-column"><span class="emp_name text-truncate">' + r + '</span>';
 
-              // Conditionally add website link if `l` is not null
-              if (l !== null && l !== undefined) {
-                output +=
-                  '<a target="_blank" href="http://' +
-                  l +
-                  '"><small class="emp_post text-truncate text-muted">' +
-                  l +
-                  '</small></a>';
-              }
-
               output += '</div></div>';
 
               return output;
             }
           },
-          {
-            responsivePriority: 0,
-            targets: 4,
-            render: function (data, type, row) {
-              return moment(data).format('YYYY-MM-DD'); // Adjust format as needed
-            }
-          },
-          {
-            responsivePriority: 0,
-            targets: 1,
-            render: function (e, t, a, s) {
-              var p = a.fullname;
-              return p;
-            }
-          },
+          //   {
+          //     targets: 9,
+          //     render: function (e, t, a, s) {
+          //       var n = a.status,
+          //         r = {
+          //           1: {
+          //             title: 'Open',
+          //             class: 'bg-label-primary'
+          //           },
+          //           2: {
+          //             title: 'Closed',
+          //             class: ' bg-label-danger'
+          //           }
+          //         };
+          //       return void 0 === r[n] ? e : '<span class="badge ' + r[n].class + '">' + r[n].title + '</span>';
+          //     }
+          //   },
+          //   {
+          //     targets: 10,
+          //     render: function (data, type, row) {
+          //       return moment(data).format('YYYY-MM-DD'); // Adjust format as needed
+          //     }
+          //   },
           {
             targets: 5,
-            responsivePriority: 0,
-            render: function (e, t, a, s) {
-              var n = a.soft_delete,
-                r = {
-                  0: {
-                    title: 'Permitted',
-                    class: 'bg-label-primary'
-                  },
-                  1: {
-                    title: 'Banned',
-                    class: ' bg-label-danger'
-                  }
-                };
-              return void 0 === r[n] ? e : '<span class="badge ' + r[n].class + '">' + r[n].title + '</span>';
-            }
-          },
-          {
-            targets: 6,
-            render: function (e, t, a, s) {
-              var g = a.company_profile.description;
-              return g;
-            }
-          },
-          {
-            targets: -1,
             title: 'Actions',
             orderable: !1,
             searchable: !1,
             render: function (e, t, a, s) {
-              var l = a.user_id;
-              var s = a.soft_delete;
-              var x = s === 1 ? 'Remove Ban' : 'Ban Company';
+              var l = a.job_id;
+              var p = a.status;
+              console.log(p);
+              var r = p === 1 ? 'Close Job' : 'Open Job';
+              var btn = p === 1 ? 'btn-danger' : 'btn-success';
+
               return userRole === '1'
-                ? '<div class="d-flex gap-1 flex-wrap"><a class="btn btn-outline-primary" href="company-details/' +
-                    l +
-                    '">See Jobs</a><a class="btn btn-outline-primary" href="company-team/' +
-                    l +
-                    '">See Team</a><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
+                ? '<a class="btn ' +
+                    btn +
+                    ' delete-record" href="javascript:;" data-id=' +
                     l +
                     ' data-banned=' +
-                    s +
+                    p +
                     '>' +
-                    x +
-                    '</a></div>'
+                    r +
+                    '</a>'
                 : '<small>Unathorized</small>';
             }
           }
@@ -191,7 +176,7 @@
                 text: '<i class="bx bx-printer me-1" ></i>Print',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [0, 1, 2, 3, 4, 5, 6],
+                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -199,7 +184,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('company-name')
+                          void 0 !== t.classList && t.classList.contains('job-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -228,7 +213,7 @@
                 text: '<i class="bx bx-file me-1" ></i>Csv',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [0, 1, 2, 3, 4, 5, 6],
+                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -236,7 +221,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('company-name')
+                          void 0 !== t.classList && t.classList.contains('job-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -253,7 +238,7 @@
                 text: '<i class="bx bxs-file-export me-1"></i>Excel',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [0, 1, 2, 3, 4, 5, 6],
+                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -261,7 +246,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('company-name')
+                          void 0 !== t.classList && t.classList.contains('job-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -278,7 +263,7 @@
                 text: '<i class="bx bxs-file-pdf me-1"></i>Pdf',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [0, 1, 2, 3, 4, 5, 6],
+                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -286,7 +271,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('company-name')
+                          void 0 !== t.classList && t.classList.contains('job-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -303,7 +288,7 @@
                 text: '<i class="bx bx-copy me-1" ></i>Copy',
                 className: 'dropdown-item',
                 exportOptions: {
-                  columns: [0, 1, 2, 3, 4, 5, 6],
+                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
                   format: {
                     body: function (e, t, a) {
                       if (e.length <= 0) return e;
@@ -311,7 +296,7 @@
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('company-name')
+                          void 0 !== t.classList && t.classList.contains('job-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -327,7 +312,7 @@
           }
         ]
       })),
-      $('div.head-label').html('<h1 class="card-title mb-3">Company Management</h1>'));
+      $('div.head-label').html('<h1 class="card-title mb-3">Team List of Company</h1>'));
     setTimeout(() => {
       $('.dataTables_filter .form-control').removeClass('form-control-sm'),
         $('.dataTables_length .form-select').removeClass('form-select-sm');

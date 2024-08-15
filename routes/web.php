@@ -6,6 +6,7 @@ use App\Http\Controllers\dashboard\Analytics;
 use App\Http\Controllers\user_management\UserManagement;
 use App\Http\Controllers\company_management\CompanyManagement;
 use App\Http\Controllers\job_company_management\JobCompanyManagement;
+use App\Http\Controllers\team_company_management\TeamCompanyManagement;
 use App\Http\Controllers\job_list\JobList;
 use App\Http\Controllers\candidate\Candidate;
 use App\Http\Controllers\messages\Messages;
@@ -99,6 +100,9 @@ Route::group(['middleware' => 'authsession'], function () {
   Route::get('/company-details/delete/{slug}', [JobCompanyManagement::class, 'delete'])->name(
     'job-company-management--delete'
   );
+
+  // Team Company Management Route
+  Route::get('/company-team/{slug}', [TeamCompanyManagement::class, 'index'])->name('team-company-management');
 
   // Job List Route
   Route::get('/job-list', [JobList::class, 'index'])->name('job-list');
