@@ -1,5 +1,26 @@
 'use strict';
 
+function photo_profile(photo, fullname) {
+  var photo = photo ?? null;
+  if (photo != null) {
+    var o = '<img src="' + photo + '" alt="Avatar" class="rounded-circle">';
+  } else {
+    var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][Math.floor(6 * Math.random())];
+    var i = fullname.match(/\b\w/g) || [];
+    o =
+      '<span class="avatar-initial rounded-circle bg-label-' +
+      d +
+      '">' +
+      ((i.shift() || '') + (i.pop() || '')).toUpperCase() +
+      '</span>';
+  }
+  var output = '<div class="d-flex justify-content-start align-items-center company-name">';
+  output += '<div class="avatar-wrapper"><div class="avatar me-2">' + o + '</div></div>';
+  output += '<div class="d-flex flex-column"><span class="emp_name text-truncate">' + fullname + '</span>';
+  output += '</div></div>';
+
+  return output;
+}
 // Request User Data
 (async function () {
   let urlAPI = '/company-team/show';
@@ -88,28 +109,7 @@
               var n = a.team_photo,
                 r = a.team_name;
 
-              if (n) {
-                var o = '<img src="' + n + '" alt="Avatar" class="rounded-circle">';
-              } else {
-                var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
-                  Math.floor(6 * Math.random())
-                ];
-                var i = (r = a.team_name).match(/\b\w/g) || [];
-                o =
-                  '<span class="avatar-initial rounded-circle bg-label-' +
-                  d +
-                  '">' +
-                  ((i.shift() || '') + (i.pop() || '')).toUpperCase() +
-                  '</span>';
-              }
-
-              var output = '<div class="d-flex justify-content-start align-items-center company-name">';
-              output += '<div class="avatar-wrapper"><div class="avatar me-2">' + o + '</div></div>';
-              output += '<div class="d-flex flex-column"><span class="emp_name text-truncate">' + r + '</span>';
-
-              output += '</div></div>';
-
-              return output;
+              return photo_profile(n, r);
             }
           },
           //   {
@@ -137,26 +137,24 @@
           //   },
           {
             targets: 5,
-            title: 'Actions',
+            title: 'Activity History',
             orderable: !1,
             searchable: !1,
             render: function (e, t, a, s) {
-              var l = a.job_id;
+              var l = a.id;
+              var fn = a.team_name;
+              var ph = a.team_photo;
               var p = a.status;
-              console.log(p);
-              var r = p === 1 ? 'Close Job' : 'Open Job';
-              var btn = p === 1 ? 'btn-danger' : 'btn-success';
+              console.log(l);
 
               return userRole === '1'
-                ? '<a class="btn ' +
-                    btn +
-                    ' delete-record" href="javascript:;" data-id=' +
+                ? '<a class="btn btn-info item-show" href="javascript:;" data-id=' +
                     l +
-                    ' data-banned=' +
-                    p +
-                    '>' +
-                    r +
-                    '</a>'
+                    ' data-name="' +
+                    fn +
+                    '" data-photo="' +
+                    ph +
+                    '">Show</a>'
                 : '<small>Unathorized</small>';
             }
           }
@@ -345,3 +343,95 @@
     });
   });
 })();
+$(document).on('click', '.item-show', function () {
+  if ($.fn.DataTable.isDataTable('.datatables-history')) {
+    // Jika sudah, destroy DataTable tersebut
+    $('.datatables-history').DataTable().destroy();
+
+    $('.datatables-history').DataTable({
+      data: [], // Data kosong
+      columns: [
+        { title: 'Activity History', data: 'history' },
+        { title: 'Time', data: '' },
+        { title: 'Date', data: '' }
+      ]
+    });
+  }
+  $('.datatables-history').DataTable().destroy();
+  $('.modal').modal('hide');
+  $('#showHistory').modal('show');
+  const dataId = $(this).data('id');
+  const fullname = $(this).data('name');
+  const photo = $(this).data('photo');
+  (async function () {
+    let urlAPI = '/users-history/show';
+    let methodAPI = 'POST';
+    let payloadAPI = {
+      user_id: dataId
+    };
+
+    let data_api = [];
+
+    await $.ajax({
+      method: 'POST',
+      url: '/query',
+      data: {
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        url: urlAPI,
+        method: methodAPI,
+        payload: payloadAPI
+      },
+      success: res => {
+        data_api = res.data.data;
+        console.log(data_api.data);
+      },
+      error: err => {
+        console.log('error', err);
+      }
+    });
+
+    $(function () {
+      var s,
+        h = $('.datatables-history');
+      h.length &&
+        ((s = h.DataTable({
+          data: data_api,
+          autoWidth: false,
+
+          columns: [
+            {
+              data: 'history'
+            },
+            {
+              data: 'created_at'
+            },
+            {
+              data: 'created_at'
+            }
+          ],
+          columnDefs: [
+            {
+              responsivePriority: 0,
+              targets: 1,
+              render: function (data, type, row) {
+                return moment(data).format('HH:mm:ss'); // Adjust format as needed
+              }
+            },
+            {
+              responsivePriority: 0,
+              targets: 2,
+              render: function (data, type, row) {
+                return moment(data).format('YYYY-MM-DD'); // Adjust format as needed
+              }
+            }
+          ],
+          dom: '<"row"<"col-sm-12 col-md-12 head-labels"><"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>'
+        })),
+        $('div.head-labels').html('<label class="mt-3">' + photo_profile(photo, fullname) + '</label>'));
+      setTimeout(() => {
+        $('.dataTables_filter .form-control').removeClass('form-control-sm'),
+          $('.dataTables_length .form-select').removeClass('form-select-sm');
+      }, 300);
+    });
+  })();
+});

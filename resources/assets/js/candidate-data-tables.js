@@ -1,5 +1,26 @@
 'use strict';
 
+function photo_profile(photo, fullname) {
+  var photo = photo ?? null;
+  if (photo != null) {
+    var o = '<img src="' + photo + '" alt="Avatar" class="rounded-circle">';
+  } else {
+    var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][Math.floor(6 * Math.random())];
+    var i = fullname.match(/\b\w/g) || [];
+    o =
+      '<span class="avatar-initial rounded-circle bg-label-' +
+      d +
+      '">' +
+      ((i.shift() || '') + (i.pop() || '')).toUpperCase() +
+      '</span>';
+  }
+  var output = '<div class="d-flex justify-content-start align-items-center company-name">';
+  output += '<div class="avatar-wrapper"><div class="avatar me-2">' + o + '</div></div>';
+  output += '<div class="d-flex flex-column"><span class="emp_name text-truncate">' + fullname + '</span>';
+  output += '</div></div>';
+
+  return output;
+}
 // Request User Data
 (async function () {
   let urlUser = '/admin-applicant/data';
@@ -74,6 +95,9 @@
           // },
           {
             data: ''
+          },
+          {
+            data: ''
           }
         ],
         columnDefs: [
@@ -83,42 +107,12 @@
             render: function (e, t, a, s) {
               var n = a.applicant_profile,
                 r = a.fullname;
-
+              var p = null;
               if (n != null) {
-                var p = a.applicant_profile.profile_photo;
-                if (p != null) {
-                  var o = '<img src="' + p + '" alt="Avatar" class="rounded-circle">';
-                } else {
-                  var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
-                    Math.floor(6 * Math.random())
-                  ];
-                  var i = (r = a.fullname).match(/\b\w/g) || [];
-                  o =
-                    '<span class="avatar-initial rounded-circle bg-label-' +
-                    d +
-                    '">' +
-                    ((i.shift() || '') + (i.pop() || '')).toUpperCase() +
-                    '</span>';
-                }
-              } else {
-                var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
-                  Math.floor(6 * Math.random())
-                ];
-                var i = (r = a.fullname).match(/\b\w/g) || [];
-                o =
-                  '<span class="avatar-initial rounded-circle bg-label-' +
-                  d +
-                  '">' +
-                  ((i.shift() || '') + (i.pop() || '')).toUpperCase() +
-                  '</span>';
+                p = a.applicant_profile.profile_photo;
               }
 
-              var output = '<div class="d-flex justify-content-start align-items-center company-name">';
-              output += '<div class="avatar-wrapper"><div class="avatar me-2">' + o + '</div></div>';
-              output += '<div class="d-flex flex-column"><span class="emp_name text-truncate">' + r + '</span>';
-              output += '</div></div>';
-
-              return output;
+              return photo_profile(p, r);
             }
           },
           {
@@ -206,6 +200,34 @@
             targets: 6,
             render: function (data, type, row) {
               return moment(data).format('YYYY-MM-DD'); // Adjust format as needed
+            }
+          },
+
+          {
+            targets: -2,
+            title: 'Activity History',
+            orderable: !1,
+            searchable: !1,
+            render: function (e, t, a, s) {
+              var l = a.user_id;
+              var p = a.status;
+              var fn = a.fullname;
+              var n = a.applicant_profile;
+              var ph = null;
+              if (n != null) {
+                ph = a.applicant_profile.profile_photo;
+              }
+              console.log(fn);
+
+              return userRole === '1'
+                ? '<a class="btn btn-outline-info item-show" href="javascript:;" data-id=' +
+                    l +
+                    ' data-name="' +
+                    fn +
+                    '" data-photo="' +
+                    ph +
+                    '">Show</a>'
+                : '<small>Unathorized</small>';
             }
           },
           {
@@ -445,3 +467,98 @@
     });
   });
 })();
+
+$(document).on('click', '.item-show', function () {
+  if ($.fn.DataTable.isDataTable('.datatables-history')) {
+    // Jika sudah, destroy DataTable tersebut
+    $('.datatables-history').DataTable().destroy();
+    $('.datatables-history').DataTable({
+      data: [], // Data kosong
+      columns: [
+        { title: 'Activity History', data: 'history' },
+        { title: 'Time', data: '' },
+        { title: 'Date', data: '' }
+      ]
+    });
+  }
+  $('.datatables-history').DataTable().destroy();
+  $('.modal').modal('hide');
+  $('#showHistory').modal('show');
+  const dataId = $(this).data('id');
+  const fullname = $(this).data('name');
+  const photo = $(this).data('photo');
+  console.log($(this).data('name'));
+
+  (async function () {
+    let urlAPI = '/users-history/show';
+    let methodAPI = 'POST';
+    let payloadAPI = {
+      user_id: dataId
+    };
+
+    let data_api = [];
+
+    await $.ajax({
+      method: 'POST',
+      url: '/query',
+      data: {
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        url: urlAPI,
+        method: methodAPI,
+        payload: payloadAPI
+      },
+      success: res => {
+        data_api = res.data;
+        console.log(data_api);
+      },
+      error: err => {
+        console.log('error', err);
+      }
+    });
+
+    $(function () {
+      var s,
+        h = $('.datatables-history');
+      h.length &&
+        ((s = h.DataTable({
+          data: data_api.data,
+          autoWidth: false,
+
+          columns: [
+            {
+              data: 'history'
+            },
+            {
+              data: 'created_at'
+            },
+            {
+              data: 'created_at'
+            }
+          ],
+          columnDefs: [
+            {
+              responsivePriority: 0,
+              targets: 1,
+              render: function (data, type, row) {
+                return moment(data).format('HH:mm:ss'); // Adjust format as needed
+              }
+            },
+            {
+              responsivePriority: 0,
+              targets: 2,
+              render: function (data, type, row) {
+                return moment(data).format('YYYY-MM-DD'); // Adjust format as needed
+              }
+            }
+          ],
+          order: [],
+          dom: '<"row"<"col-sm-12 col-md-12 head-labels"><"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>'
+        })),
+        $('div.head-labels').html('<label class="mt-3">' + photo_profile(photo, fullname) + '</label>'));
+      setTimeout(() => {
+        $('.dataTables_filter .form-control').removeClass('form-control-sm'),
+          $('.dataTables_length .form-select').removeClass('form-select-sm');
+      }, 300);
+    });
+  })();
+});
