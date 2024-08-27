@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\activity_history\ActivityHistory;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QueryController;
 use App\Http\Controllers\dashboard\Analytics;
@@ -113,6 +114,9 @@ Route::group(['middleware' => 'authsession'], function () {
   // Candidate Management Route
   Route::get('/candidate', [Candidate::class, 'index'])->name('candidate');
   Route::get('/candidate-details/{slug}', [Candidate::class, 'details'])->name('candidate-details');
+
+  // Activity History
+  Route::post('/activity-history', [ActivityHistory::class, 'index'])->name('activity-history');
 
   // Messages Route
   Route::get('/customer-support', [Messages::class, 'index'])->name('messages');

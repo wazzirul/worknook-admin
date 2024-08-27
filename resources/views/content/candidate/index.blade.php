@@ -18,10 +18,12 @@
   .datatables-basic thead tr th:nth-child(5),
   .datatables-basic thead tr th:nth-child(6),
   .datatables-basic thead tr th:nth-child(8),
+  .datatables-basic thead tr th:nth-child(9),
   .datatables-basic tbody tr *:nth-child(4),
   .datatables-basic tbody tr *:nth-child(5),
   .datatables-basic tbody tr *:nth-child(6),
-  .datatables-basic tbody tr *:nth-child(8) {
+  .datatables-basic tbody tr *:nth-child(8),
+  .datatables-basic tbody tr *:nth-child(9)   {
     display: none;
   }
 </style>
@@ -199,6 +201,38 @@
     </div>
   </div>
 </div>
+</div>
+<!-- Modal Show History -->
+<div class="modal fade" id="showHistory" tabindex="-1" aria-hidden="true" style="z-index: 1091">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h5 class="modal-title" id="modalCenterTitle"></h5>
+        <button type="button" class="btn-close item-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-datatable table-responsive">
+            <table class="datatables-history table border-top table-hover table-striped table-striped" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Activity History</th>
+                  <th>Time</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary item-close" data-bs-dismiss="modal">Cancel</button>
+      </div>
+
+    </div>
+  </div>
 </div>
 @endsection
 
