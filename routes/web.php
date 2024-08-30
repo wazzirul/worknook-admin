@@ -116,7 +116,7 @@ Route::group(['middleware' => 'authsession'], function () {
   Route::get('/candidate-details/{slug}', [Candidate::class, 'details'])->name('candidate-details');
 
   // Activity History
-  Route::post('/activity-history', [ActivityHistory::class, 'index'])->name('activity-history');
+  Route::get('/activity-history', [ActivityHistory::class, 'index'])->name('activity-history');
 
   // Messages Route
   Route::get('/customer-support', [Messages::class, 'index'])->name('messages');
