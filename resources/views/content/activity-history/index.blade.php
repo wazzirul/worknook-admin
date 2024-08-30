@@ -8,6 +8,7 @@
 <style>
 
 </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 @endsection
 
 @section('content')
@@ -25,59 +26,59 @@
   </button>
 </div>
 @endif
-<!-- DataTable with Buttons -->
 
+
+<!-- DataTable with Buttons -->
 <div class="card">
   <div class="card-header">
-    <h2>Job Details</h2>
+    <h2>Activity History</h2>
   </div>
   <div class="card-body">
-    
-    @foreach ($data->data->data as $d)
-    <div class="col-md-12 bg-white p-3 ">
-      {{ $d->history }}
-    </div>
-    @endforeach
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-12 text-center">
-          @php
-          $currentPage = $data->data->current_page;
-          $lastPage = $data->data->last_page;
-          $perPageGroup = 5; // Jumlah halaman per grup
-          $currentGroup = ceil($currentPage / $perPageGroup);
-          $startPage = ($currentGroup - 1) * $perPageGroup + 1;
-          $endPage = min($startPage + $perPageGroup - 1, $lastPage);
-      @endphp
-      
-      @if ($lastPage > 1)
-          <ul class="pagination">
-              {{-- Link ke halaman sebelumnya --}}
-              @if ($currentPage > 1)
-                  <li class="page-item">
-                      <a class="page-link" href="{{ $data->data->prev_page_url }}" aria-label="Previous">
-                          <span aria-hidden="true">&laquo; Previous</span>
-                      </a>
-                  </li>
-              @endif
-      
-              {{-- Link ke halaman dalam grup --}}
-              @for ($page = $startPage; $page <= $endPage; $page++)
-                  <li class="page-item {{ $page == $currentPage ? 'active' : '' }}">
-                      <a class="page-link" href="/activity-history?page={{ $page }}">{{ $page }}</a>
-                  </li>
-              @endfor
-      
-              {{-- Link ke grup halaman berikutnya --}}
-              @if ($endPage < $lastPage)
-                  <li class="page-item">
-                      <a class="page-link" href="/activity-history?page={{ $endPage + 1 }}" aria-label="Next">
-                          <span aria-hidden="true">Next &raquo;</span>
-                      </a>
-                  </li>
-              @endif
-          </ul>
-      @endif
+        <div class="col-md-2 col-4"> <select class="form-select" id="typeSelect">
+          <option value="all">All</option>
+          <option value="applicant">Applicant</option>
+          <option value="company">Company</option>
+          <option value="team-company">Team Company</option>
+        </select></div>
+        <div class="col-3 col-md-1"><select class="form-select" id="pageSelect">
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="100">100</option>
+        </select></div>
+        <div class="col-4 col-md-2 align-content-center">entries per page</div>
+      </div>
+    </div>
+    <div class="container-fluid mt-3 p-2 border-bottom border-top border-1 border-light">
+      <table class="text-center" style="width: 100%;font-size:0.75rem;letter-spacing: 1px">
+        <colgroup>
+          <col span="1" style="width: 15%;">
+          <col span="1" style="width: 45%;">
+          <col span="1" style="width: 20%;">
+          <col span="1" style="width: 20%;">
+       </colgroup>
+        <thead>
+          <tr>
+            <th>NAME</th>
+            <th>HISTORY</th>
+            <th>TYPE</th>
+            <th>DATE</th>
+          </tr>
+        </thead>
+      </table>
+     
+    </div>
+    <div class="container-fluid">
+      <div class="row" id="name">
+        {{-- content --}}
+      </div>
+    </div>
+    <div class="container-fluid mt-2">
+      <div class="row">
+          
+          <div class="col-md-12 text-center" id="paginate">
+         {{-- paginate --}}
         </div>
       </div>
     </div>
@@ -85,11 +86,6 @@
   </div>
   
 </div>
-
-
-
-
-
 @endsection
 
 @section('page-script')
@@ -99,9 +95,5 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script
-  src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
-
-
+<script src="{{asset('assets/js/activity-history.js')}}"></script>
 @endsection
