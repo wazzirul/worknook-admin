@@ -1,8 +1,5 @@
 'use strict';
 
-const url = new URL(window.location.href);
-const params = new URLSearchParams(url.search);
-
 function photo_profile(photo, fullname) {
   var photo = photo ?? null;
   var o = '';
@@ -28,25 +25,35 @@ function photo_profile(photo, fullname) {
 
 document.getElementById('typeSelect').addEventListener('change', function () {
   var type = this.value;
-  var page = params.get('entries') ?? null;
-  var pageUrl = page ? '&&entries=' + page : '';
-  window.location.replace('/activity-history?type=' + type + pageUrl);
+  localStorage.setItem('type', type);
+  window.location.replace('/activity-history');
 });
 document.getElementById('pageSelect').addEventListener('change', function () {
   var page = this.value;
-  var type = params.get('type') ?? null;
-  var typeUrl = type ? 'type=' + type + '&&' : '';
-  window.location.replace('/activity-history?' + typeUrl + 'entries=' + page);
+  localStorage.setItem('entries', page);
+  window.location.replace('/activity-history');
 });
+document.getElementById('button-search').addEventListener('click', function () {
+  var search = document.getElementById('search').value;
+  localStorage.setItem('search', search);
+  window.location.replace('/activity-history');
+});
+document.getElementById('button-reset').addEventListener('click', function () {
+  var search = '';
+  localStorage.setItem('search', search);
+  window.location.replace('/activity-history');
+});
+
 (async function () {
   console.log('tes');
 
-  var page = params.get('page') ?? null;
-  var type = params.get('type') ?? null;
-  var entries = params.get('entries') ?? null;
-  var typeUrl = type ? '&&type=' + type : '';
-  var pageUrl = entries ? '&&entries=' + entries : '';
-  var Url = typeUrl + pageUrl;
+  const url = new URL(window.location.href);
+  const params = new URLSearchParams(url.search);
+
+  var page = params.get('page');
+  var type = localStorage.getItem('type', page) ?? null;
+  var entries = localStorage.getItem('entries', page) ?? null;
+  var search = localStorage.getItem('search', page) ?? null;
 
   var type_user = '';
   if (type) {
@@ -58,6 +65,10 @@ document.getElementById('pageSelect').addEventListener('change', function () {
     selectElement.value = entries;
   } else {
     entries = 10;
+  }
+  if (search) {
+    const selectElement = document.getElementById('search');
+    selectElement.value = search;
   }
   switch (type) {
     case 'all':
@@ -86,7 +97,8 @@ document.getElementById('pageSelect').addEventListener('change', function () {
   let methodUser = 'POST';
   let payloadUser = {
     paginate: entries,
-    type_user: type_user
+    type_user: type_user,
+    search: search
   };
 
   let data = [];
@@ -118,7 +130,7 @@ document.getElementById('pageSelect').addEventListener('change', function () {
     var [hours, minutes, seconds] = timePart.split(':');
 
     // Format to hhmmss ddmmyy
-    var formattedDate = `${hours}:${minutes}:${seconds.slice(0, 2)} ${day}/${month}/${year.slice(2)}`;
+    var formattedDate = `${hours}:${minutes}:${seconds.slice(0, 2)} ${year}/${month}/${day}`;
 
     i++;
     var background = i % 2 ? '' : '#E9EAEC';
@@ -127,9 +139,20 @@ document.getElementById('pageSelect').addEventListener('change', function () {
       background +
       '"><div class="row"><div class="col-lg-3 col-md-3 col-8 p-2 ">';
     if (item.users != null) {
-      output += photo_profile('', item.users.fullname);
+      if (item.users.company_profile) {
+        var icon = item.users.company_profile.company_icon ? item.users.company_profile.company_icon : '';
+      }
+      if (item.users.applicant_profile) {
+        var icon = item.users.applicant_profile.profile_photo ? item.users.applicant_profile.profile_photo : '';
+      }
+      output += photo_profile(icon, item.users.fullname);
     } else {
-      output += photo_profile('', item.users_team.team_name);
+      if (item.users_team) {
+        var icon = item.users_team.team_photo ? item.users_team.team_photo : '';
+      } else {
+        var icon = '';
+      }
+      output += photo_profile(icon, item.users_team.team_name);
     }
     output += '</div><div class="col-lg-5 col-md-5 col-8 p-2 align-content-center order-4 order-md-3">';
     output += item.history;
@@ -169,7 +192,7 @@ document.getElementById('pageSelect').addEventListener('change', function () {
     if (currentPage > 1) {
       paginateOutput += '<li class="page-item">';
       paginateOutput +=
-        '<a class="page-link" href=" /activity-history?page=' + (startPage - 1) + Url + '" aria-label="Previous">';
+        '<a class="page-link" href=" /activity-history?page=' + (startPage - 1) + '" aria-label="Previous">';
       paginateOutput += '<span aria-hidden="true">&laquo; Previous</span>';
       paginateOutput += '</a></li>';
     }
@@ -178,7 +201,7 @@ document.getElementById('pageSelect').addEventListener('change', function () {
     for (i = startPage; i <= endPage; i++) {
       var active = i == currentPage ? 'active' : '';
       paginateOutput += '<li class="page-item ' + active + '">';
-      paginateOutput += '<a class="page-link" href="/activity-history?page=' + i + Url + '">' + i + '</a></li>';
+      paginateOutput += '<a class="page-link" href="/activity-history?page=' + i + '">' + i + '</a></li>';
     }
     //link terakhir
     if (endPage < lastPage) {
@@ -186,7 +209,6 @@ document.getElementById('pageSelect').addEventListener('change', function () {
       paginateOutput +=
         '<li class="page-item"><a class="page-link" href="/activity-history?page=' +
         lastPage +
-        Url +
         '">' +
         lastPage +
         '</a></li>';
@@ -196,7 +218,6 @@ document.getElementById('pageSelect').addEventListener('change', function () {
       paginateOutput +=
         '<li class="page-item"><a class="page-link" href="/activity-history?page=' +
         (endPage + 1) +
-        Url +
         '" aria-label="Next"><span aria-hidden="true">Next &raquo;</span></a></li>';
     }
     paginateOutput += '</ul>';

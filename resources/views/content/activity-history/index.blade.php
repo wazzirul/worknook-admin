@@ -36,7 +36,7 @@
   <div class="card-body">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-2 col-4"> <select class="form-select" id="typeSelect">
+        <div class="col-md-2 col-5"> <select class="form-select" id="typeSelect">
           <option value="all">All</option>
           <option value="applicant">Applicant</option>
           <option value="company">Company</option>
@@ -45,9 +45,12 @@
         <div class="col-3 col-md-1"><select class="form-select" id="pageSelect">
           <option value="10">10</option>
           <option value="25">25</option>
-          <option value="100">100</option>
+          <option value="50">50</option>
         </select></div>
-        <div class="col-4 col-md-2 align-content-center">entries per page</div>
+        <div class="col-4 col-md-3 align-content-center">entries per page</div>
+        <div class="col-4 col-md-4 align-content-center"><input type="text" class="form-control" id="search" placeholder="Enter text"></div>
+        <div class="col-4 col-md-1 align-content-center"><button class="btn btn-primary" type="button" id="button-search">Search</button></div>
+        <div class="col-4 col-md-1 align-content-center"><button class="btn btn-outline-dark" type="button" id="button-reset">Reset</button></div>
       </div>
     </div>
     <div class="container-fluid mt-3 p-2 border-bottom border-top border-1 border-light">
