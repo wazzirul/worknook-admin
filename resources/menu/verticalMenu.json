@@ -91,6 +91,24 @@
           "slug": "master-industries"
         }
       ]
+    },
+    {
+      "url": "/",
+      "name": "Legal Document",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "slug": "legal",
+      "submenu":[
+        {
+          "url": "/privacy-policy",
+          "name": "Privacy Policy",
+          "slug": "privacy-policy"
+        },
+        {
+          "url": "/terms-conditions",
+          "name": "Terms and Conditions",
+          "slug": "terms-conditions"
+        }
+      ]
     }
     
   ]

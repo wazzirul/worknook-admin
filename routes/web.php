@@ -9,6 +9,7 @@ use App\Http\Controllers\job_company_management\JobCompanyManagement;
 use App\Http\Controllers\job_list\JobList;
 use App\Http\Controllers\candidate\Candidate;
 use App\Http\Controllers\messages\Messages;
+use App\Http\Controllers\privacy\Privacy;
 use App\Http\Controllers\blogs\Blogs;
 use App\Http\Controllers\layouts\WithoutMenu;
 use App\Http\Controllers\layouts\WithoutNavbar;
@@ -166,6 +167,9 @@ Route::group(['middleware' => 'authsession'], function () {
   Route::get('/master-industries', [Industries::class, 'index'])->name('master-industries');
   Route::post('/master-industries/store', [Industries::class, 'store'])->name('master-industries--create');
   Route::get('/master-industries/delete', [Industries::class, 'delete'])->name('master-industries--delete');
+
+  //Privacy Policy Route
+  Route::get('/privacy-policy', [Privacy::class, 'index'])->name('master-industries');
 });
 
 // layout
