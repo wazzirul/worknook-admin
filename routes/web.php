@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QueryController;
 use App\Http\Controllers\dashboard\Analytics;
 use App\Http\Controllers\user_management\UserManagement;
+use App\Http\Controllers\subscription_management\SubscriptionManagement;
 use App\Http\Controllers\company_management\CompanyManagement;
 use App\Http\Controllers\job_company_management\JobCompanyManagement;
 use App\Http\Controllers\team_company_management\TeamCompanyManagement;
@@ -133,6 +134,10 @@ Route::group(['middleware' => 'authsession'], function () {
   Route::get('/blog-categories', [BlogCategories::class, 'index'])->name('blog-categories');
   Route::post('/blog-categories/store', [BlogCategories::class, 'store'])->name('blog-categories--create/update');
   Route::get('/blog-categories/delete', [BlogCategories::class, 'delete'])->name('blog-categories--delete');
+
+  // Subscription Management Routes
+  Route::get('/subscription-management', [SubscriptionManagement::class, 'index'])->name('subscription-management');
+  
 
   // Routes accessible only to superadmins
   Route::group(['middleware' => 'superadmin'], function () {
