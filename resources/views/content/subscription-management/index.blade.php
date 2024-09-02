@@ -54,25 +54,33 @@
       @csrf
       <input type="hidden" class="dt-id" name="id">
       <div class="col-sm-12">
-        <label class="form-label" for="basicFullname">Full Name</label>
+        <label class="form-label" for="basicPlanname">Plan Name</label>
         <div class="input-group input-group-merge">
-          <span id="basicFullname2" class="input-group-text"><i class="bx bx-user"></i></span>
-          <input type="text" id="basicFullname" class="form-control dt-full-name" name="basicFullname"
-            placeholder="John Doe" aria-label="John Doe" aria-describedby="basicFullname2" required />
+          <span id="basicPlanname2" class="input-group-text"><i class="bx bx-user"></i></span>
+          <input type="text" id="basicPlanname" class="form-control dt-plan-name" name="basicPlanname"
+            placeholder="John Doe" aria-label="John Doe" aria-describedby="basicPlanname2" required />
         </div>
       </div>
       <div class="col-sm-12">
-        <label class="form-label" for="profilePicture">Profile Picture</label>
+        <label class="form-label" for="Icon">Icon</label>
         <div class="input-group input-group-merge">
-          <input type="file" id="profilePicture" class="form-control dt-profile-img" name="profilePicture"
-            aria-label="Profile Picture" aria-describedby="profilePicture2" accept="image/png" required />
-          <input type="hidden" class="dt-profile-encode" id="profileEncode" name="profileEncode" required>
+          <input type="file" id="Icon" class="form-control dt-icon-img" name="Icon"
+            aria-label="Icon" aria-describedby="Icon2" accept="image/png" required />
+          <input type="hidden" class="dt-icon-encode" id="iconEncode" name="iconEncode" required>
         </div>
         <div class="form-text">
           Max file size is 4 MB
         </div>
       </div>
       <div class="col-sm-12">
+        <label class="form-label" for="basicPlanPrice">Price</label>
+        <div class="input-group input-group-merge">
+          <span id="basicPlanPrice2" class="input-group-text"><i class="bx bx-dollar"></i></span>
+          <input type="number" id="basicPlanPrice" class="form-control dt-plan-name" name="basicPlanPrice"
+            placeholder="99.99" aria-label="99.99" aria-describedby="basicPlanPrice2" required />
+        </div>
+      </div>
+      <!-- <div class="col-sm-12">
         <label class="form-label" for="basicEmail">Email</label>
         <div class="input-group input-group-merge">
           <span class="input-group-text"><i class="bx bx-envelope"></i></span>
@@ -101,7 +109,7 @@
             <option value="2">Admin Staff</option>
           </select>
         </div>
-      </div>
+      </div> -->
       <div class="col-sm-12">
         <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1" onclick="loaderFunc();">Submit</button>
         <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">Cancel</button>
@@ -161,7 +169,7 @@
       // Set the form action to the desired API endpoint
       modal.find('form').attr('action', url);
 
-      modal.find('#modalLabel').text('New User');
+      modal.find('#modalLabel').text('New Plan');
 
       // Set the 'required' attribute on .dt-profile-img input
       modal.find('.dt-profile-img').prop('required', true);
