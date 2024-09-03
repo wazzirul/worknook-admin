@@ -63,7 +63,6 @@
           <th>Boost Job</th>
           <th>Price</th>
           <th>Status</th>
-          
         </tr>
       </thead>
     </table>
