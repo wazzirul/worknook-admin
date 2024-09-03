@@ -2,12 +2,9 @@
 
 // Request Subscription Data
 (async function () {
-  let urlSubscription = '/subscription/show';
-  let methodSubscription = 'POST';
-  let payloadSubscription = {
-    
-  };
-
+  let urlSubscription = '/subscriptions/showAll';
+  let methodSubscription = 'GET';
+  let payloadSubscription = {};
   let data_subscription = [];
 
   await $.ajax({
@@ -17,7 +14,7 @@
       _token: $('meta[name="csrf-token"]').attr('content'),
       url: urlSubscription,
       method: methodSubscription,
-      payload: payloadSubscription
+      // payload: payloadSubscription
     },
     success: res => {
       data_subscription = res.data;
@@ -39,7 +36,7 @@
             data: 'name'
           },
           {
-            data: 'icon'
+            data: 'description'
           },
           {
             data: 'price'
@@ -71,13 +68,20 @@
               }
               return (
                 '<div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar me-2">' +
-                // o +
+                o +
                 '</div></div><div class="d-flex flex-column"><span class="emp_name text-truncate">' +
                 r +
                 '</span><small class="emp_post text-truncate text-muted">' +
                 l +
                 '</small></div></div>'
               );
+            }
+          },
+          {
+            targets: 2,
+            render: function (e, t, a, s) {
+              var n = a.price;
+              return '<span class="">$' + n + '</span>';
             }
           },
           // {
@@ -281,7 +285,7 @@
           if (userRole === '1') {
             // Append the button to the appropriate DOM element (adjust as needed)
             $('.dt-action-buttons').append(
-              '<button type="button" class="create-new btn btn-primary"><i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add New Record</span></button>'
+              '<button type="button" class="create-new btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPlanModal"><i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add New Plan</span></button>'
             );
           }
         },

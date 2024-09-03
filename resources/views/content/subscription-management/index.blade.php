@@ -35,7 +35,7 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Icon</th>
+          <th>Description</th>
           <th>Price</th>
           <th>Action</th>
         </tr>
@@ -43,8 +43,109 @@
     </table>
   </div>
 </div>
+
+<!-- Add Blog Modal -->
+<div class="modal fade" id="addPlanModal" tabindex="-1" aria-labelledby="addPlanModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="addBlogModalLabel">Add Subscription Plan</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/blogs/add" method="POST">
+        <div class="modal-body">
+          @csrf
+          <div class="mb-3">
+            <label for="planNameAdd" class="form-label">Plan Name</label>
+            <input type="text" class="form-control" id="planNameAdd" name="planNameAdd" required>
+          </div>
+          <div class="mb-3">
+            <label for="planIconAdd" class="form-label">Icon</label>
+            <input type="file" class="form-control" id="planIconAdd" required>
+            <input type="hidden" name="iconEncode" id="iconEncode">
+          </div>
+          <div class="mb-3">
+            <label for="blogShortContentAdd" class="form-label">Short Description</label>
+            <input type="text" class="form-control" id="blogShortContent" name="blogShortContent" required>
+          </div>
+          <div class="row mb-3 align-items-center">
+            <div class="col-sm-4">
+              <label for="blogPriceAdd" class="form-label">Price</label>
+              <input type="number" class="form-control" id="blogPriceAdd" name="blogPriceAdd" required>
+            </div>
+            <div class="form-check form-switch col-sm-4">
+              <input class="form-check-input" type="checkbox" id="planMostPopularAdd" checked="">
+              <label class="form-check-label" for="planMostPopularAdd">Most Popular</label>
+            </div>
+            <div class="form-check form-switch col-sm-4">
+              <input class="form-check-input" type="checkbox" id="planStatusAdd" checked="true">
+              <label class="form-check-label" for="planStatusAdd">Status <span class="form-text">(nonactive/active)</span></label>
+            </div>
+          </div>
+          <div class="row mb-3 align-items-center">
+            <div class="col-sm-4">
+              <label for="planPostAdd" class="form-label">Post Job</label>
+              <input type="text" class="form-control" id="planPostAdd" name="planPostAdd" required>
+            </div>
+            <div class="col-sm-4">
+              <label for="planInterviewAdd" class="form-label">Interview</label>
+              <input type="text" class="form-control" id="planInterviewAdd" name="planInterviewAdd" required>
+            </div>
+            <div class="col-sm-4">
+              <label for="planTeamAdd" class="form-label">Team Member</label>
+              <input type="text" class="form-control" id="planTeamAdd" name="planTeamAdd" required>
+            </div>
+            <div class="col-sm-4">
+              <label for="planHireAdd" class="form-label">Hire</label>
+              <input type="text" class="form-control" id="planHireAdd" name="planHireAdd" required>
+            </div>
+            <div class="col-sm-4">
+              <label for="planBoostAdd" class="form-label">Boost Job</label>
+              <input type="text" class="form-control" id="planBoostAdd" name="planBoostAdd" required>
+            </div>
+          </div>
+          <div class="row mb-3 align-items-center gap-y-2">
+            <div class="form-check form-switch col-sm-4">
+              <input class="form-check-input" type="checkbox" id="planAllowApplicationAdd" checked="">
+              <label class="form-check-label" for="planAllowApplicationAdd">Allow Application Management</label>
+            </div>
+            <div class="form-check form-switch col-sm-4">
+              <input class="form-check-input" type="checkbox" id="planAllowCompanyAdd" checked="true">
+              <label class="form-check-label" for="planAllowCompanyAdd">Allow Company Profile</label>
+            </div>
+            <div class="form-check form-switch col-sm-4">
+              <input class="form-check-input" type="checkbox" id="planAllowInterviewAdd" checked="true">
+              <label class="form-check-label" for="planAllowInterviewAdd">Allow Interview Scheduling</label>
+            </div>
+            <div class="form-check form-switch col-sm-4">
+              <input class="form-check-input" type="checkbox" id="planAllowCalendarAdd" checked="true">
+              <label class="form-check-label" for="planAllowCalendarAdd">Allow Calendar Integration</label>
+            </div>
+            <div class="form-check form-switch col-sm-4">
+              <input class="form-check-input" type="checkbox" id="planAllowMessagingAdd" checked="true">
+              <label class="form-check-label" for="planAllowMessagingAdd">Allow Messaging</label>
+            </div>
+            <div class="form-check form-switch col-sm-4">
+              <input class="form-check-input" type="checkbox" id="planAllowHiringAdd" checked="true">
+              <label class="form-check-label" for="planAllowHiringAdd">Allow Hiring Job</label>
+            </div>
+            <div class="form-check form-switch col-sm-4">
+              <input class="form-check-input" type="checkbox" id="planAllowAccountAdd" checked="true">
+              <label class="form-check-label" for="planAllowAccountAdd">Allow Account Support</label>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" onclick="loaderFunc();">Add Blog Post</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 <!-- Modal to add new user -->
-<div class="offcanvas offcanvas-end" id="modal-offcanvas">
+<!-- <div class="offcanvas offcanvas-end" id="modal-offcanvas">
   <div class="offcanvas-header border-bottom">
     <h5 class="offcanvas-title" id="modalLabel"></h5>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -56,7 +157,7 @@
       <div class="col-sm-12">
         <label class="form-label" for="basicPlanname">Plan Name</label>
         <div class="input-group input-group-merge">
-          <span id="basicPlanname2" class="input-group-text"><i class="bx bx-user"></i></span>
+          <span id="basicPlanname2" class="input-group-text"><i class="bx bx-paper-plane"></i></span>
           <input type="text" id="basicPlanname" class="form-control dt-plan-name" name="basicPlanname"
             placeholder="John Doe" aria-label="John Doe" aria-describedby="basicPlanname2" required />
         </div>
@@ -80,7 +181,7 @@
             placeholder="99.99" aria-label="99.99" aria-describedby="basicPlanPrice2" required />
         </div>
       </div>
-      <!-- <div class="col-sm-12">
+      <div class="col-sm-12">
         <label class="form-label" for="basicEmail">Email</label>
         <div class="input-group input-group-merge">
           <span class="input-group-text"><i class="bx bx-envelope"></i></span>
@@ -109,14 +210,14 @@
             <option value="2">Admin Staff</option>
           </select>
         </div>
-      </div> -->
+      </div>
       <div class="col-sm-12">
         <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1" onclick="loaderFunc();">Submit</button>
         <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">Cancel</button>
       </div>
     </form>
   </div>
-</div>
+</div> -->
 <!--/ DataTable with Buttons -->
 
 <!-- Modal Delete Confirmation -->
@@ -157,7 +258,7 @@
 <script>
   // Open create user modal
   $(document).on('click', '.create-new', function () {
-    const modal = $('#modal-offcanvas');
+    const modal = $('#addPlanModal');
     const url = '/user-management/create';
 
     // Check if modal exists
@@ -179,14 +280,14 @@
       modal.find('.col-pass').show();
 
       // Show the Offcanvas modal
-      new bootstrap.Offcanvas(modal.get(0)).show();
+      // new bootstrap.Offcanvas(modal.get(0)).show();
     }
   });
 </script>
 <script>
   // Open edit user modal
   $(document).on('click', '.item-edit', function () {
-    const modal = $('#modal-offcanvas');
+    const modal = $('#addPlanModal');
     const url = '/user-management/update';
 
     if (modal.length)
@@ -229,7 +330,7 @@
       modal.find('#modalLabel').text('Edit User');
 
       // Show the Offcanvas modal
-      new bootstrap.Offcanvas(modal.get(0)).show();
+      modal.modal('show');
     }
   });
 </script>
@@ -250,6 +351,28 @@
       var reader = new FileReader();
       reader.onload = function (e) {
         $('#profileEncode').val(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+</script>
+<script>
+  // Input Image script
+  $(document).ready(function () {
+    $('#blogThumbnailAdd').change(function () {
+      var file = this.files[0];
+      var maxSize = 4 * 1024 * 1024; // Convert MB to bytes
+
+      if (file && file.size > maxSize)
+      {
+        alert('File size exceeds 4 MB limit.');
+        $(this).val(''); // Clear the file input
+        return;
+      }
+
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#thumbnailEncode').val(e.target.result);
       };
       reader.readAsDataURL(file);
     });
