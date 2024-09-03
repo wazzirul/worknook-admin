@@ -61,6 +61,7 @@ use App\Http\Controllers\master\job_levels\JobLevels;
 use App\Http\Controllers\master\skills\Skills;
 use App\Http\Controllers\master\tech_stacks\TechStacks;
 use App\Http\Controllers\master\type_employments\TypeEmployments;
+use App\Http\Controllers\plan_subscriptions\PlanSubscriptions;
 use App\Http\Controllers\tables\Basic as TablesBasic;
 
 // authentication
@@ -129,6 +130,11 @@ Route::group(['middleware' => 'authsession'], function () {
   Route::post('/blogs/add', [Blogs::class, 'store'])->name('blog-add');
   Route::post('/blog/update', [Blogs::class, 'update'])->name('blog-update');
   Route::get('/blogs/delete', [Blogs::class, 'delete'])->name('blog-delete');
+
+  // Plan Management
+  Route::get('/plan-subscriptions', [PlanSubscriptions::class, 'index'])->name('plan-subscriptions');
+  Route::post('/plan-subscriptions/store', [PlanSubscriptions::class, 'store'])->name('plan-subscriptions--store');
+  Route::get('/plan-subscriptions/delete', [PlanSubscriptions::class, 'delete'])->name('plan-subscriptions--delete');
 
   // Blog Categories Route
   Route::get('/blog-categories', [BlogCategories::class, 'index'])->name('blog-categories');

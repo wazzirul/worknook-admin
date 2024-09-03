@@ -130,7 +130,7 @@ document.getElementById('button-reset').addEventListener('click', function () {
     var [hours, minutes, seconds] = timePart.split(':');
 
     // Format to hhmmss ddmmyy
-    var formattedDate = `${hours}:${minutes}:${seconds.slice(0, 2)} ${year}/${month}/${day}`;
+    var formattedDate = `${hours}:${minutes}:${seconds.slice(0, 2)} ${year}-${month}-${day}`;
 
     i++;
     var background = i % 2 ? '' : '#E9EAEC';
