@@ -55,11 +55,35 @@
       "slug": "blog-categories"
     },
     {
+      "url": "/subscription-management",
+      "name": "Subscription Management",
+      "icon": "menu-icon tf-icons bx bx-category",
+      "slug": "subscription-management"
+    },
+    {
+      "url": "/",
+      "name": "Plan Management",
+      "icon": "menu-icon tf-icons bx bx-layer",
+      "slug": "plan",
+      "submenu": [
+        {
+          "url": "/plan-subscriptions",
+          "name": "Subscriptions",
+          "slug": "plan-subscriptions"
+        },
+        {
+          "url": "/plan-alacarte",
+          "name": "Alacarte",
+          "slug": "plan-alacarte"
+        }
+      ]
+    },
+    {
       "url": "/",
       "name": "Master Data",
       "icon": "menu-icon tf-icons bx bx-box",
       "slug": "master",
-      "submenu":[
+      "submenu": [
         {
           "url": "/master-categories",
           "name": "Categories",
@@ -92,6 +116,5 @@
         }
       ]
     }
-    
   ]
 }

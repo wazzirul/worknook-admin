@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QueryController;
 use App\Http\Controllers\dashboard\Analytics;
 use App\Http\Controllers\user_management\UserManagement;
+use App\Http\Controllers\subscription_management\SubscriptionManagement;
 use App\Http\Controllers\company_management\CompanyManagement;
 use App\Http\Controllers\job_company_management\JobCompanyManagement;
 use App\Http\Controllers\team_company_management\TeamCompanyManagement;
@@ -60,6 +61,7 @@ use App\Http\Controllers\master\job_levels\JobLevels;
 use App\Http\Controllers\master\skills\Skills;
 use App\Http\Controllers\master\tech_stacks\TechStacks;
 use App\Http\Controllers\master\type_employments\TypeEmployments;
+use App\Http\Controllers\plan_subscriptions\PlanSubscriptions;
 use App\Http\Controllers\tables\Basic as TablesBasic;
 
 // authentication
@@ -129,10 +131,19 @@ Route::group(['middleware' => 'authsession'], function () {
   Route::post('/blog/update', [Blogs::class, 'update'])->name('blog-update');
   Route::get('/blogs/delete', [Blogs::class, 'delete'])->name('blog-delete');
 
+  // Plan Management
+  Route::get('/plan-subscriptions', [PlanSubscriptions::class, 'index'])->name('plan-subscriptions');
+  Route::post('/plan-subscriptions/store', [PlanSubscriptions::class, 'store'])->name('plan-subscriptions--store');
+  Route::get('/plan-subscriptions/delete', [PlanSubscriptions::class, 'delete'])->name('plan-subscriptions--delete');
+
   // Blog Categories Route
   Route::get('/blog-categories', [BlogCategories::class, 'index'])->name('blog-categories');
   Route::post('/blog-categories/store', [BlogCategories::class, 'store'])->name('blog-categories--create/update');
   Route::get('/blog-categories/delete', [BlogCategories::class, 'delete'])->name('blog-categories--delete');
+
+  // Subscription Management Routes
+  Route::get('/subscription-management', [SubscriptionManagement::class, 'index'])->name('subscription-management');
+  
 
   // Routes accessible only to superadmins
   Route::group(['middleware' => 'superadmin'], function () {
