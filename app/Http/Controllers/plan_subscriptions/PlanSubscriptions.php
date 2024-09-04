@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\plan_subscriptions;
 
 use App\Http\Controllers\Controller;
-use HTMLPurifier;
-use HTMLPurifier_Config;
 use Illuminate\Http\Request;
 
 class PlanSubscriptions extends Controller

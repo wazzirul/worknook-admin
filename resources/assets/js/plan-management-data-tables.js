@@ -87,7 +87,7 @@
               var n = a.icon,
                 r = a.name,
                 mp = a.most_popular;
-              if (n) var o = '<img src="' + n + '" alt="Avatar" class="">';
+              if (n) var o = '<img src="' + n + '" alt="Avatar" class="" style="max-width:30px;max-height:30px;">';
               else {
                 var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
                     Math.floor(6 * Math.random())
@@ -96,7 +96,7 @@
                 o =
                   '<span class="avatar-initial rounded-circle bg-label-' +
                   d +
-                  '">' +
+                  '" >' +
                   (i = ((i.shift() || '') + (i.pop() || '')).toUpperCase()) +
                   '</span>';
               }
@@ -373,7 +373,6 @@ $(document).on('click', '.create-new, .item-edit', function () {
       modal.find('#boostJob').val('');
       modal.find('#price').val('');
       modal.find('#descPlan').val('');
-      quill.clipboard.dangerouslyPasteHTML('');
 
       modal.find('#checkStatus').prop('checked', false);
       modal.find('#checkMostPopular').prop('checked', false);
@@ -415,8 +414,6 @@ $(document).on('click', '.create-new, .item-edit', function () {
       modal.find('#checkCalendarIntegration').prop('checked', aci);
       modal.find('#checkHiringJobPost').prop('checked', ahp);
       modal.find('#checkAccountSupport').prop('checked', acs);
-
-      quill.clipboard.dangerouslyPasteHTML(data.desc);
 
       modal.find('#addPlanModalLabel').text('Edit Plan');
       modal.find('#buttonModal').text('Edit Plan');
