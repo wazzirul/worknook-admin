@@ -55,12 +55,6 @@
       "slug": "blog-categories"
     },
     {
-      "url": "/subscription-management",
-      "name": "Subscription Management",
-      "icon": "menu-icon tf-icons bx bx-category",
-      "slug": "subscription-management"
-    },
-    {
       "url": "/",
       "name": "Plan Management",
       "icon": "menu-icon tf-icons bx bx-layer",

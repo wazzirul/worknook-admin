@@ -3,8 +3,7 @@
 @section('title', 'Plan Management - Index')
 
 @section('vendor-style')
-<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
-</link>
+
 <link href="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')) }}">
 <link rel="stylesheet"
@@ -48,6 +47,7 @@
   </button>
 </div>
 @endif
+
 <!-- DataTable with Buttons -->
 <div class="card">
   <div class="card-datatable table-responsive">
@@ -112,11 +112,8 @@
             <input type="text" class="form-control" id="planName" name="planName" required>
           </div>
           <div class="mb-3">
-            <label for="descPlanAdd" class="form-label">Description</label>
-            <input type="hidden" name="descPlan" id="descPlan">
-            <div id="descPlanAdd">
-              <!-- Content editor or textarea can be added here -->
-            </div>
+            <label for="descPlan" class="form-label">Name</label>
+            <input type="text" class="form-control" id="descPlan" name="descPlan" required>
           </div>
          
           <div class="row g-3 mb-3">
@@ -250,28 +247,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script
   src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+  
 <script src="{{asset('assets/js/plan-management-data-tables.js')}}"></script>
-<script>
-  var quill;
-    $(document).ready(function () {
-     quill = new Quill('#descPlanAdd', {
-          modules: {
-              toolbar: [
-                  ['bold', 'italic', 'underline'],
-              ],
-          },
-          placeholder: 'Enter text',
-          theme: 'snow',
-      });
 
-      quill.on('text-change', function () {
-          var content = quill.root.innerHTML;
-
-          $('#descPlan').val(content);
-      });
-  })
-</script>
 <script>
   // Input Image script
   $(document).ready(function () {
