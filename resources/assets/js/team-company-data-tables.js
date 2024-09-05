@@ -14,7 +14,7 @@ function photo_profile(photo, fullname) {
       ((i.shift() || '') + (i.pop() || '')).toUpperCase() +
       '</span>';
   }
-  var output = '<div class="d-flex justify-content-start align-items-center company-name">';
+  var output = '<div class="d-flex justify-content-start align-items-center team-name">';
   output += '<div class="avatar-wrapper"><div class="avatar me-2">' + o + '</div></div>';
   output += '<div class="d-flex flex-column"><span class="emp_name text-truncate">' + fullname + '</span>';
   output += '</div></div>';
@@ -66,15 +66,6 @@ function photo_profile(photo, fullname) {
           {
             data: 'email'
           },
-          // // {
-          // //   data: 'gsocial_ids'
-          // // },
-          // // {
-          // //   data: 'fsocial_ids'
-          // // },
-          // {
-          //   data: 'sso_auth'
-          // },
           {
             data: 'instagram'
           },
@@ -89,19 +80,6 @@ function photo_profile(photo, fullname) {
           }
         ],
         columnDefs: [
-          //   {
-          //     targets: 0,
-          //     class: 'job-name'
-          //   },
-
-          //   {
-          //     targets: 5,
-          //     render: function (e, t, a, s) {
-          //       var g = a.start_salary;
-          //       var j = a.top_salary;
-          //       return g + ' - ' + j;
-          //     }
-          //   },
           {
             targets: 0,
             responsivePriority: 0,
@@ -112,31 +90,9 @@ function photo_profile(photo, fullname) {
               return photo_profile(n, r);
             }
           },
-          //   {
-          //     targets: 9,
-          //     render: function (e, t, a, s) {
-          //       var n = a.status,
-          //         r = {
-          //           1: {
-          //             title: 'Open',
-          //             class: 'bg-label-primary'
-          //           },
-          //           2: {
-          //             title: 'Closed',
-          //             class: ' bg-label-danger'
-          //           }
-          //         };
-          //       return void 0 === r[n] ? e : '<span class="badge ' + r[n].class + '">' + r[n].title + '</span>';
-          //     }
-          //   },
-          //   {
-          //     targets: 10,
-          //     render: function (data, type, row) {
-          //       return moment(data).format('YYYY-MM-DD'); // Adjust format as needed
-          //     }
-          //   },
+
           {
-            targets: 5,
+            targets: -1,
             title: 'Activity History',
             orderable: !1,
             searchable: !1,
@@ -182,7 +138,7 @@ function photo_profile(photo, fullname) {
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('team-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -219,7 +175,7 @@ function photo_profile(photo, fullname) {
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('team-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -244,7 +200,7 @@ function photo_profile(photo, fullname) {
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('team-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -269,7 +225,7 @@ function photo_profile(photo, fullname) {
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('team-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
@@ -294,7 +250,7 @@ function photo_profile(photo, fullname) {
                         n = '';
                       return (
                         $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('job-name')
+                          void 0 !== t.classList && t.classList.contains('team-name')
                             ? (n += t.lastChild.firstChild.textContent)
                             : void 0 === t.innerText
                             ? (n += t.textContent)
