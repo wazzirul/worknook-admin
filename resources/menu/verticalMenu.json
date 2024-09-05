@@ -58,6 +58,7 @@
       "url": "/transaction-management",
       "name": "Transaction Management",
       "icon": "menu-icon tf-icons bx bx-dollar",
+      "badge": ["danger", "5"],
       "slug": "transaction-management"
     },
     {

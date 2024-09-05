@@ -13,14 +13,8 @@
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css')) }}">
 <style>
   /* Hide selected columns on initial */
-  /* .datatables-basic thead tr th:nth-child(2),
-  .datatables-basic thead tr th:nth-child(3),
-  .datatables-basic thead tr th:nth-child(4),
-  .datatables-basic thead tr th:nth-child(4),
-  .datatables-basic thead tr th:nth-child(9), */
+
   .datatables-basic thead tr th:nth-child(6), 
-  /* .datatables-basic tbody tr *:nth-child(2), */
-  /* .datatables-basic tbody tr *:nth-child(4), */
   .datatables-basic tbody tr *:nth-child(6)
   {
     display: none;
@@ -82,7 +76,6 @@
           <th>Email</th>
           <th>Instagram</th>
           <th>Linkedin</th>
-          <th>Action</th>
         </tr>
       </thead>
     </table>
@@ -171,77 +164,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="{{asset('assets/js/team-company-data-tables.js')}}"></script>
 <script>
-  // Delete Function
-  // $(document).on('click', '.delete-record', async function () {
-  //   const status = $(this).data('banned');
-  //   const dataId = $(this).data('id');
-
-  //   $('.modal').modal('hide');
-  //   $('#deleteJobModal').modal('show');
-
-  //   if(status===1){
-  //     $('.modal-title').text("Close Job");
-  //     $('#question').text("Are you sure to close this Job Company?");
-  //     $('#confirmationBtn').text("Close");
-  //     $('#confirmationBtn').addClass("btn-danger");
-  //   }else{
-  //     $('.modal-title').text("Open Job");
-  //     $('#question').text("Are you sure to open this Job Company?");
-  //     $('#confirmationBtn').text("Open");
-  //     $('#confirmationBtn').addClass("btn-success");
-  //   }
-
-  //   $(document).on('click', '#confirmationBtn', async function () {
-    
-  //   const url = "/jobs/change-status";
-  //   const method = "POST";
-  //   const elementData = $('#id_company').val();
-  //   const url_delete = "/company-details/delete/" + elementData;
-  //   console.log(url_delete);
-  //   // Prepare payload data
-  //   const payload = {
-  //     job_id: dataId,
-  //     status: status === 1 ? 2 : 1
-  //   };
-  //   // TODO : Close Job with Status not softdelete
-
-  //   await $.ajax({
-  //     method: 'POST',
-  //     url: '/query',
-  //     data: {
-  //       _token: $('meta[name="csrf-token"]').attr('content'),
-  //       url: url,
-  //       method: method,
-  //       payload: payload
-  //     },
-  //     success: function (response) {
-  //       setTimeout(function () {
-
-  //        location.replace(url_delete);
-
-  //       }, 500); // Adjust delay as needed
-
-  //     },
-  //     error: function (xhr, status, error) {
-  //       $('.alert-danger').html(xhr.responseText).show(); // Display error message
-  //     }
-  //   });
-  // })
-  // });
 
 </script>
 <script>
-  var n = "{{ $dataComp->data->company_profile->company_icon }}";
-  var r = document.getElementById("company_name").innerText;
-  console.log(n);
+  var ft = "{{ $dataComp->data->company_profile->company_icon }}";
+  var name= document.getElementById("company_name").innerText;
 
-  if (n) {
-    var o = '<img src="' + n + '" alt="Avatar" class="rounded-circle ">';
+  if (ft) {
+    var o = '<img src="' + ft + '" alt="Avatar" class="rounded-circle ">';
 } else {
     var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
         Math.floor(6 * Math.random())
     ];
-    var i = (r ).match(/\b\w/g) || [];
+    var i = (name).match(/\b\w/g) || [];
     o =
         '<span class="avatar-initial rounded-circle bg-label-' +
         d +
@@ -250,7 +185,7 @@
         '</span>';
 }
 
-var output = '<div class="d-flex justify-content-center align-items-center company-name">';
+var output = '<div class="d-flex justify-content-center align-items-center">';
 output += '<div class="avatar-wrapper"><div class="avatar me-3" style="font-size:2rem;height:140px;width:140px">' + o + '</div></div>';
 output += '</div>';
 

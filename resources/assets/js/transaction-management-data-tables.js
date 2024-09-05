@@ -268,7 +268,7 @@ function photo_profile(photo, name) {
             render: function (e, t, a, s) {
               var n = a.subscriptions;
 
-              return n ? '-' : a.alacarte_post_job;
+              return n ? '-' : a.alacarte_post_job ? a.alacarte_post_job + ' / month' : '-';
             }
           },
           {
@@ -277,7 +277,7 @@ function photo_profile(photo, name) {
             render: function (e, t, a, s) {
               var n = a.subscriptions;
 
-              return n ? '-' : a.alacarte_boost_job;
+              return n ? '-' : a.alacarte_boost_job ? a.alacarte_boost_job + ' / month' : '-';
             }
           },
           {
@@ -286,7 +286,7 @@ function photo_profile(photo, name) {
             render: function (e, t, a, s) {
               var n = a.subscriptions;
 
-              return n ? '-' : a.alacarte_team_member;
+              return n ? '-' : a.alacarte_team_member ? a.alacarte_team_member + ' / month' : '-';
             }
           },
           {
@@ -294,7 +294,7 @@ function photo_profile(photo, name) {
             title: 'Alacarte Interview',
             render: function (e, t, a, s) {
               var n = a.subscriptions;
-              return n ? '-' : a.alacarte_interview;
+              return n ? '-' : a.alacarte_interview ? a.alacarte_interview + ' / month' : '-';
             }
           },
           {
@@ -303,7 +303,7 @@ function photo_profile(photo, name) {
             render: function (e, t, a, s) {
               var n = a.subscriptions;
 
-              return n ? '-' : a.alacarte_hire;
+              return n ? '-' : a.alacarte_hire ? a.alacarte_hire + ' / month' : '-';
             }
           },
           {

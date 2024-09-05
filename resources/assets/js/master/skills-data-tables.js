@@ -36,7 +36,7 @@
           {
             data: 'skill_name'
           },
-          
+
           {
             data: 'created_at'
           },
@@ -58,11 +58,10 @@
             searchable: !1,
             render: function (e, t, a, s) {
               var n = a.skill_id,
-                r = a.skill_name
-              
+                r = a.skill_name;
 
               var encodedName = encodeURIComponent(r);
-             
+
               return userRole === '1'
                 ? '<div class="d-inline-block"><a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a><ul class="dropdown-menu dropdown-menu-end m-0"><li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id=' +
                     n +
@@ -76,155 +75,10 @@
           }
         ],
         order: [[2, 'desc']],
-        dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row mb-2"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+        dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0">><"row mb-2"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
         displayLength: 7,
         lengthMenu: [7, 10, 25, 50, 75, 100],
-        buttons: [
-          {
-            extend: 'collection',
-            className: 'btn btn-label-primary dropdown-toggle me-2',
-            text: '<i class="bx bx-export me-sm-1"></i> <span class="d-none d-sm-inline-block">Export</span>',
-            buttons: [
-              {
-                extend: 'print',
-                text: '<i class="bx bx-printer me-1" ></i>Print',
-                className: 'dropdown-item',
-                exportOptions: {
-                  columns: [0, 1, 2],
-                  format: {
-                    body: function (e, t, a) {
-                      if (e.length <= 0) return e;
-                      var s = $.parseHTML(e),
-                        n = '';
-                      return (
-                        $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
-                            ? (n += t.lastChild.firstChild.textContent)
-                            : void 0 === t.innerText
-                            ? (n += t.textContent)
-                            : (n += t.innerText);
-                        }),
-                        n
-                      );
-                    }
-                  }
-                },
-                customize: function (e) {
-                  $(e.document.body)
-                    .css('color', config.colors.headingColor)
-                    .css('border-color', config.colors.borderColor)
-                    .css('background-color', config.colors.bodyBg),
-                    $(e.document.body)
-                      .find('table')
-                      .addClass('compact')
-                      .css('color', 'inherit')
-                      .css('border-color', 'inherit')
-                      .css('background-color', 'inherit');
-                }
-              },
-              {
-                extend: 'csv',
-                text: '<i class="bx bx-file me-1" ></i>Csv',
-                className: 'dropdown-item',
-                exportOptions: {
-                  columns: [0, 1, 2],
-                  format: {
-                    body: function (e, t, a) {
-                      if (e.length <= 0) return e;
-                      var s = $.parseHTML(e),
-                        n = '';
-                      return (
-                        $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
-                            ? (n += t.lastChild.firstChild.textContent)
-                            : void 0 === t.innerText
-                            ? (n += t.textContent)
-                            : (n += t.innerText);
-                        }),
-                        n
-                      );
-                    }
-                  }
-                }
-              },
-              {
-                extend: 'excel',
-                text: '<i class="bx bxs-file-export me-1"></i>Excel',
-                className: 'dropdown-item',
-                exportOptions: {
-                  columns: [0, 1, 2],
-                  format: {
-                    body: function (e, t, a) {
-                      if (e.length <= 0) return e;
-                      var s = $.parseHTML(e),
-                        n = '';
-                      return (
-                        $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
-                            ? (n += t.lastChild.firstChild.textContent)
-                            : void 0 === t.innerText
-                            ? (n += t.textContent)
-                            : (n += t.innerText);
-                        }),
-                        n
-                      );
-                    }
-                  }
-                }
-              },
-              {
-                extend: 'pdf',
-                text: '<i class="bx bxs-file-pdf me-1"></i>Pdf',
-                className: 'dropdown-item',
-                exportOptions: {
-                  columns: [0, 1, 2],
-                  format: {
-                    body: function (e, t, a) {
-                      if (e.length <= 0) return e;
-                      var s = $.parseHTML(e),
-                        n = '';
-                      return (
-                        $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
-                            ? (n += t.lastChild.firstChild.textContent)
-                            : void 0 === t.innerText
-                            ? (n += t.textContent)
-                            : (n += t.innerText);
-                        }),
-                        n
-                      );
-                    }
-                  }
-                }
-              },
-              {
-                extend: 'copy',
-                text: '<i class="bx bx-copy me-1" ></i>Copy',
-                className: 'dropdown-item',
-                exportOptions: {
-                  columns: [0, 1, 2],
-                  format: {
-                    body: function (e, t, a) {
-                      if (e.length <= 0) return e;
-                      var s = $.parseHTML(e),
-                        n = '';
-                      return (
-                        $.each(s, function (e, t) {
-                          void 0 !== t.classList && t.classList.contains('user-name')
-                            ? (n += t.lastChild.firstChild.textContent)
-                            : void 0 === t.innerText
-                            ? (n += t.textContent)
-                            : (n += t.innerText);
-                        }),
-                        n
-                      );
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        ],
+
         // Add the "create-new" button conditionally
         initComplete: function (settings, json) {
           if (userRole === '1') {
