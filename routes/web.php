@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QueryController;
 use App\Http\Controllers\dashboard\Analytics;
 use App\Http\Controllers\user_management\UserManagement;
-use App\Http\Controllers\subscription_management\SubscriptionManagement;
 use App\Http\Controllers\company_management\CompanyManagement;
 use App\Http\Controllers\job_company_management\JobCompanyManagement;
 use App\Http\Controllers\team_company_management\TeamCompanyManagement;
@@ -64,6 +63,7 @@ use App\Http\Controllers\master\type_employments\TypeEmployments;
 use App\Http\Controllers\plan_alacarte\PlanAlacarte;
 use App\Http\Controllers\plan_subscriptions\PlanSubscriptions;
 use App\Http\Controllers\tables\Basic as TablesBasic;
+use App\Http\Controllers\transaction_management\TransactionManagement;
 
 // authentication
 Route::get('/auth/login', [LoginBasic::class, 'index'])->name('auth-login');
@@ -132,6 +132,12 @@ Route::group(['middleware' => 'authsession'], function () {
   Route::post('/blog/update', [Blogs::class, 'update'])->name('blog-update');
   Route::get('/blogs/delete', [Blogs::class, 'delete'])->name('blog-delete');
 
+  // Transaction Management
+  Route::get('/transaction-management', [TransactionManagement::class, 'index'])->name('transaction-management');
+  Route::post('/transaction-management/store', [TransactionManagement::class, 'store'])->name(
+    'transaction-management--store'
+  );
+
   // Plan Management - Subscription
   Route::get('/plan-subscriptions', [PlanSubscriptions::class, 'index'])->name('plan-subscriptions');
   Route::post('/plan-subscriptions/store', [PlanSubscriptions::class, 'store'])->name('plan-subscriptions--store');
@@ -140,7 +146,6 @@ Route::group(['middleware' => 'authsession'], function () {
   // Plan Management - Alacarte
   Route::get('/plan-alacarte', [PlanAlacarte::class, 'index'])->name('plan-alacarte');
   Route::post('/plan-alacarte/store', [PlanAlacarte::class, 'store'])->name('plan-alacarte--store');
-  Route::get('/plan-alacarte/delete', [PlanAlacarte::class, 'delete'])->name('plan-alacarte--delete');
 
   // Blog Categories Route
   Route::get('/blog-categories', [BlogCategories::class, 'index'])->name('blog-categories');

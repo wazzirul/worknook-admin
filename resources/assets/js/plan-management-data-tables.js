@@ -87,7 +87,7 @@
               var n = a.icon,
                 r = a.name,
                 mp = a.most_popular;
-              if (n) var o = '<img src="' + n + '" alt="Avatar" class="" style="max-width:30px;max-height:30px;">';
+              if (n) var o = '<img src="' + n + '" alt="Avatar" class="p-1">';
               else {
                 var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
                     Math.floor(6 * Math.random())

@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Blogs - Details')
+@section('title', 'Plan Management - Alacarte')
 
 @section('vendor-style')
 
