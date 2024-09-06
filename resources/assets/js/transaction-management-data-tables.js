@@ -341,58 +341,35 @@ function photo_profile(photo, name) {
             }
           }
         ],
-        order: [[2, 'desc']],
-        dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row mb-2"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-        buttons: [
-          {
-            text: 'Waiting Payment',
-            className: 'btn btn-outline-warning border-1 border-warning me-2 btn-item',
-            attr: {
-              'data-status': 1,
-              'data-info': 'warning'
-            }
-          },
-          {
-            text:
-              'Payment Completed  <span class="badge rounded-circle bg-danger text-white ms-1">' +
-              dataPayment.length +
-              '</span>',
-            className: 'btn btn-primary border-1 border-primary me-2 btn-item',
-            attr: {
-              'data-status': 2,
-              'data-info': 'primary'
-            }
-          },
-          {
-            text: 'Approve',
-            className: 'btn btn-outline-primary border-1 btn-item border-primary me-2',
-            attr: {
-              'data-status': 3,
-              'data-info': 'primary'
-            }
-          },
-          {
-            text: 'Decline',
-            className: 'btn btn-outline-secondary border-1 btn-item border-secondary me-2',
-            attr: {
-              'data-status': 4,
-              'data-info': 'secondary'
-            }
-          },
-          {
-            text: 'Cancelled',
-            className: 'btn btn-outline-danger border-1 btn-item border-danger me-2',
-            attr: {
-              'data-status': 5,
-              'data-info': 'danger'
-            }
-          }
-        ],
+        order: [[2, 'asc']],
+        dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><" text-end pt-3 pt-md-0">><"row mb-2"<"dt-action-buttons col-sm-12 col-md-8"l><"col-sm-12 col-md-4 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+
         displayLength: 7,
         lengthMenu: [7, 10, 25, 50, 75, 100],
         // Add the "create-new" button conditionally
         initComplete: function (settings, json) {
           // Append the button to the appropriate DOM element (adjust as needed)
+          $('.dt-action-buttons').append(
+            '<ul class="nav " id="myTab" role="tablist">' +
+              '<li class="nav-item" role="presentation">' +
+              '<button class="nav-link btn-item" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" data-status="1">Waiting Payment</button>' +
+              '</li>' +
+              '<li class="nav-item" role="presentation">' +
+              '<button class="nav-link btn-item active" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"data-status="2">Payment Completed <span class="badge rounded-circle bg-danger text-white ms-1">' +
+              dataPayment.length +
+              '</span></button>' +
+              '</li>' +
+              '<li class="nav-item" role="presentation">' +
+              '<button class="nav-link btn-item" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"data-status="3">Approve</button>' +
+              '</li>' +
+              '<li class="nav-item" role="presentation">' +
+              '<button class="nav-link btn-item" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"data-status="4">Decline</button>' +
+              '</li>' +
+              '<li class="nav-item" role="presentation">' +
+              '<button class="nav-link btn-item" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"data-status="5">Cancelled</button>' +
+              '</li>' +
+              '</ul>'
+          );
         }
       })),
       $('div.head-label').html('<h1 class="card-title mb-3">Transaction</h1>'));
@@ -465,26 +442,6 @@ function photo_profile(photo, name) {
       const data = data_user.filter(item => {
         return item.status == status;
       });
-
-      let btn = document.querySelectorAll('.btn-item');
-
-      btn.forEach(item => {
-        let dataStatus = item.getAttribute('data-status');
-        var btnInfo = item.getAttribute('data-info');
-        if (item.classList.contains('btn-outline-' + btnInfo)) {
-          item.classList.remove('btn-outline-' + btnInfo);
-        }
-        if (item.classList.contains('btn-' + btnInfo)) {
-          item.classList.remove('btn-' + btnInfo);
-        }
-        if (status == dataStatus) {
-          item.classList.add('btn-' + btnInfo);
-        } else {
-          item.classList.add('btn-outline-' + btnInfo);
-        }
-      });
-
-      $('.btn-item');
       e.clear(); // Menghapus semua data di tabel
       e.rows.add(data); // Menambahkan data baru ke tabel
       e.draw();
