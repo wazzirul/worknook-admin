@@ -40,6 +40,14 @@
   {
     display: none;
   }
+  .nav .nav-item .nav-link {
+    background-color: white
+  }
+
+.nav .nav-item .nav-link.active {
+  border-bottom: 2px solid green;
+  color: green;
+}
 </style>
 
 @endsection
