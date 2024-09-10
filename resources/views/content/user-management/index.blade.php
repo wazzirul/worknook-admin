@@ -111,6 +111,36 @@
 </div>
 <!--/ DataTable with Buttons -->
 
+<!-- Add Edit Plan Modal -->
+<div class="modal fade dtr-bs-modal" id="addPermissionModal" tabindex="-1" aria-labelledby="addPermissionModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addPermissionModalLabel">Permission</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+    <form method="POST" id="myForm"> 
+        <div class="modal-body p-4">
+          @csrf
+          <div class="mb-3">
+            <input type="text" class="form-control" name="adminId" id="adminId" placeholder="name@example.com" hidden>
+          </div>
+          <div id="contentPermission">
+            {{-- Content --}}
+          </div>
+          
+          
+        </div>
+      
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" id="saveButton" onclick="loaderFunc();">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
 <!-- Modal Delete Confirmation -->
 <div class="modal fade" id="modalConfirmation" tabindex="-1" aria-hidden="true" style="z-index: 1091">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -146,6 +176,96 @@
 <script
   src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
 <script src="{{asset('assets/js/user-data-tables.js')}}"></script>
+<script>
+  document.getElementById('myForm').addEventListener('input', function () {
+  // Seleksi tombol Save
+  var saveButton = document.getElementById('saveButton');
+  
+  // Cek apakah ada perubahan di form
+  var isChanged = false;
+  var inputs = this.querySelectorAll('input');
+  
+  inputs.forEach(function(input) {
+      if (input.defaultValue !== input.value) {
+          isChanged = true;
+      }
+  });
+  
+  // Jika ada perubahan, aktifkan tombol Save
+  if (isChanged) {
+      saveButton.disabled = false;
+  } else {
+      saveButton.disabled = true;
+  }
+});
+</script>
+<script>
+  $(document).on('click', '.item-permission', function () {
+    const modal = $('#addPermissionModal');
+    const url = '/user-management/permission/store';
+    document.getElementById('saveButton').disabled = true;
+    
+    const id = $(this).data('id');
+    const role = $(this).data('role');
+    const name = $(this).data('name');
+    $('#adminId').val(id);
+    var inputs = document.querySelectorAll('#myForm input[type="checkbox"]');
+    modal.find('#addPermissionModalLabel').text("Permission / " + name);
+
+    if(role == 1){
+      inputs.forEach(function(input) {
+        input.disabled = true;
+        input.checked = true; 
+      });
+      modal.modal('show');
+    }else{
+      inputs.forEach(function(input) {
+        input.disabled = false;
+        input.checked = false; 
+      });
+
+      (async function () {
+        let urlUser = '/admin-permission/show';
+        let methodShow = 'POST';
+        let payloadShow = {
+          admin_id : id
+        };
+
+        let dataShow = [];
+
+        await $.ajax({
+          method: 'POST',
+          url: '/query',
+          data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            url: urlUser,
+            method: methodShow,
+            payload: payloadShow
+          },
+          success: res => {
+            dataShow = res.data;
+          },
+          error: err => {
+            console.log('error', err);
+          }
+        });
+        if(dataShow){
+          dataShow.permission_id.forEach(function(item){
+            document.getElementById(item).checked = true;
+          });
+        }
+        modal.modal('show');
+        })();
+
+       
+    
+    }
+   
+    modal.find('form').attr('action', url);
+ 
+
+  })
+</script>
 <script>
   // Open create user modal
   $(document).on('click', '.create-new', function () {

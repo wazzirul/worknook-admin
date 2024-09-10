@@ -112,7 +112,7 @@
             <input type="text" class="form-control" id="planName" name="planName" required>
           </div>
           <div class="mb-3">
-            <label for="descPlan" class="form-label">Name</label>
+            <label for="descPlan" class="form-label">Description</label>
             <input type="text" class="form-control" id="descPlan" name="descPlan" required>
           </div>
          

@@ -7,66 +7,88 @@ use Illuminate\Http\Request;
 
 class UserManagement extends Controller
 {
-    public function index()
-    {
-        return view('content.user-management.index');
+  public function index()
+  {
+    return view('content.user-management.index');
+  }
+  public function store(Request $request)
+  {
+    $fullname = $request->input('basicFullname');
+    $profilePicture = $request->input('profileEncode');
+    $email = $request->input('basicEmail');
+    $role = $request->input('role');
+    $password = $request->input('password');
+
+    $payload['admin_id'] = null;
+    $payload['fullname'] = $fullname;
+    $payload['profile_photo'] = $profilePicture;
+    $payload['email'] = $email;
+    $payload['password'] = $password;
+    $payload['role'] = $role;
+
+    // dd($payload);
+
+    $data = RequestURI('POST', env('API_URL') . '/admins/store', $payload);
+
+    // dd($data);
+
+    if ($data->success) {
+      return redirect('/user-management')->with('success', 'New User Added');
+    } else {
+      return redirect('/user-management')->with('error', $data->errors);
     }
-    public function store(Request $request)
-    {
-        $fullname = $request->input('basicFullname');
-        $profilePicture = $request->input('profileEncode');
-        $email = $request->input('basicEmail');
-        $role = $request->input('role');
-        $password = $request->input('password');
+  }
 
-        $payload['admin_id'] = null;
-        $payload['fullname'] = $fullname;
-        $payload['profile_photo'] = $profilePicture;
-        $payload['email'] = $email;
-        $payload['password'] = $password;
-        $payload['role'] = $role;
+  public function update(Request $request)
+  {
+    $adminId = $request->input('id');
+    $fullname = $request->input('basicFullname');
+    $profilePicture = $request->input('profileEncode') ?? null;
+    $email = $request->input('basicEmail');
+    $role = $request->input('role');
 
-        // dd($payload);
+    $payload['admin_id'] = $adminId;
+    $payload['fullname'] = $fullname;
+    $payload['profile_photo'] = $profilePicture;
+    $payload['email'] = $email;
+    $payload['role'] = $role;
 
-        $data = RequestURI('POST', env('API_URL') . '/admins/store', $payload);
+    // dd($payload);
 
-        // dd($data);
+    $data = RequestURI('POST', env('API_URL') . '/admins/store', $payload);
 
-        if ($data->success) {
-            return redirect('/user-management')->with("success", "New User Added");
-        } else {
-            return redirect('/user-management')->with("error", $data->errors);
-        }
+    // dd($data);
+
+    if ($data->success) {
+      return redirect('/user-management')->with('success', 'User Updated');
+    } else {
+      return redirect('/user-management')->with('error', $data->errors);
     }
+  }
 
-    public function update(Request $request)
-    {
-        $adminId = $request->input('id');
-        $fullname = $request->input('basicFullname');
-        $profilePicture = $request->input('profileEncode') ?? null;
-        $email = $request->input('basicEmail');
-        $role = $request->input('role');
+  public function delete()
+  {
+    return redirect('/user-management')->with('success', 'User Delete Success');
+  }
 
-        $payload['admin_id'] = $adminId;
-        $payload['fullname'] = $fullname;
-        $payload['profile_photo'] = $profilePicture;
-        $payload['email'] = $email;
-        $payload['role'] = $role;
+  public function permissionStore(Request $request)
+  {
+    $requestData = $request->only(['adminId', 'permission']);
+    $adminId = $requestData['adminId'];
+    $permission = $requestData['permission'] ?? null;
+    $payload['admin_id'] = $adminId;
+    $payload['permission_id'] = $permission;
 
-        // dd($payload);
+    // dd($payload);
 
-        $data = RequestURI('POST', env('API_URL') . '/admins/store', $payload);
+    $data = RequestURI('POST', env('API_URL') . '/admin-permission/store', $payload);
 
-        // dd($data);
+    // dd($data);
 
-        if ($data->success) {
-            return redirect('/user-management')->with("success", "User Updated");
-        } else {
-            return redirect('/user-management')->with("error", $data->errors);
-        }
+    if ($data->success) {
+      return redirect('/user-management')->with('success', 'User Updated Permission');
+    } else {
+      return redirect('/user-management')->with('error', $data->errors);
     }
-
-    public function delete(){
-        return redirect('/user-management')->with("success", "User Delete Success");
-    }
+  }
 }

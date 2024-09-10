@@ -157,6 +157,9 @@ Route::group(['middleware' => 'authsession'], function () {
     // User Management Route
     Route::post('/user-management/create', [UserManagement::class, 'store'])->name('user-management--create');
     Route::post('/user-management/update', [UserManagement::class, 'update'])->name('user-management--update');
+    Route::post('/user-management/permission/store', [UserManagement::class, 'permissionStore'])->name(
+      'user-management-permission--store'
+    );
   });
 
   //Master Categories Route
