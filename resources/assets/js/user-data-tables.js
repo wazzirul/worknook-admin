@@ -109,7 +109,13 @@
                 j = a.role,
                 l = a.admin_id;
               return userRole === '1'
-                ? '<div class="d-inline-block"><a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a><ul class="dropdown-menu dropdown-menu-end m-0"><li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id=' +
+                ? '<div class="d-inline-block"><a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a><ul class="dropdown-menu dropdown-menu-end m-0"><li><a href="javascript:;" class="dropdown-item text-primary item-permission" data-id=' +
+                    l +
+                    ' data-role="' +
+                    j +
+                    '" data-name="' +
+                    r +
+                    '">Permission</a></li><li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id=' +
                     l +
                     '>Delete</a></li></ul></div><a href="javascript:;" class="btn btn-sm btn-icon item-edit" data-l=' +
                     l +
@@ -317,5 +323,48 @@
       $('.dataTables_filter .form-control').removeClass('form-control-sm'),
         $('.dataTables_length .form-select').removeClass('form-select-sm');
     }, 300);
+  });
+})();
+
+(async function () {
+  let urlUser = '/admin-permission/menu/show';
+  let methodMenu = 'POST';
+  let payloadMenu = {};
+
+  let dataMenu = [];
+
+  await $.ajax({
+    method: 'POST',
+    url: '/query',
+    data: {
+      _token: $('meta[name="csrf-token"]').attr('content'),
+      url: urlUser,
+      method: methodMenu,
+      payload: payloadMenu
+    },
+    success: res => {
+      dataMenu = res.data;
+      console.log(dataMenu);
+    },
+    error: err => {
+      console.log('error', err);
+    }
+  });
+
+  $(document).ready(function () {
+    var output = '';
+    dataMenu.forEach(item => {
+      output +=
+        '<div class="form-check form-switch mb-3"><input class="form-check-input" type="checkbox" name="permission[]" id="' +
+        item.permission_id +
+        '" value="' +
+        item.permission_id +
+        '">' +
+        '<label class="form-check-label" for="flexSwitchCheckDefault">' +
+        item.name +
+        '</label>' +
+        '</div>';
+    });
+    $('#contentPermission').html(output);
   });
 })();
