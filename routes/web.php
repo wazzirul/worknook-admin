@@ -88,70 +88,88 @@ Route::post('/query-with-attachment', [QueryController::class, 'queryWithAttachm
 Route::group(['middleware' => 'authsession'], function () {
   // Routes accessible for both Superadmin and Admin
   // Main Page Route
-  Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
-
+  Route::group(['middleware' => 'menusession:Dashboards'], function () {
+    Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
+  });
   // User Management Route
-  Route::get('/user-management', [UserManagement::class, 'index'])->name('user-management');
-  Route::get('/user-management/delete', [UserManagement::class, 'delete'])->name('user-management--delete');
+  Route::group(['middleware' => 'menusession:User Management'], function () {
+    Route::get('/user-management', [UserManagement::class, 'index'])->name('user-management');
+    Route::get('/user-management/delete', [UserManagement::class, 'delete'])->name('user-management--delete');
+  });
 
   // Company Management Route
-  Route::get('/company-management', [CompanyManagement::class, 'index'])->name('company-management');
-  Route::get('/company-management/remove', [CompanyManagement::class, 'remove'])->name('company-management--remove');
-  Route::get('/company-management/banned', [CompanyManagement::class, 'banned'])->name('company-management--banned');
+  Route::group(['middleware' => 'menusession:Company Management'], function () {
+    Route::get('/company-management', [CompanyManagement::class, 'index'])->name('company-management');
+    Route::get('/company-management/remove', [CompanyManagement::class, 'remove'])->name('company-management--remove');
+    Route::get('/company-management/banned', [CompanyManagement::class, 'banned'])->name('company-management--banned');
 
-  // Job Company Management Route
-  Route::get('/company-details/{slug}', [JobCompanyManagement::class, 'index'])->name('job-company-management');
-  Route::get('/company-details/delete/{slug}', [JobCompanyManagement::class, 'delete'])->name(
-    'job-company-management--delete'
-  );
+    // Job Company Management Route
+    Route::get('/company-details/{slug}', [JobCompanyManagement::class, 'index'])->name('job-company-management');
+    Route::get('/company-details/delete/{slug}', [JobCompanyManagement::class, 'delete'])->name(
+      'job-company-management--delete'
+    );
 
-  // Team Company Management Route
-  Route::get('/company-team/{slug}', [TeamCompanyManagement::class, 'index'])->name('team-company-management');
+    // Team Company Management Route
+    Route::get('/company-team/{slug}', [TeamCompanyManagement::class, 'index'])->name('team-company-management');
+  });
 
-  // Job List Route
-  Route::get('/job-list', [JobList::class, 'index'])->name('job-list');
-  Route::get('/job-list/details/{slug}', [JobList::class, 'details'])->name('job-list--details');
-  Route::get('/job-list/delete', [JobList::class, 'delete'])->name('job-list--delete');
-  Route::post('/job-list/store', [JobList::class, 'store'])->name('job-list--store');
+  Route::group(['middleware' => 'menusession:Job List'], function () {
+    // Job List Route
+    Route::get('/job-list', [JobList::class, 'index'])->name('job-list');
+    Route::get('/job-list/details/{slug}', [JobList::class, 'details'])->name('job-list--details');
+    Route::get('/job-list/delete', [JobList::class, 'delete'])->name('job-list--delete');
+    Route::post('/job-list/store', [JobList::class, 'store'])->name('job-list--store');
+  });
 
   // Candidate Management Route
-  Route::get('/candidate', [Candidate::class, 'index'])->name('candidate');
-  Route::get('/candidate-details/{slug}', [Candidate::class, 'details'])->name('candidate-details');
+  Route::group(['middleware' => 'menusession:Candidate Management'], function () {
+    Route::get('/candidate', [Candidate::class, 'index'])->name('candidate');
+    Route::get('/candidate-details/{slug}', [Candidate::class, 'details'])->name('candidate-details');
+  });
 
   // Activity History
-  Route::get('/activity-history', [ActivityHistory::class, 'index'])->name('activity-history');
+  Route::group(['middleware' => 'menusession:Activity History'], function () {
+    Route::get('/activity-history', [ActivityHistory::class, 'index'])->name('activity-history');
+  });
 
   // Messages Route
-  Route::get('/customer-support', [Messages::class, 'index'])->name('messages');
-  Route::post('/customer-support/reply', [Messages::class, 'reply'])->name('messages-reply');
+  Route::group(['middleware' => 'menusession:Customer Support'], function () {
+    Route::get('/customer-support', [Messages::class, 'index'])->name('messages');
+    Route::post('/customer-support/reply', [Messages::class, 'reply'])->name('messages-reply');
+  });
 
   // Blogs Route
-  Route::get('/blogs', [Blogs::class, 'index'])->name('blogs');
-  Route::get('/blog-details/{slug}', [Blogs::class, 'details'])->name('blog-details');
-  Route::post('/blogs/add', [Blogs::class, 'store'])->name('blog-add');
-  Route::post('/blog/update', [Blogs::class, 'update'])->name('blog-update');
-  Route::get('/blogs/delete', [Blogs::class, 'delete'])->name('blog-delete');
+  Route::group(['middleware' => 'menusession:Blogs'], function () {
+    Route::get('/blogs', [Blogs::class, 'index'])->name('blogs');
+    Route::get('/blog-details/{slug}', [Blogs::class, 'details'])->name('blog-details');
+    Route::post('/blogs/add', [Blogs::class, 'store'])->name('blog-add');
+    Route::post('/blog/update', [Blogs::class, 'update'])->name('blog-update');
+    Route::get('/blogs/delete', [Blogs::class, 'delete'])->name('blog-delete');
+  });
 
   // Transaction Management
-  Route::get('/transaction-management', [TransactionManagement::class, 'index'])->name('transaction-management');
-  Route::post('/transaction-management/store', [TransactionManagement::class, 'store'])->name(
-    'transaction-management--store'
-  );
+  Route::group(['middleware' => 'menusession:Transaction Management'], function () {
+    Route::get('/transaction-management', [TransactionManagement::class, 'index'])->name('transaction-management');
+    Route::post('/transaction-management/store', [TransactionManagement::class, 'store'])->name(
+      'transaction-management--store'
+    );
+  });
+  Route::group(['middleware' => 'menusession:Plan Management'], function () {
+    // Plan Management - Subscription
+    Route::get('/plan-subscriptions', [PlanSubscriptions::class, 'index'])->name('plan-subscriptions');
+    Route::post('/plan-subscriptions/store', [PlanSubscriptions::class, 'store'])->name('plan-subscriptions--store');
+    Route::get('/plan-subscriptions/delete', [PlanSubscriptions::class, 'delete'])->name('plan-subscriptions--delete');
 
-  // Plan Management - Subscription
-  Route::get('/plan-subscriptions', [PlanSubscriptions::class, 'index'])->name('plan-subscriptions');
-  Route::post('/plan-subscriptions/store', [PlanSubscriptions::class, 'store'])->name('plan-subscriptions--store');
-  Route::get('/plan-subscriptions/delete', [PlanSubscriptions::class, 'delete'])->name('plan-subscriptions--delete');
-
-  // Plan Management - Alacarte
-  Route::get('/plan-alacarte', [PlanAlacarte::class, 'index'])->name('plan-alacarte');
-  Route::post('/plan-alacarte/store', [PlanAlacarte::class, 'store'])->name('plan-alacarte--store');
-
+    // Plan Management - Alacarte
+    Route::get('/plan-alacarte', [PlanAlacarte::class, 'index'])->name('plan-alacarte');
+    Route::post('/plan-alacarte/store', [PlanAlacarte::class, 'store'])->name('plan-alacarte--store');
+  });
   // Blog Categories Route
-  Route::get('/blog-categories', [BlogCategories::class, 'index'])->name('blog-categories');
-  Route::post('/blog-categories/store', [BlogCategories::class, 'store'])->name('blog-categories--create/update');
-  Route::get('/blog-categories/delete', [BlogCategories::class, 'delete'])->name('blog-categories--delete');
-
+  Route::group(['middleware' => 'menusession:Blog Categories'], function () {
+    Route::get('/blog-categories', [BlogCategories::class, 'index'])->name('blog-categories');
+    Route::post('/blog-categories/store', [BlogCategories::class, 'store'])->name('blog-categories--create/update');
+    Route::get('/blog-categories/delete', [BlogCategories::class, 'delete'])->name('blog-categories--delete');
+  });
   // Routes accessible only to superadmins
   Route::group(['middleware' => 'superadmin'], function () {
     // User Management Route
@@ -163,40 +181,41 @@ Route::group(['middleware' => 'authsession'], function () {
   });
 
   //Master Categories Route
-  Route::get('/master-categories', [Categories::class, 'index'])->name('master-categories');
-  Route::post('/master-categories/store', [Categories::class, 'store'])->name('master-categories--create');
-  Route::get('/master-categories/delete', [Categories::class, 'delete'])->name('master-categories--delete');
+  Route::group(['middleware' => 'menusession:Master Data'], function () {
+    Route::get('/master-categories', [Categories::class, 'index'])->name('master-categories');
+    Route::post('/master-categories/store', [Categories::class, 'store'])->name('master-categories--create');
+    Route::get('/master-categories/delete', [Categories::class, 'delete'])->name('master-categories--delete');
 
-  //Master JobLevels Route
-  Route::get('/master-job-levels', [JobLevels::class, 'index'])->name('master-job-levels');
-  Route::post('/master-job-levels/store', [JobLevels::class, 'store'])->name('master-job-levels--create');
-  Route::get('/master-job-levels/delete', [JobLevels::class, 'delete'])->name('master-job-levels--delete');
+    //Master JobLevels Route
+    Route::get('/master-job-levels', [JobLevels::class, 'index'])->name('master-job-levels');
+    Route::post('/master-job-levels/store', [JobLevels::class, 'store'])->name('master-job-levels--create');
+    Route::get('/master-job-levels/delete', [JobLevels::class, 'delete'])->name('master-job-levels--delete');
 
-  //Master Skills Route
-  Route::get('/master-skills', [Skills::class, 'index'])->name('master-skills');
-  Route::post('/master-skills/store', [Skills::class, 'store'])->name('master-skills--create');
-  Route::get('/master-skills/delete', [Skills::class, 'delete'])->name('master-skills--delete');
+    //Master Skills Route
+    Route::get('/master-skills', [Skills::class, 'index'])->name('master-skills');
+    Route::post('/master-skills/store', [Skills::class, 'store'])->name('master-skills--create');
+    Route::get('/master-skills/delete', [Skills::class, 'delete'])->name('master-skills--delete');
 
-  //Master Tech Stacks Route
-  Route::get('/master-tech-stacks', [TechStacks::class, 'index'])->name('master-tech-stacks');
-  Route::post('/master-tech-stacks/store', [TechStacks::class, 'store'])->name('master-tech-stacks--create');
-  Route::get('/master-tech-stacks/delete', [TechStacks::class, 'delete'])->name('master-tech-stacks--delete');
+    //Master Tech Stacks Route
+    Route::get('/master-tech-stacks', [TechStacks::class, 'index'])->name('master-tech-stacks');
+    Route::post('/master-tech-stacks/store', [TechStacks::class, 'store'])->name('master-tech-stacks--create');
+    Route::get('/master-tech-stacks/delete', [TechStacks::class, 'delete'])->name('master-tech-stacks--delete');
 
-  //Master Type Employments Route
-  Route::get('/master-type-employments', [TypeEmployments::class, 'index'])->name('master-type-employments');
-  Route::post('/master-type-employments/store', [TypeEmployments::class, 'store'])->name(
-    'master-type-employments--create'
-  );
-  Route::get('/master-type-employments/delete', [TypeEmployments::class, 'delete'])->name(
-    'master-type-employments--delete'
-  );
+    //Master Type Employments Route
+    Route::get('/master-type-employments', [TypeEmployments::class, 'index'])->name('master-type-employments');
+    Route::post('/master-type-employments/store', [TypeEmployments::class, 'store'])->name(
+      'master-type-employments--create'
+    );
+    Route::get('/master-type-employments/delete', [TypeEmployments::class, 'delete'])->name(
+      'master-type-employments--delete'
+    );
 
-  //Master Type Industries Route
-  Route::get('/master-industries', [Industries::class, 'index'])->name('master-industries');
-  Route::post('/master-industries/store', [Industries::class, 'store'])->name('master-industries--create');
-  Route::get('/master-industries/delete', [Industries::class, 'delete'])->name('master-industries--delete');
+    //Master Type Industries Route
+    Route::get('/master-industries', [Industries::class, 'index'])->name('master-industries');
+    Route::post('/master-industries/store', [Industries::class, 'store'])->name('master-industries--create');
+    Route::get('/master-industries/delete', [Industries::class, 'delete'])->name('master-industries--delete');
+  });
 });
-
 // layout
 Route::get('/layouts/without-menu', [WithoutMenu::class, 'index'])->name('layouts-without-menu');
 Route::get('/layouts/without-navbar', [WithoutNavbar::class, 'index'])->name('layouts-without-navbar');
