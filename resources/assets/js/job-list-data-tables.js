@@ -138,7 +138,7 @@
               var l = a.job_id;
               var r = 'Delete Job';
 
-              return userRole === '1'
+              return true
                 ? '<div class="d-flex gap-1 flex-wrap"><a class="btn btn-outline-primary" href="job-list/details/' +
                     l +
                     '">Details</a><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +

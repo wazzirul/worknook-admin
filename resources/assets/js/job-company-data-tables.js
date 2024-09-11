@@ -134,10 +134,12 @@
               var p = a.status;
               console.log(p);
               var r = p === 1 ? 'Close Job' : 'Open Job';
-              var btn = p===1 ? 'btn-danger' : 'btn-success';
+              var btn = p === 1 ? 'btn-danger' : 'btn-success';
 
-              return userRole === '1'
-                ? '<a class="btn '+btn+' delete-record" href="javascript:;" data-id=' +
+              return true
+                ? '<a class="btn ' +
+                    btn +
+                    ' delete-record" href="javascript:;" data-id=' +
                     l +
                     ' data-banned=' +
                     p +

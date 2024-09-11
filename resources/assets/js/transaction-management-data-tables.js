@@ -323,7 +323,7 @@ function photo_profile(photo, name) {
             render: function (e, t, a, s) {
               var id = a.user_transaction_id;
 
-              return userRole === '1'
+              return true
                 ? '<a class="btn btn-primary item-approve" href="javascript:;" data-id="' +
                     id +
                     '" data-status="3">Approve</a>' +

@@ -62,7 +62,7 @@
 
               var encodedName = encodeURIComponent(r);
 
-              return userRole === '1'
+              return true
                 ? '<div class="d-inline-block"><a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a><ul class="dropdown-menu dropdown-menu-end m-0"><li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id=' +
                     n +
                     '>Delete</a></li></ul></div><a href="javascript:;" class="btn btn-sm btn-icon item-edit" data-name=' +
@@ -81,7 +81,7 @@
 
         // Add the "create-new" button conditionally
         initComplete: function (settings, json) {
-          if (userRole === '1') {
+          if (true) {
             // Append the button to the appropriate DOM element (adjust as needed)
             $('.dt-action-buttons').append(
               '<button type="button" class="create-new btn btn-primary"><i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add New Skill</span></button>'

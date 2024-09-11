@@ -103,7 +103,7 @@ function photo_profile(photo, fullname) {
               var p = a.status;
               console.log(l);
 
-              return userRole === '1'
+              return true
                 ? '<a class="btn btn-info item-show" href="javascript:;" data-id=' +
                     l +
                     ' data-name="' +

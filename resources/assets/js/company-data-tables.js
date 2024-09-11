@@ -167,7 +167,7 @@ function photo_profile(photo, fullname, link) {
               var p = a.status;
               console.log(l);
 
-              return userRole === '1'
+              return true
                 ? '<a class="btn btn-outline-info item-show" href="javascript:;" data-id="' +
                     l +
                     '" data-name="' +
@@ -189,7 +189,7 @@ function photo_profile(photo, fullname, link) {
               var l = a.user_id;
               var s = a.soft_delete;
               var x = s === 1 ? 'Remove Ban' : 'Ban Company';
-              return userRole === '1'
+              return true
                 ? '<div class="d-flex gap-1 flex-wrap"><a class="btn btn-outline-primary" href="company-details/' +
                     l +
                     '">See Jobs</a><a class="btn btn-outline-primary" href="company-team/' +

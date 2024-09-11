@@ -156,7 +156,7 @@
               data += 'data-ais="' + ais + '" ';
               data += 'data-acs="' + acs + '" ';
 
-              return userRole === '1'
+              return true
                 ? '<a class="btn btn-primary item-edit" href="javascript:;" ' +
                     data +
                     '>Edit</a>' +

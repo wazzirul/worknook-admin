@@ -97,7 +97,7 @@
             searchable: !1,
             render: function (e, t, a, s) {
               var l = a.blog_id;
-              return userRole === '1'
+              return true
                 ? '<div class="d-flex gap-1 flex-wrap"><a class="btn btn-outline-primary" href="blog-details/' +
                     l +
                     '">Blog Details</a></div>'
@@ -112,7 +112,7 @@
 
         // Add the "create-new" button conditionally
         initComplete: function (settings, json) {
-          if (userRole === '1') {
+          if (true) {
             // Append the button to the appropriate DOM element (adjust as needed)
             $('.dt-buttons').append(
               '<button type="button" class="create-new btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#addBlogModal"><i class="bx bx-plus me-sm-1"></i></button>'
