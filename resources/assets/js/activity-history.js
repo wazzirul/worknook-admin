@@ -36,7 +36,15 @@ document.getElementById('pageSelect').addEventListener('change', function () {
 document.getElementById('button-search').addEventListener('click', function () {
   var search = document.getElementById('search').value;
   localStorage.setItem('search', search);
+
   window.location.replace('/activity-history');
+});
+document.getElementById('search').addEventListener('keydown', function (event) {
+  if (event.key === 'Enter') {
+    var search = document.getElementById('search').value;
+    localStorage.setItem('search', search);
+    window.location.replace('/activity-history');
+  }
 });
 document.getElementById('button-reset').addEventListener('click', function () {
   var search = '';
@@ -54,6 +62,7 @@ document.getElementById('button-reset').addEventListener('click', function () {
   var type = localStorage.getItem('type', page) ?? null;
   var entries = localStorage.getItem('entries', page) ?? null;
   var search = localStorage.getItem('search', page) ?? null;
+  console.log(search);
 
   var type_user = '';
   if (type) {

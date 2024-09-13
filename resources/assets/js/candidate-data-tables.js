@@ -434,7 +434,7 @@ function photo_profile(photo, fullname) {
           }
         ]
       })),
-      $('div.head-label').html('<h1 class="card-title mb-3">Company Management</h1>'));
+      $('div.head-label').html('<h1 class="card-title mb-3">Candidate Management</h1>'));
     setTimeout(() => {
       $('.dataTables_filter .form-control').removeClass('form-control-sm'),
         $('.dataTables_length .form-select').removeClass('form-select-sm');

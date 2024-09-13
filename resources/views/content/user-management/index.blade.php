@@ -50,7 +50,7 @@
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body flex-grow-1">
-    <form class="add-new-record pt-0 row g-2" id="modal-form" action="#" method="POST">
+    <form class="add-new-record pt-0 row g-2" id="userForm" action="#" method="POST" >
       @csrf
       <input type="hidden" class="dt-id" name="id">
       <div class="col-sm-12">
@@ -63,6 +63,10 @@
       </div>
       <div class="col-sm-12">
         <label class="form-label" for="profilePicture">Profile Picture</label>
+        <div id="textMuted">
+          {{-- content --}}
+        </div>
+        
         <div class="input-group input-group-merge">
           <input type="file" id="profilePicture" class="form-control dt-profile-img" name="profilePicture"
             aria-label="Profile Picture" aria-describedby="profilePicture2" accept="image/png" required />
@@ -103,7 +107,7 @@
         </div>
       </div>
       <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1" onclick="loaderFunc();">Submit</button>
+        <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit</button>
         <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">Cancel</button>
       </div>
     </form>
@@ -267,10 +271,21 @@
   })
 </script>
 <script>
+  document.getElementById('userForm').addEventListener('submit', function (event) {
+    
+    if (!this.checkValidity()) {
+      event.preventDefault();
+    } else {
+      loaderFunc();
+    }
+  });
+</script>
+<script>
   // Open create user modal
   $(document).on('click', '.create-new', function () {
     const modal = $('#modal-offcanvas');
     const url = '/user-management/create';
+    $('#textMuted').html('');
 
     // Check if modal exists
     if (modal.length)
@@ -300,7 +315,7 @@
   $(document).on('click', '.item-edit', function () {
     const modal = $('#modal-offcanvas');
     const url = '/user-management/update';
-
+    $('#textMuted').html('<small class="text-muted">Tip : Leave it empty if image will not updated.</small>')
     if (modal.length)
     {
       const data = $(this).data();

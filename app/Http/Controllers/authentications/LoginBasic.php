@@ -41,8 +41,16 @@ class LoginBasic extends Controller
         $payloadMenu['admin_id'] = $data->data->id;
         $dataMenu = RequestURI('POST', env('API_URL') . '/admin-permission/show', $payloadMenu);
 
-        foreach ($dataMenu->data->permission as $item) {
-          $menu[] = $item->name;
+        if ($dataMenu != null) {
+          foreach ($dataMenu->data->permission as $item) {
+            $menu[] = $item->name;
+          }
+        } else {
+          $request->session()->flush();
+          return redirect('/auth/login')->with(
+            'error',
+            'Your access rights are still empty, please contact your superadmin!'
+          );
         }
       }
       $request->session()->put('menu', $menu);

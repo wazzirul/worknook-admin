@@ -17,7 +17,7 @@
 
   <ul class="menu-inner py-1">
     @foreach ($menuData[0]->menu as $menu)
-    @if (in_array($menu->name,Session::get('menu')) || Session::get('role') == 1)
+    @if (in_array($menu->name,Session::get('menu')) || Session::get('role') == 1 || $menu->name == "Dashboards")
       
    
 

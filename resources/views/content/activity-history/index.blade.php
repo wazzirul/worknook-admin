@@ -49,7 +49,7 @@
         </select></div>
         <div class="col-4 col-md-3 align-content-center">entries per page</div>
         <div class="col-4 col-md-4 align-content-center"><input type="text" class="form-control" id="search" placeholder="Enter text"></div>
-        <div class="col-4 col-md-1 align-content-center"><button class="btn btn-primary" type="button" id="button-search">Search</button></div>
+        <div class="col-4 col-md-1 align-content-center"><form><button class="btn btn-primary" type="submit" id="button-search">Search</button></form></div>
         <div class="col-4 col-md-1 align-content-center"><button class="btn btn-outline-dark" type="button" id="button-reset">Reset</button></div>
       </div>
     </div>

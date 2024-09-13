@@ -88,9 +88,8 @@ Route::post('/query-with-attachment', [QueryController::class, 'queryWithAttachm
 Route::group(['middleware' => 'authsession'], function () {
   // Routes accessible for both Superadmin and Admin
   // Main Page Route
-  Route::group(['middleware' => 'menusession:Dashboards'], function () {
-    Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
-  });
+  Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
+
   // User Management Route
   Route::group(['middleware' => 'menusession:User Management'], function () {
     Route::get('/user-management', [UserManagement::class, 'index'])->name('user-management');

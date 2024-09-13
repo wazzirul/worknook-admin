@@ -251,7 +251,7 @@
 <script src="{{asset('assets/js/candidate-data-tables.js')}}"></script>
 <script>
   // Delete Function
-  async function deleteJob (jobId) {
+  async function deleteCandidate (jobId) {
     $('.modal').modal('hide');
     await $('#modalConfirmation').modal('show');
     $(document).on('click', '#confirmationBtn', async function () {
@@ -287,7 +287,7 @@
   $(document).on('click', '.delete-record', async function () {
     const jobId = $(this).data('id');
 
-    deleteJob(jobId);
+    deleteCandidate(jobId);
   });
 </script>
 <script>
