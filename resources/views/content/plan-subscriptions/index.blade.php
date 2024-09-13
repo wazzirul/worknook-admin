@@ -106,6 +106,7 @@
             <small class="text-muted">Tip : Leave it empty if image will not updated.</small>
             <input type="file" class="form-control" id="iconPlanAdd">
             <input type="hidden" name="iconEncode" id="iconEncode">
+            <div id="errorFile"></div>
           </div>
           <div class="mb-3">
             <label for="planName" class="form-label">Name</label>
@@ -246,7 +247,26 @@
   src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
   
 <script src="{{asset('assets/js/plan-management-data-tables.js')}}"></script>
+{{-- File Input --}}
+<script>
+  document.getElementById('iconPlanAdd').addEventListener('change', function(event) {
+      var file = event.target.files[0];
+      var allowedTypes = ['image/svg+xml', 'image/png', 'image/jpeg']; // MIME types
+      var errorMessageElement = document.getElementById('errorFile');
 
+      if (file) {
+          if (!allowedTypes.includes(file.type)) {
+              document.getElementById('iconPlanAdd').value = "";
+              document.getElementById('iconEncode').value = "";
+              errorMessageElement.innerHTML = '<small class="text-danger">Please select a valid image file (SVG, PNG, JPEG).</small>';
+              // Clear the input value
+              event.target.value = '';
+          } else {
+              errorMessageElement.textContent = ''; // Clear error message if valid
+          }
+      }
+  });
+</script>
 <script>
   // Input Image script
   $(document).ready(function () {

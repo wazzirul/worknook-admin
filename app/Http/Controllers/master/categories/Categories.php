@@ -14,7 +14,7 @@ class Categories extends Controller
   {
     $categoryName = ucwords(strtolower($request->input('categoryName')));
     $categoryId = $request->input('categoryId');
-    $categoryIcon = $request->input('iconThumbnail');
+    $categoryIcon = $request->input('iconThumbnail') ?? null;
 
     $message = null;
     $payload = null;

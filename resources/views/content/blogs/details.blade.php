@@ -91,6 +91,9 @@
                         <small class="text-muted">Tip : Leave it empty if image will not updated.</small>
                         <input type="file" class="form-control" id="blogThumbnailEdit" accept="image/png">
                         <input type="hidden" name="thumbnailEncode" id="thumbnailEncode">
+                        <div id="errorFile">
+                            {{-- content Error --}}
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="blogTitleEdit" class="form-label">Title</label>
@@ -108,10 +111,10 @@
 
                             @foreach ($data->data as $category)
                             <option class="text-capitalize" value="{{ $category->blog_category_id }}" <?php if (
-                                $category->blog_category_id == $dataBlog->data->category->blog_category_id
-                                ) {
-                                echo 'Selected';
-                                } ?>>{{ $category->category_name }}
+                              $category->blog_category_id == $dataBlog->data->category->blog_category_id
+                            ) {
+                              echo 'Selected';
+                            } ?>>{{ $category->category_name }}
                             </option>
                             @endforeach
                         </select>
@@ -148,7 +151,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" onclick="loaderFunc()">Edit Blog Post</button>
+                    <button type="submit" class="btn btn-primary" >Edit Blog Post</button>
                 </div>
             </form>
         </div>
@@ -182,6 +185,37 @@
 
 @section('page-script')
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+{{-- File Input --}}
+<script>
+    document.getElementById('blogThumbnailEdit').addEventListener('change', function(event) {
+        var file = event.target.files[0];
+        var allowedTypes = ['image/svg+xml', 'image/png', 'image/jpeg']; // MIME types
+        var errorMessageElement = document.getElementById('errorFile');
+  
+        if (file) {
+            if (!allowedTypes.includes(file.type)) {
+                document.getElementById('blogThumbnailEdit').value = "";
+                document.getElementById('thumbnailEncode').value = "";
+                errorMessageElement.innerHTML = '<small class="text-danger">Please select a valid image file (SVG, PNG, JPEG).</small>';
+                // Clear the input value
+                event.target.value = '';
+            } else {
+                errorMessageElement.textContent = ''; // Clear error message if valid
+            }
+        }
+    });
+  </script>
+{{-- Form validation --}}
+<script>
+    document.getElementById('blogEditForm').addEventListener('submit', function (event) {
+      
+          if (!this.checkValidity()) {
+            event.preventDefault();
+          } else {
+            loaderFunc();
+          }
+    });
+  </script>
 
 <script>
     // Delete Function

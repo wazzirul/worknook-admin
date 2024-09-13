@@ -51,7 +51,7 @@
         <h5 class="modal-title" id="blogModalLabel">Add New Blog Category</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="/blog-categories/add" method="POST">
+      <form  method="POST" id="categoryForm">
         <div class="modal-body">
           @csrf
           <div class="mb-3">
@@ -67,6 +67,7 @@
             <input type="file" class="form-control" id="iconCategory" name="iconCategory" required>
             <input type="text" class="form-control" id="iconThumbnail" name="iconThumbnail" value="Name of the Category"
               hidden>
+              <div id="errorFile"></div>
           </div>
           <div class="mb-3" style="display: flex">
             <img src="" alt="" id="valueImage" style="max-width:65px;aspect-ratio:1/1">
@@ -120,7 +121,37 @@
   src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="{{asset('assets/js/master/categories-data-tables.js')}}"></script>
+{{-- File Input --}}
+<script>
+  document.getElementById('iconCategory').addEventListener('change', function(event) {
+      var file = event.target.files[0];
+      var allowedTypes = ['image/svg+xml', 'image/png', 'image/jpeg']; // MIME types
+      var errorMessageElement = document.getElementById('errorFile');
 
+      if (file) {
+          if (!allowedTypes.includes(file.type)) {
+              document.getElementById('iconCategory').value = "";
+              document.getElementById('iconThumbnail').value = "";
+              errorMessageElement.innerHTML = '<small class="text-danger">Please select a valid image file (SVG, PNG, JPEG).</small>';
+              // Clear the input value
+              event.target.value = '';
+          } else {
+              errorMessageElement.textContent = ''; // Clear error message if valid
+          }
+      }
+  });
+</script>
+{{-- Form validation --}}
+<script>
+  document.getElementById('categoryForm').addEventListener('submit', function (event) {
+    
+        if (!this.checkValidity()) {
+          event.preventDefault();
+        } else {
+          loaderFunc();
+        }
+  });
+</script>
 <script>
   function requiredInput () {
     document.getElementById('iconCategory').required = false;
@@ -128,12 +159,6 @@
   // Add and Edit Modal
   $(document).on('click', '.create-new, .item-edit', function () {
 
-    $(document).on('click', '#buttonModal', function () {
-      if ($('#categoryName').val() != "" && $('#iconCategory').val() != "" || $('#iconThumbnail').val() != "")
-      {
-        loaderFunc();
-      }
-    })
     const modal = $('#blogModalCategory');
     const url = '/master-categories/store';
 
@@ -156,7 +181,7 @@
         modal.find('#categoryId').val(data.id || '');
         modal.find('#categoryName').val(name || '');
         modal.find('#iconCategory').val('');
-        modal.find('#iconThumbnail').val(icon || '');
+        modal.find('#iconThumbnail').val('');
         setImgSrc(icon);
         modal.find('#blogModalLabel').text('Edit category');
         modal.find('#buttonModal').text('Edit category');

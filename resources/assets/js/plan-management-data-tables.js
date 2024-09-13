@@ -365,6 +365,8 @@ $(document).on('click', '.create-new, .item-edit', function () {
   if (modal.length) {
     if ($(this).hasClass('create-new')) {
       modal.find('#subscriptionId').val('');
+      modal.find('#iconPlanAdd').val('');
+      modal.find('#iconEncode').val('');
       modal.find('#planName').val('');
       modal.find('#postJob').val('');
       modal.find('#interview').val('');
@@ -397,6 +399,8 @@ $(document).on('click', '.create-new, .item-edit', function () {
       const acs = data.acs ? true : false;
 
       modal.find('#subscriptionId').val(id);
+      modal.find('#iconEncode').val('');
+      modal.find('#iconPlanAdd').val('');
       modal.find('#planName').val(data.name);
       modal.find('#postJob').val(data.pj);
       modal.find('#interview').val(data.it);

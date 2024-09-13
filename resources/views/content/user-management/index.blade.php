@@ -66,7 +66,9 @@
         <div id="textMuted">
           {{-- content --}}
         </div>
-        
+        <div id="validationPicture">
+
+        </div>
         <div class="input-group input-group-merge">
           <input type="file" id="profilePicture" class="form-control dt-profile-img" name="profilePicture"
             aria-label="Profile Picture" aria-describedby="profilePicture2" accept="image/png" required />
@@ -271,13 +273,32 @@
   })
 </script>
 <script>
+  document.getElementById('profilePicture').addEventListener('change', function(event) {
+      var file = event.target.files[0];
+      var allowedTypes = ['image/svg+xml', 'image/png', 'image/jpeg']; // MIME types
+      var errorMessageElement = document.getElementById('validationPicture');
+
+      if (file) {
+          if (!allowedTypes.includes(file.type)) {
+              document.getElementById('profilePicture').value = "";
+              document.getElementById('profileEncode').value = "";
+              errorMessageElement.innerHTML = '<small class="text-danger">Please select a valid image file (SVG, PNG, JPEG).</small>';
+              // Clear the input value
+              event.target.value = '';
+          } else {
+              errorMessageElement.textContent = ''; // Clear error message if valid
+          }
+      }
+  });
+</script>
+<script>
   document.getElementById('userForm').addEventListener('submit', function (event) {
     
-    if (!this.checkValidity()) {
-      event.preventDefault();
-    } else {
-      loaderFunc();
-    }
+        if (!this.checkValidity()) {
+          event.preventDefault();
+        } else {
+          loaderFunc();
+        }
   });
 </script>
 <script>
