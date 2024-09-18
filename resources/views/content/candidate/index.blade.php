@@ -155,7 +155,7 @@
     </div>
   </div>
 </div>
-
+{{-- 
 <!-- Modal Filter -->
 <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -181,7 +181,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> --}}
 
 <!-- Modal Delete Confirmation -->
 <div class="modal fade" id="modalConfirmation" tabindex="-1" aria-hidden="true" style="z-index: 1091">
@@ -192,7 +192,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p>Are you sure to delete job?</p>
+        <p id="contentModal">Are you sure to delete job?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -250,17 +250,38 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{{asset('assets/js/candidate-data-tables.js')}}"></script>
 <script>
+  
+</script>
+<script>
   // Delete Function
-  async function deleteCandidate (jobId) {
+  $(document).on('click', '.delete-record', async function () {
+    let candidateId = $(this).data('id');
+    let soft_delete = $(this).data('banned');
+    $('#modalConfirmation').on('hidden.bs.modal', function () {
+    candidateId = null;
+    });
+    var modal = $('#modalConfirmation');
     $('.modal').modal('hide');
+    // Menghilangkan Data ID
+    if(soft_delete == 1){
+      modal.find('#modalCenterTitle').text('Remove Candidate');
+      modal.find('#contentModal').text('Are you sure to remove this candidate?');
+      modal.find('#confirmationBtn').text('Remove');
+    }else{
+      modal.find('#modalCenterTitle').text('Ban Candidate');
+      modal.find('#contentModal').text('Are you sure to ban this candidate?');
+      modal.find('#confirmationBtn').text('Ban');
+    }
     await $('#modalConfirmation').modal('show');
     $(document).on('click', '#confirmationBtn', async function () {
-      const url = "/jobs/store";
+      loaderFunc();
+      const url = "/applicant/store";
       const method = "POST";
       // Prepare payload data
+     
       const payload = {
-        job_id: jobId,
-        soft_delete: 1
+        user_id: candidateId,
+        soft_delete: soft_delete == 1 ? 0 : 1
       };
 
       await $.ajax({
@@ -282,12 +303,6 @@
         }
       });
     })
-  };
-
-  $(document).on('click', '.delete-record', async function () {
-    const jobId = $(this).data('id');
-
-    deleteCandidate(jobId);
   });
 </script>
 <script>

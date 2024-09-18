@@ -290,6 +290,10 @@
           }
       }
   });
+  document.getElementById('modal-offcanvas').addEventListener('hidden.bs.offcanvas', function () {
+    document.getElementById('validationPicture').textContent = '';
+
+    });
 </script>
 <script>
   document.getElementById('userForm').addEventListener('submit', function (event) {
@@ -409,6 +413,10 @@
     await $('#modalConfirmation').modal('show');
     const adminId = $(this).data('id');
     const url = "/admins/store";
+    // Menghilangkan Data ID
+    $('#modalConfirmation').on('hidden.bs.modal', function () {
+    adminId = null;
+    });
     $(document).on('click', '#confirmationBtn', async function () {
       loaderFunc();
       const method = "POST";

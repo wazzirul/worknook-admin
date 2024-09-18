@@ -294,8 +294,13 @@
   $(document).on('click', '.delete-record', async function () {
     $('.modal').modal('hide');
     await $('#modalConfirmation').modal('show');
-    const id = $(this).data('id');
+    let id = $(this).data('id');
     const url = "/subscriptions/store";
+    // Menghilangkan Data ID  
+    $('#modalConfirmation').on('hidden.bs.modal', function () {
+    id = null;
+    });
+
     $(document).on('click', '#confirmationBtn', async function () {
       loaderFunc();
       const method = "POST";

@@ -97,7 +97,7 @@
       </div>
       <div class="modal-body">
         <input type="hidden" class="dt-blog-id" name="blogID">
-        <p>Are you sure to edit company?</p>
+        <p id="textConfirm">Are you sure to edit company?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -158,29 +158,39 @@
   // Delete Function
   $(document).on('click', '.delete-record', async function () {
     $('.modal').modal('hide');
-    await $('#modalConfirmation').modal('show');
-    const status = $(this).data('banned');
-    const userId = $(this).data('id');
-    const url = "/company/store";
-    const method = "POST";
-    const route = "/company-management/delete";
-    // Prepare payload data
-    const payload = {
-      user_id: userId,
-      soft_delete: status === 1 ? 0 : 1
-    };
-    const textBan = status === 0 ? "Ban" : "Remove";
+    $('#modalConfirmation').modal('show');
+    let status = $(this).data('banned');
+    let userId = "";
+    userId = $(this).data('id');
+      console.log(userId);
+    let textBan = status === 0 ? "Ban" : "Remove";
 
+    $('#modalCenterTitle').text(textBan + " Company");
+    $('#textConfirm').text("Are you sure to " + textBan.toLowerCase() + " this company?");
     $('#confirmationBtn').text(textBan);
+    // Menghilangkan Data ID
+    $('#modalConfirmation').on('hidden.bs.modal', function () {
+    userId = null;
+    });
+
     $(document).on('click', '#confirmationBtn', async function () {
+      
+      let urlBan = "/company/store";
+      let methodBan = "POST";
+      let route = "/company-management/delete";
+      // Prepare payload data
+      let payload = {
+        user_id: userId,
+        soft_delete: status === 1 ? 0 : 1
+      };
       loaderFunc();
       await $.ajax({
         method: 'POST',
         url: '/query',
         data: {
           _token: $('meta[name="csrf-token"]').attr('content'),
-          url: url,
-          method: method,
+          url: urlBan,
+          method: methodBan,
           payload: payload
         },
         success: function (response) {

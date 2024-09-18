@@ -241,26 +241,32 @@
 <script src="{{asset('assets/js/job-list-data-tables.js')}}"></script>
 <script>
   // Delete Function
-  async function deleteJob (jobId) {
+
+  $(document).on('click', '.delete-record', async function () {
+    let jobId = $(this).data('id');
     $('.modal').modal('hide');
     await $('#modalConfirmation').modal('show');
+
+    // Menghilangkan Data ID
+    $('#modalConfirmation').on('hidden.bs.modal', function () {
+    jobId = null;
+    });
     $(document).on('click', '#confirmationBtn', async function () {
       loaderFunc();
-      const url = "/jobs/store";
-      const method = "POST";
+      const urlDel = "/jobs/store";
+      const methodDel = "POST";
       // Prepare payload data
       const payload = {
         job_id: jobId,
         soft_delete: 1
       };
-
       await $.ajax({
         method: 'POST',
         url: '/query',
         data: {
           _token: $('meta[name="csrf-token"]').attr('content'),
-          url: url,
-          method: method,
+          url: urlDel,
+          method: methodDel,
           payload: payload
         },
         success: function (response) {
@@ -273,12 +279,6 @@
         }
       });
     })
-  };
-
-  $(document).on('click', '.delete-record', async function () {
-    const jobId = $(this).data('id');
-
-    deleteJob(jobId);
   });
 </script>
 <script>

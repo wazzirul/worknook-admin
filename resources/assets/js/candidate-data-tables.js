@@ -240,9 +240,11 @@ function photo_profile(photo, fullname) {
               var s = a.soft_delete;
               var x = s === 1 ? 'Remove Ban' : 'Ban Candidate';
               return true
-                ? '<div class="d-flex gap-1 flex-wrap"><a class="btn btn-outline-primary" href="company-details/' +
+                ? '<div class="d-flex gap-1 flex-wrap"><a href="/candidate-details/' +
                     l +
-                    '">See Jobs</a><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
+                    '" class="btn btn-outline-primary" data-id=' +
+                    l +
+                    '>See Jobs</a><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
                     l +
                     ' data-banned=' +
                     s +

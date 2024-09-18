@@ -51,7 +51,7 @@
 <div class="card mb-4">
   <div class="d-flex align-items-start row">
     <div class="col-sm-2 text-center text-sm-left">
-      <div class="card-body p-4">
+      <div class="card-body p-4" id="imgCompany">
         <img src='{{ $dataComp->data->company_profile->company_icon }}' height="140" alt="View Badge User"
           data-app-dark-img="illustrations/man-with-laptop-dark.png"
           data-app-light-img="illustrations/man-with-laptop-light.png">
@@ -59,7 +59,7 @@
     </div>
     <div class="col-sm-7">
       <div class="card-body">
-        <h5 class="card-title text-primary">{{ $dataComp->data->company_profile->company_name }}</h5>
+        <h5 class="card-title text-primary" id="company_name">{{ $dataComp->data->company_profile->company_name }}</h5>
         <small>
           <a href="javascript:;" class="text-primary">{{ $dataComp->data->company_profile->website }}</a>
         </small>
@@ -143,6 +143,31 @@
 @endsection
 
 @section('page-script')
+<script>
+  var ft = "{{  $dataComp->data->company_profile->company_icon ?? ""  }}";
+  var name = document.getElementById("company_name").innerText;
+
+  if (ft) {
+    var o = '<img src="' + ft + '" alt="Avatar" class="rounded-circle ">';
+  } else {
+      var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
+          Math.floor(6 * Math.random())
+      ];
+      var i = (name).match(/\b\w/g) || [];
+      o =
+          '<span class="avatar-initial rounded-circle bg-label-' +
+          d +
+          '">' +
+          ((i.shift() || '') + (i.pop() || '')).toUpperCase() +
+          '</span>';
+  }
+
+  var output = '<div class="d-flex justify-content-center align-items-center">';
+  output += '<div class="avatar-wrapper"><div class="avatar me-3" style="font-size:2rem;height:140px;width:140px">' + o + '</div></div>';
+  output += '</div>';
+
+document.getElementById("imgCompany").innerHTML = output;
+</script>
 <script>
   var userRole = "{{ session('role') }}";
   var uuid;
