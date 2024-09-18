@@ -95,7 +95,7 @@
           <input type="password" id="password" class="form-control" name="password"
             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
             aria-describedby="password" />
-          <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+          <span class="input-group-text cursor-pointer"  id="togglePassword"><i class="bx bx-hide"></i></span>
         </div>
       </div>
       <div class="col-sm-12">
@@ -445,6 +445,22 @@
         }
       });
     })
+  });
+</script>
+<script>
+  document.getElementById('togglePassword').addEventListener('click', function () {
+    var passwordInput = document.getElementById('password');
+    var icon = this.querySelector('i');
+    // Toggle the type attribute
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      icon.classList.remove('bx-hide');
+      icon.classList.add('bx-show');
+    } else {
+      passwordInput.type = 'password';
+      icon.classList.remove('bx-show');
+      icon.classList.add('bx-hide');
+    }
   });
 </script>
 @endsection
