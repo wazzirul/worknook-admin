@@ -1,5 +1,18 @@
 'use strict';
 
+function handleImageError(fullname, id) {
+  console.log('tes');
+  var o;
+  var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][Math.floor(6 * Math.random())],
+    i = fullname.match(/\b\w/g) || [];
+  o =
+    '<span class="avatar-initial rounded-circle bg-label-' +
+    d +
+    '">' +
+    (i = ((i.shift() || '') + (i.pop() || '')).toUpperCase()) +
+    '</span>';
+  document.getElementById(id).innerHTML = o;
+}
 // Request User Data
 (async function () {
   let urlUser = '/admin-management/data';
@@ -56,7 +69,8 @@
               var n = a.profile_photo,
                 r = a.fullname,
                 l = a.admin_id;
-              if (n) var o = '<img src="' + n + '" alt="Avatar" class="rounded-circle">';
+              if (n)
+                var o = `<img src="${n}" alt="Avatar" class="rounded-circle" onerror="handleImageError('${r}','${l}');" >`;
               else {
                 var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][
                     Math.floor(6 * Math.random())
@@ -70,7 +84,9 @@
                   '</span>';
               }
               return (
-                '<div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar me-2">' +
+                '<div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar me-2" id="' +
+                l +
+                '">' +
                 o +
                 '</div></div><div class="d-flex flex-column"><span class="emp_name text-truncate">' +
                 r +
@@ -103,6 +119,7 @@
             orderable: !1,
             searchable: !1,
             render: function (e, t, a, s) {
+              console.log('Object : ', a.fullname);
               var n = a.profile_photo,
                 r = a.fullname,
                 k = a.email,
@@ -301,6 +318,7 @@
             type: 'column',
             renderer: function (e, t, a) {
               var s = $.map(a, function (e, t) {
+                console.log(e.data);
                 return '' !== e.title
                   ? '<tr data-dt-row="' +
                       e.rowIndex +

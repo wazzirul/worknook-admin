@@ -36,8 +36,8 @@ $navbarDetached = ($navbarDetached ?? '');
           <!-- User -->
           <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-              <div class="avatar avatar-online">
-                <img src="{{Session::get('profile_photo')==null ? asset('assets/img/avatars/1.png'):Session::get('profile_photo')}}" alt class="w-px-40 h-auto rounded-circle">
+              <div class="avatar avatar-online" id="imgProfile">
+                <img src="{{Session::get('profile_photo')==null ? asset('assets/img/avatars/1.png'):Session::get('profile_photo')}}" onerror="handleImageProfile('{{Session::get('fullname')}}', '#imgProfile');" alt class="w-px-40 h-auto rounded-circle">
               </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -45,7 +45,7 @@ $navbarDetached = ($navbarDetached ?? '');
                 <a class="dropdown-item" href="javascript:void(0);">
                   <div class="d-flex">
                     <div class="flex-shrink-0 me-3">
-                      <div class="avatar avatar-online">
+                      <div class="avatar avatar-online" id="imgProfile">
                         <img src="{{Session::get('profile_photo')==null ? asset('assets/img/avatars/1.png'):Session::get('profile_photo')}}" alt class="w-px-40 h-auto rounded-circle">
                       </div>
                     </div>
@@ -70,7 +70,25 @@ $navbarDetached = ($navbarDetached ?? '');
           <!--/ User -->
         </ul>
       </div>
-
+      <script>
+        function handleImageProfile(fullname, id) {
+        console.log('tes');
+        var o;
+        var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][Math.floor(6 * Math.random())],
+          i = fullname.match(/\b\w/g) || [];
+        o =
+          '<span class="avatar-initial rounded-circle bg-label-' +
+          d +
+          '">' +
+          (i = ((i.shift() || '') + (i.pop() || '')).toUpperCase()) +
+          '</span>';
+          
+        let elements = document.querySelectorAll(id);
+        elements.forEach((element) => {
+        element.innerHTML =  o;
+          });
+      }
+      </script>
       @if(!isset($navbarDetached))
     </div>
     @endif

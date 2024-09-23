@@ -107,6 +107,7 @@ function photo_profile(photo, fullname, link) {
             targets: 0,
             responsivePriority: 0,
             render: function (e, t, a, s) {
+              console.log(a);
               var n = a.company_profile.company_icon,
                 r = a.company_profile.company_name,
                 l = a.company_profile.website;

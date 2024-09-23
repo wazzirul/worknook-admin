@@ -355,7 +355,7 @@ function photo_profile(photo, name) {
               '<button class="nav-link btn-item" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" data-status="1">Waiting Payment</button>' +
               '</li>' +
               '<li class="nav-item" role="presentation">' +
-              '<button class="nav-link btn-item active" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"data-status="2">Payment Completed <span class="badge rounded-circle bg-danger text-white ms-1">' +
+              '<button class="nav-link btn-item active" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"data-status="2">Need Approval<span class="badge rounded-circle bg-danger text-white ms-1">' +
               dataPayment.length +
               '</span></button>' +
               '</li>' +

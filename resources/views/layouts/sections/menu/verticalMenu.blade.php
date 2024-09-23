@@ -1,5 +1,12 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
 
+  @php // Transaction Menu
+      $transaction = $menuData[0]->menu[9] ?? null;
+      $summary = RequestURI('GET', env('API_URL') . '/subscriptions/transaction/summary');
+      if ($transaction) {
+        $menuData[0]->menu[9]->badge[1] = $summary->data->approve;
+      }
+  @endphp
   <!-- ! Hide app brand if navbar-full -->
   <div class="app-brand demo">
     <a href="{{url('/')}}" class="app-brand-link">
@@ -35,9 +42,9 @@
     @php
     $activeClass = null;
     $currentRouteName = Route::currentRouteName();
-
     if ($currentRouteName === $menu->slug) {
     $activeClass = 'active';
+    
     }
     elseif (isset($menu->submenu)) {
     if (gettype($menu->slug) === 'array') {

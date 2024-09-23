@@ -133,7 +133,7 @@ Route::group(['middleware' => 'authsession'], function () {
 
   // Messages Route
   Route::group(['middleware' => 'menusession:Customer Support'], function () {
-    Route::get('/customer-support', [Messages::class, 'index'])->name('messages');
+    Route::get('/customer-support', [Messages::class, 'index'])->name('customer-support');
     Route::post('/customer-support/reply', [Messages::class, 'reply'])->name('messages-reply');
   });
 

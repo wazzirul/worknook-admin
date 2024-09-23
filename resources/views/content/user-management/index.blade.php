@@ -175,13 +175,13 @@
 <script>
   var userRole = "{{ session('role') }}";
 </script>
-<script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/datatables.min.js"></script>
-<script src="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script
+<script async src="https://cdn.datatables.net/v/bs5/dt-2.0.5/datatables.min.js"></script>
+<script async src="https://cdn.datatables.net/v/bs5/dt-2.0.5/b-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script async
   src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sl-2.0.1/datatables.min.js"></script>
-<script src="{{asset('assets/js/user-data-tables.js')}}"></script>
+<script async src="{{asset('assets/js/user-data-tables.js')}}"></script>
 <script>
   document.getElementById('myForm').addEventListener('input', function () {
   // Seleksi tombol Save
@@ -364,7 +364,7 @@
       }
       if (data.hasOwnProperty('n'))
       {
-        modal.find('.dt-profile-encode').val(data.n); // Assuming dt-profile-encode is the unique identifier for this input
+        modal.find('.dt-profile-encode').val(''); // Assuming dt-profile-encode is the unique identifier for this input
       }
 
       // Set the form action to the desired API endpoint

@@ -36,21 +36,31 @@
   <div class="card-body">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-2 col-5"> <select class="form-select" id="typeSelect">
-          <option value="all">All</option>
-          <option value="applicant">Applicant</option>
-          <option value="company">Company</option>
-          <option value="team-company">Team Company</option>
-        </select></div>
-        <div class="col-3 col-md-1"><select class="form-select" id="pageSelect">
+        <div class="col-md-8 col-lg-5 col-12  mb-lg-0 mb-3 d-flex align-items-center"> 
+          <div class="me-2">
+            <select class="form-select" id="typeSelect">
+              <option value="all">All</option>
+              <option value="applicant">Applicant</option>
+              <option value="company">Company</option>
+              <option value="team-company">Team Company</option>
+            </select>
+          </div>
+        <div class="me-2">
+          <select class="form-select" id="pageSelect">
           <option value="10">10</option>
           <option value="25">25</option>
           <option value="50">50</option>
-        </select></div>
-        <div class="col-4 col-md-3 align-content-center">entries per page</div>
-        <div class="col-4 col-md-4 align-content-center"><input type="text" class="form-control" id="search" placeholder="Enter text"></div>
-        <div class="col-4 col-md-1 align-content-center"><form><button class="btn btn-primary" type="submit" id="button-search">Search</button></form></div>
-        <div class="col-4 col-md-1 align-content-center"><button class="btn btn-outline-dark" type="button" id="button-reset">Reset</button></div>
+        </select>
+        </div>
+        <div>
+          <small>entries per page</small>
+        </div>
+      </div>
+        <div class="col-7 col-lg-4 col-md-6 align-content-center me-2 me-lg-0 me-md-0"><input type="text" class="form-control" id="search" placeholder="Enter text"></div>
+        <div class="col-4 col-lg-3 col-md-4 align-content-center d-flex "><div class="me-2">
+          <form><button class="btn btn-primary" type="submit" id="button-search">Search</button></form></div>
+          <div><button class="btn btn-outline-dark" type="button" id="button-reset">Reset</button></div>
+        </div>
       </div>
     </div>
     <div class="container-fluid mt-3 p-2 border-bottom border-top border-1 border-light">
