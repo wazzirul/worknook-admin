@@ -257,13 +257,18 @@
   $(document).on('click', '.delete-record', async function () {
     let candidateId = $(this).data('id');
     let soft_delete = $(this).data('banned');
+    console.log(soft_delete);
     $('#modalConfirmation').on('hidden.bs.modal', function () {
     candidateId = null;
     });
     var modal = $('#modalConfirmation');
     $('.modal').modal('hide');
     // Menghilangkan Data ID
-    if(soft_delete == 1){
+    if(soft_delete == "delete"){
+      modal.find('#modalCenterTitle').text('Delete Candidate');
+      modal.find('#contentModal').text('Are you sure to delete this candidate?');
+      modal.find('#confirmationBtn').text('Delete');
+    }else if(soft_delete == 0){
       modal.find('#modalCenterTitle').text('Remove Candidate');
       modal.find('#contentModal').text('Are you sure to remove this candidate?');
       modal.find('#confirmationBtn').text('Remove');
@@ -278,11 +283,19 @@
       const url = "/applicant/store";
       const method = "POST";
       // Prepare payload data
-     
-      const payload = {
-        user_id: candidateId,
-        soft_delete: soft_delete == 1 ? 0 : 1
-      };
+      let payload ;
+      
+     if(soft_delete=="delete"){
+         payload = {
+         user_id: candidateId,
+         soft_delete: 1
+       };
+     }else{
+        payload = {
+         user_id: candidateId,
+         status: soft_delete == 1 ? 0 : 1
+       };
+     }
 
       await $.ajax({
         method: 'POST',

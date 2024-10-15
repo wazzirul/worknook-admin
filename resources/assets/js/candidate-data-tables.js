@@ -127,13 +127,13 @@ function photo_profile(photo, fullname) {
             targets: 2,
             responsivePriority: 0,
             render: function (e, t, a, s) {
-              var n = a.soft_delete,
+              var n = a.status,
                 r = {
-                  0: {
+                  1: {
                     title: 'Permitted',
                     class: 'bg-label-primary'
                   },
-                  1: {
+                  0: {
                     title: 'Banned',
                     class: ' bg-label-danger'
                   }
@@ -237,8 +237,8 @@ function photo_profile(photo, fullname) {
             searchable: !1,
             render: function (e, t, a, s) {
               var l = a.user_id;
-              var s = a.soft_delete;
-              var x = s === 1 ? 'Remove Ban' : 'Ban Candidate';
+              var s = a.status;
+              var x = s === 0 ? 'Remove Ban' : 'Ban Candidate';
               return true
                 ? '<div class="d-flex gap-1 flex-wrap"><a href="/candidate-details/' +
                     l +
@@ -250,7 +250,9 @@ function photo_profile(photo, fullname) {
                     s +
                     '>' +
                     x +
-                    '</a></div>'
+                    '</a><a class="btn btn-danger delete-record" href="javascript:;" data-id=' +
+                    l +
+                    ' data-banned="delete"><i class="bx bx-trash"></i></a></div>'
                 : '<small>Unathorized</small>';
             }
           }
