@@ -253,6 +253,7 @@
   
 </script>
 <script>
+  
   // Delete Function
   $(document).on('click', '.delete-record', async function () {
     let candidateId = $(this).data('id');
