@@ -1,9 +1,10 @@
 'use strict';
 
-function photo_profile(photo, name) {
+function photo_profile(photo, name, type) {
   var r = name;
   var n = photo;
-  if (n) var o = '<img src="' + n + '" alt="Avatar" class="p-1" >';
+  var typeImg = type == 'subs' ? '' : 'rounded-circle';
+  if (n) var o = '<img src="' + n + '" alt="Avatar" class="p-1 ' + typeImg + '" >';
   else {
     var d = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'][Math.floor(6 * Math.random())],
       i = r.match(/\b\w/g) || [];
@@ -51,7 +52,7 @@ function photo_profile(photo, name) {
   });
 
   const dataPayment = data_user.filter(item => {
-    return item.status == 2;
+    return item.status == 3;
   });
 
   dataIn = dataPayment;
@@ -88,9 +89,9 @@ function photo_profile(photo, name) {
             targets: 0,
             responsivePriority: 4,
             render: function (e, t, a, s) {
-              var n = '',
-                r = a.users.fullname;
-              return photo_profile(n, r);
+              var n = a.users.company_profile ? a.users.company_profile.company_icon : '',
+                r = a.users.company_profile ? a.users.company_profile.company_name : a.users.fullname;
+              return photo_profile(n, r, 'company');
             }
           },
           {
@@ -100,7 +101,7 @@ function photo_profile(photo, name) {
               if (su) {
                 var n = a.subscriptions.icon,
                   r = a.subscriptions.name;
-                return photo_profile(n, r);
+                return photo_profile(n, r, 'subs');
               } else {
                 return '-';
               }
@@ -154,114 +155,6 @@ function photo_profile(photo, name) {
             }
           },
 
-          // {
-          //   targets: 14,
-          //   title: 'Allow Application Management',
-          //   render: function (e, t, a, s) {
-          //     var n = a.allow_application_management,
-          //       r = {
-          //         0: {
-          //           title: '<i class="bx bx-x-circle text-danger me-lg-2"></i>'
-          //         },
-          //         1: {
-          //           title: '<i class="bx bx-check-circle text-success me-lg-2"></i>'
-          //         }
-          //       };
-
-          //     return void 0 === r[n] ? e : '<span class="badge">' + r[n].title + '</span>';
-          //   }
-          // },
-
-          // {
-          //   targets: 13,
-          //   title: 'Allow Company Profile',
-          //   render: function (e, t, a, s) {
-          //     var n = a.allow_company_profile,
-          //       r = {
-          //         0: {
-          //           title: '<i class="bx bx-x-circle text-danger me-lg-2"></i>'
-          //         },
-          //         1: {
-          //           title: '<i class="bx bx-check-circle text-success me-lg-2"></i>'
-          //         }
-          //       };
-
-          //     return void 0 === r[n] ? e : '<span class="badge">' + r[n].title + '</span>';
-          //   }
-          // },
-          // {
-          //   targets: 12,
-          //   title: 'Allow Interview Scheduling',
-          //   render: function (e, t, a, s) {
-          //     var n = a.allow_interview_scheduling,
-          //       r = {
-          //         0: {
-          //           title: '<i class="bx bx-x-circle text-danger me-lg-2"></i>'
-          //         },
-          //         1: {
-          //           title: '<i class="bx bx-check-circle text-success me-lg-2"></i>'
-          //         }
-          //       };
-
-          //     return void 0 === r[n] ? e : '<span class="badge">' + r[n].title + '</span>';
-          //   }
-          // },
-          // {
-          //   targets: 11,
-          //   title: 'Allow Calendar Integration',
-          //   render: function (e, t, a, s) {
-          //     var n = a.allow_calendar_integration,
-          //       r = {
-          //         0: {
-          //           title: '<i class="bx bx-x-circle text-danger me-lg-2"></i>'
-          //         },
-          //         1: {
-          //           title: '<i class="bx bx-check-circle text-success me-lg-2"></i>'
-          //         }
-          //       };
-
-          //     return void 0 === r[n] ? e : '<span class="badge">' + r[n].title + '</span>';
-          //   }
-          // },
-          // {
-          //   targets: 10,
-          //   title: 'Allow Hiring Job Post',
-          //   render: function (e, t, a, s) {
-          //     var n = a.allow_hiring_job_post,
-          //       r = {
-          //         0: {
-          //           title: '<i class="bx bx-x-circle text-danger me-lg-2"></i>'
-          //         },
-          //         1: {
-          //           title: '<i class="bx bx-check-circle text-success me-lg-2"></i>'
-          //         }
-          //       };
-
-          //     return void 0 === r[n] ? e : '<span class="badge">' + r[n].title + '</span>';
-          //   }
-          // },
-          // {
-          //   targets: 8,
-          //   title: 'Status',
-          //   render: function (e, t, a, s) {
-          //     var n = a.status,
-          //       df = a.default,
-          //       r = {
-          //         1: {
-          //           title: 'Active',
-          //           class: 'bg-label-primary'
-          //         },
-          //         0: {
-          //           title: 'Non Active',
-          //           class: 'bg-label-secondary'
-          //         }
-          //       };
-          //     if (df == 1) {
-          //       r[0].title = 'Default';
-          //     }
-          //     return void 0 === r[n] ? e : '<span class="badge ' + r[n].class + '">' + r[n].title + '</span>';
-          //   }
-          // },
           {
             targets: 6,
             title: 'Alacarte Post Job',
@@ -341,9 +234,8 @@ function photo_profile(photo, name) {
             }
           }
         ],
-        order: [[2, 'asc']],
+        order: [],
         dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><" text-end pt-3 pt-md-0">><"row mb-2"<"dt-action-buttons col-sm-12 col-md-8"l><"col-sm-12 col-md-4 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-
         displayLength: 7,
         lengthMenu: [7, 10, 25, 50, 75, 100],
         // Add the "create-new" button conditionally
@@ -354,13 +246,8 @@ function photo_profile(photo, name) {
               '<li class="nav-item" role="presentation">' +
               '<button class="nav-link btn-item" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" data-status="1">Waiting Payment</button>' +
               '</li>' +
-              '<li class="nav-item" role="presentation">' +
-              '<button class="nav-link btn-item active" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"data-status="2">Need Approval<span class="badge rounded-circle bg-danger text-white ms-1">' +
-              dataPayment.length +
-              '</span></button>' +
-              '</li>' +
-              '<li class="nav-item" role="presentation">' +
-              '<button class="nav-link btn-item" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"data-status="3">Approve</button>' +
+              '<li class="nav-item acti" role="presentation">' +
+              '<button class="nav-link btn-item active" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"data-status="3">Approve</button>' +
               '</li>' +
               '<li class="nav-item" role="presentation">' +
               '<button class="nav-link btn-item" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"data-status="4">Decline</button>' +
