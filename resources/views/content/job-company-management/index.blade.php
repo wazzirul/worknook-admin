@@ -13,13 +13,11 @@
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css')) }}">
 <style>
   /* Hide selected columns on initial */
-  .datatables-basic thead tr th:nth-child(2),
   .datatables-basic thead tr th:nth-child(4),
   .datatables-basic thead tr th:nth-child(7),
   .datatables-basic thead tr th:nth-child(8),
   .datatables-basic thead tr th:nth-child(9),
   .datatables-basic thead tr th:nth-child(12),
-  .datatables-basic tbody tr *:nth-child(2),
   .datatables-basic tbody tr *:nth-child(4),
   .datatables-basic tbody tr *:nth-child(7),
   .datatables-basic tbody tr *:nth-child(8),

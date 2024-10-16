@@ -40,7 +40,7 @@
             data: 'job_title'
           },
           {
-            data: 'job_level_id'
+            data: 'job_level.level_name'
           },
           {
             data: 'job_type_employment'
