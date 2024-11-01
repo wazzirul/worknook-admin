@@ -20,13 +20,15 @@
   .datatables-basic thead tr th:nth-child(14),
   .datatables-basic thead tr th:nth-child(15),
   .datatables-basic thead tr th:nth-child(16),
+  .datatables-basic thead tr th:nth-child(17),
   .datatables-basic tbody tr *:nth-child(10),
   .datatables-basic tbody tr *:nth-child(11),
   .datatables-basic tbody tr *:nth-child(12),
   .datatables-basic tbody tr *:nth-child(13),
   .datatables-basic tbody tr *:nth-child(14),
   .datatables-basic tbody tr *:nth-child(15),
-  .datatables-basic tbody tr *:nth-child(16){
+  .datatables-basic tbody tr *:nth-child(16),
+  .datatables-basic tbody tr *:nth-child(17){
     display: none;
   }
 </style>
@@ -198,6 +200,15 @@
                 <label class="form-check-label" for="checkInterviewScheduling">Allow Interview Scheduling</label>
               </div>
             </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="checkMessaging" name="checkMessaging">
+                <label class="form-check-label" for="checkMessaging">Allow Messaging</label>
+              </div>
+            </div>
+           
           </div>
 
         </div>

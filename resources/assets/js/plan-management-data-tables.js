@@ -115,7 +115,7 @@
             }
           },
           {
-            targets: 15,
+            targets: 16,
             title: 'Action',
             orderable: !1,
             searchable: !1,
@@ -136,7 +136,8 @@
                 ahp = a.allow_hiring_job_post,
                 aci = a.allow_calendar_integration,
                 ais = a.allow_interview_scheduling,
-                acs = a.allow_account_support;
+                acs = a.allow_account_support,
+                message = a.allow_messaging;
 
               var data = 'data-id="' + id + '" ';
               data += 'data-name="' + n + '" ';
@@ -155,6 +156,7 @@
               data += 'data-aci="' + aci + '" ';
               data += 'data-ais="' + ais + '" ';
               data += 'data-acs="' + acs + '" ';
+              data += 'data-message="' + message + '" ';
 
               return true
                 ? '<a class="btn btn-primary item-edit" href="javascript:;" ' +
@@ -164,6 +166,23 @@
                     id +
                     '>Delete</a>'
                 : '<small>Unathorized</small>';
+            }
+          },
+          {
+            targets: 15,
+            title: 'Allow Messaging',
+            render: function (e, t, a, s) {
+              var n = a.allow_messaging,
+                r = {
+                  0: {
+                    title: '<i class="bx bx-x-circle text-danger me-lg-2"></i>'
+                  },
+                  1: {
+                    title: '<i class="bx bx-check-circle text-success me-lg-2"></i>'
+                  }
+                };
+
+              return void 0 === r[n] ? e : '<span class="badge">' + r[n].title + '</span>';
             }
           },
           {
@@ -384,6 +403,7 @@ $(document).on('click', '.create-new, .item-edit', function () {
       modal.find('#checkCalendarIntegration').prop('checked', false);
       modal.find('#checkHiringJobPost').prop('checked', false);
       modal.find('#checkAccountSupport').prop('checked', false);
+      modal.find('#checkMessaging').prop('checked', false);
       modal.find('#addPlanModalLabel').text('Add new Subscription');
       modal.find('#buttonModal').text('Add Subscription');
     } else {
@@ -397,6 +417,7 @@ $(document).on('click', '.create-new, .item-edit', function () {
       const aci = data.aci ? true : false;
       const ais = data.ais ? true : false;
       const acs = data.acs ? true : false;
+      const message = data.message ? true : false;
 
       modal.find('#subscriptionId').val(id);
       modal.find('#iconEncode').val('');
@@ -418,6 +439,7 @@ $(document).on('click', '.create-new, .item-edit', function () {
       modal.find('#checkCalendarIntegration').prop('checked', aci);
       modal.find('#checkHiringJobPost').prop('checked', ahp);
       modal.find('#checkAccountSupport').prop('checked', acs);
+      modal.find('#checkMessaging').prop('checked', message);
 
       modal.find('#addPlanModalLabel').text('Edit Plan');
       modal.find('#buttonModal').text('Edit Plan');

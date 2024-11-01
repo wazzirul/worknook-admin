@@ -33,6 +33,7 @@ class PlanSubscriptions extends Controller
     $ci = $request->input('checkCalendarIntegration');
     $hjp = $request->input('checkHiringJobPost');
     $as = $request->input('checkAccountSupport');
+    $messaging = $request->input('checkMessaging');
 
     if ($subscription_id) {
       $message = 'Update Subscription Success';
@@ -58,6 +59,7 @@ class PlanSubscriptions extends Controller
     $payload['allow_calendar_integration'] = $ci ? true : false;
     $payload['allow_hiring_job_post'] = $hjp ? true : false;
     $payload['allow_account_support'] = $as ? true : false;
+    $payload['allow_messaging'] = $messaging ? true : false;
 
     // dd($payload);
 

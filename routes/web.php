@@ -62,6 +62,7 @@ use App\Http\Controllers\master\tech_stacks\TechStacks;
 use App\Http\Controllers\master\type_employments\TypeEmployments;
 use App\Http\Controllers\plan_alacarte\PlanAlacarte;
 use App\Http\Controllers\plan_subscriptions\PlanSubscriptions;
+use App\Http\Controllers\settings\Settings;
 use App\Http\Controllers\tables\Basic as TablesBasic;
 use App\Http\Controllers\transaction_management\TransactionManagement;
 
@@ -215,6 +216,8 @@ Route::group(['middleware' => 'authsession'], function () {
     Route::get('/master-industries/delete', [Industries::class, 'delete'])->name('master-industries--delete');
   });
 });
+Route::get('/settings', [Settings::class, 'index'])->name('settings');
+Route::post('/settings/reset-password', [Settings::class, 'reset_password'])->name('settings--reset-password');
 // layout
 Route::get('/layouts/without-menu', [WithoutMenu::class, 'index'])->name('layouts-without-menu');
 Route::get('/layouts/without-navbar', [WithoutNavbar::class, 'index'])->name('layouts-without-navbar');
