@@ -41,7 +41,7 @@ function photo_profile(photo, fullname) {
       payload: payloadAPI
     },
     success: res => {
-      data_api = res.data;
+      data_api = res.data.filter(item => item.soft_delete === 0);
       console.log(data_api);
     },
     error: err => {
@@ -58,26 +58,32 @@ function photo_profile(photo, fullname) {
         autoWidth: false,
         columns: [
           {
-            data: 'team_name'
+            data: 'team_name',
+            title: 'Team Name'
           },
           {
-            data: 'team_position'
+            data: 'team_position',
+            title: 'Team Position'
           },
           {
-            data: 'email'
+            data: 'email',
+            title: 'Email'
           },
-          {
-            data: 'instagram'
-          },
-          {
-            data: 'linkedin'
-          },
+          // {
+          //   data: 'instagram'
+          // },
+          // {
+          //   data: 'linkedin'
+          // },
           // {
           //   data: 'status'
           // },
           {
             data: ''
-          }
+          },
+          {
+            data: ''
+          },
         ],
         columnDefs: [
           {
@@ -90,9 +96,26 @@ function photo_profile(photo, fullname) {
               return photo_profile(n, r);
             }
           },
-
           {
-            targets: -1,
+            responsivePriority: 0,
+            targets: 1,
+            title: 'Team Position',
+            render: function (e, t, a, s) {
+              var p = a.team_position;
+              return p;
+            }
+          },
+          {
+            responsivePriority: 0,
+            targets: 2,
+            title: 'Email',
+            render: function (e, t, a, s) {
+              var p = a.email;
+              return p;
+            }
+          },
+          {
+            targets: -2,
             title: 'Activity History',
             orderable: !1,
             searchable: !1,
@@ -111,6 +134,19 @@ function photo_profile(photo, fullname) {
                     '" data-photo="' +
                     ph +
                     '">Show</a>'
+                : '<small>Unathorized</small>';
+            }
+          },
+          {
+            targets: -1,
+            title: 'Actions',
+            orderable: !1,
+            searchable: !1,
+            render: function (e, t, a, s) {
+              var l = a.id;              
+              return true
+                ? '<div class="d-flex gap-1 flex-wrap">'
+                +  '<a class="btn btn-danger delete-record" href="javascript:;" data-id='+ l + '>Delete Team Member</a></div>'
                 : '<small>Unathorized</small>';
             }
           }

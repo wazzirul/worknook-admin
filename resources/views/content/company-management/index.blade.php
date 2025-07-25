@@ -85,8 +85,8 @@
   </div>
 </div>
 
-<!-- Modal Delete Confirmation -->
-<div class="modal fade" id="modalConfirmation" tabindex="-1" aria-hidden="true" style="z-index: 1091">
+<!-- Modal Ban Confirmation -->
+<div class="modal fade" id="modalBanConfirmation" tabindex="-1" aria-hidden="true" style="z-index: 1091">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
 
@@ -101,9 +101,29 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger delete-record" id="confirmationBtn">Delete</button>
+        <button type="button" class="btn btn-danger ban-record" id="confirmationBtn">Delete</button>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- Modal Delete Confirmation -->
+<div class="modal fade" id="modalDeleteConfirmation" tabindex="-1" aria-hidden="true" style="z-index: 1092">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCenterTitle">Delete Company</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" class="dt-blog-id" name="blogID">
+        <p id="textConfirm">Are you sure to delete company? After deleting this data can't be restored</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger delete-record" id="confirmationDeleteBtn">Delete</button>
+      </div>
     </div>
   </div>
 </div>
@@ -155,21 +175,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="{{asset('assets/js/company-data-tables.js')}}"></script>
 <script>
-  // Delete Function
-  $(document).on('click', '.delete-record', async function () {
+  // Ban Function
+  $(document).on('click', '.ban-record', async function () {
     $('.modal').modal('hide');
-    $('#modalConfirmation').modal('show');
+    $('#modalBanConfirmation').modal('show');
     let status = $(this).data('banned');
     let userId = "";
     userId = $(this).data('id');
       console.log(userId);
-    let textBan = status === 0 ? "Ban" : "Remove";
+    let textBan = status === 1 ? "Ban" : "Remove Ban";
 
     $('#modalCenterTitle').text(textBan + " Company");
     $('#textConfirm').text("Are you sure to " + textBan.toLowerCase() + " this company?");
     $('#confirmationBtn').text(textBan);
     // Menghilangkan Data ID
-    $('#modalConfirmation').on('hidden.bs.modal', function () {
+    $('#modalBanConfirmation').on('hidden.bs.modal', function () {
     userId = null;
     });
 
@@ -181,7 +201,7 @@
       // Prepare payload data
       let payload = {
         user_id: userId,
-        soft_delete: status === 1 ? 0 : 1
+        status: status === 1 ? 0 : 1
       };
       loaderFunc();
       await $.ajax({
@@ -195,7 +215,57 @@
         },
         success: function (response) {
           setTimeout(function () {
-            if (status === 1)
+            if (status === 0)
+            {
+              location.replace("/company-management/remove");
+            } else
+            {
+              location.replace("/company-management/banned");
+            }
+          }, 500); // Adjust delay as needed
+        },
+        error: function (xhr, status, error) {
+          $('.alert-danger').html(xhr.responseText).show(); // Display error message
+        }
+      });
+    })
+  });
+
+  // Delete Function
+  $(document).on('click', '.delete-record', async function () {
+    $('.modal').modal('hide');
+    $('#modalDeleteConfirmation').modal('show');
+    let userId = "";
+    userId = $(this).data('id');
+      console.log(userId);
+
+    // Menghilangkan Data ID
+    $('#modalDeleteConfirmation').on('hidden.bs.modal', function () {
+    userId = null;
+    });
+
+    $(document).on('click', '#confirmationDeleteBtn', async function () {
+      
+      let urlDelete = "/users/delete-permanent";
+      let methodBan = "POST";
+      let route = "/company-management/delete";
+      // Prepare payload data
+      let payload = {
+        user_id: userId,
+      };
+      loaderFunc();
+      await $.ajax({
+        method: 'POST',
+        url: '/query',
+        data: {
+          _token: $('meta[name="csrf-token"]').attr('content'),
+          url: urlDelete,
+          method: methodBan,
+          payload: payload
+        },
+        success: function (response) {
+          setTimeout(function () {
+            if (status === 0)
             {
               location.replace("/company-management/remove");
             } else
