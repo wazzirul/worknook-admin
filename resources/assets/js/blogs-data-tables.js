@@ -84,6 +84,16 @@
             }
           },
           {
+            targets: 1,
+            class: 'blog-description',
+            render: function (e, t, a, s) {
+              var n = a.short_description;
+              return '<div class="d-flex flex-column"><span class="emp_name text-truncate">' +
+                n +
+                '</span></div>';
+            }
+          },
+          {
             targets: 3,
             render: function (e, t, a, s) {
               var n = a.category.category_name;
@@ -114,8 +124,8 @@
         initComplete: function (settings, json) {
           if (true) {
             // Append the button to the appropriate DOM element (adjust as needed)
-            $('.dt-buttons').append(
-              '<button type="button" class="create-new btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#addBlogModal"><i class="bx bx-plus me-sm-1"></i></button>'
+            $('.dt-action-buttons').append(
+              '<button type="button" class="create-new btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#addBlogModal"><i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add New Blog</span></button>'
             );
           }
         }

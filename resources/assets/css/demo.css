@@ -122,3 +122,14 @@
   text-align: center;
   margin-top: 1rem;
 }
+
+/*
+* Datatable Blog
+******************************************************************************/
+
+.blog-list .text-truncate {
+  max-width: 200px;
+}
+.blog-description .text-truncate {
+  max-width: 480px;
+}

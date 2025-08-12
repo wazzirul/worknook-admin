@@ -104,6 +104,43 @@
     </div>
   </div>
 </div>
+
+<!-- Add Blog Modal -->
+<div class="modal fade" id="addBlogModal" tabindex="-1" aria-labelledby="addBlogModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addBlogModalLabel">Add New Blog Post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/customer-support/add" method="POST">
+        <div class="modal-body">
+          @csrf
+          <div class="mb-3">
+            <label for="CSsender" class="form-label">Sender</label>
+            <input type="text" class="form-control" id="CSsender" name="CSsender" required>
+          </div>
+          <div class="mb-3">
+            <label for="CSemail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="CSemail" name="CSemail" required>
+          </div>
+          <div class="mb-3">
+            <label for="CSphone" class="form-label">Phone</label>
+            <input type="text" class="form-control" id="CSphone" name="CSphone">
+          </div>
+          <div class="mb-3">
+            <label for="CSmessage" class="form-label">Message</label>
+            <input type="text" class="form-control" id="CSmessage" name="CSmessage">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" onclick="loaderFunc();">Add Message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('page-script')

@@ -37,12 +37,6 @@
       "slug": "activity-history"
     },
     {
-      "url": "/customer-support",
-      "name": "Customer Support",
-      "icon": "menu-icon tf-icons bx bx-envelope",
-      "slug": "customer-support"
-    },
-    {
       "url": "/blogs",
       "name": "Blogs",
       "icon": "menu-icon tf-icons bx bx-book-content",
