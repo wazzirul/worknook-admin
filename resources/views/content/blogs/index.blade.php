@@ -19,6 +19,68 @@
   .datatables-basic tbody tr *:nth-child(6) {
     display: none;
   }
+  
+  /* Modal table styles to prevent overflow */
+  #modalDetails .modal-dialog {
+    max-width: 70%;
+  }
+  
+  #modalDetails .table {
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 0;
+  }
+  
+  #modalDetails .table td {
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    vertical-align: top;
+    padding: 0.75rem;
+  }
+  
+  /* Override text-truncate class in modal table */
+  #modalDetails .table td .text-truncate {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+  }
+  
+  #modalDetails .table td:first-child {
+    width: 30%;
+    font-weight: 600;
+    background-color: #f8f9fa;
+  }
+  
+  #modalDetails .table td:last-child {
+    width: 70%;
+  }
+  
+  #modalDetails .modal-body {
+    padding: 1rem;
+    overflow-x: auto;
+  }
+  
+  /* Handle long text in modal table */
+  #modalDetails .table td .badge {
+    white-space: normal;
+  }
+  
+  #modalDetails .table td .d-flex {
+    flex-wrap: wrap;
+  }
+
+@media (max-width: 992px) {
+  #modalDetails .modal-dialog {
+    max-width: calc(100% - 8rem);
+  }
+}
+
+  @media (max-width: 768px) {
+    #modalDetails .modal-dialog {
+      max-width: calc(100% - 2rem);
+    }
+  }
 </style>
 @endsection
 
@@ -57,17 +119,19 @@
 
 <!-- Modal Details -->
 <div class="modal fade dtr-bs-modal" id="modalDetails" role="dialog" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalCenterTitle">Details</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <table class="table">
-          <tbody class="data-modal">
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <tbody class="data-modal">
+            </tbody>
+          </table>
+        </div>
       </div>
       <!-- <div class="modal-footer">
       <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
